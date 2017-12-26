@@ -15,7 +15,7 @@ var Site = {
     let url = window.location.href;
     if(url.substr(-1) == '/') { url = url.substr(0, url.length-1); }
     let url_parts = url.split('/');
-    let area_pos = url_parts.indexOf('docs');
+    let area_pos = url_parts.indexOf('en');
 
     if(area_pos !== -1) {
       let area = url_parts[area_pos];

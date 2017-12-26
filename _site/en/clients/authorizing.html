@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Introduction</title>
+  <title>Client Authorization</title>
   <meta name="description" content="Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/docs/css/main.css">
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/en/clients/authorizing.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Chatbot Framework" href="https://goodintentionsassistant.github.io/docs/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -126,32 +126,46 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Introduction</h1>
+    <h1 class="post-title">Client Authorization</h1>
   </header>
 
   <div class="post-content">
-    <p>GI is a rule based chatbot framework for Node.js using simple design patterns. Our goal is to provide a structured framework that enables developers to rapidly develop robust and reliable chatbots with full flexibility and a scalable architecture.</p>
+    <h2 id="white-listing-a-new-client">White listing a new client</h2>
 
-<p>It is very much experimental and in its infancy. We’re looking for the community to build, improve and provide feedback on the framework. This documentation is not fully complete so it is only recommended to use this framework if you’re prepared to dive into the code.</p>
+<p>Only clients that have been white listed can connect and send input to the framework. In the app config file are settings to define the name and the client token. If you create a new client you must add the key and token to the configuration file first.</p>
 
-<p>The framework comes with a collection of examples.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">clients</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'facebook'</span><span class="p">:</span> <span class="p">{</span> 
+    <span class="s1">'token'</span><span class="p">:</span> <span class="s1">'this-is-my-secret-token'</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre>
+</div>
 
-<p>The bot server cannot just be run by itself, it requires clients to act as middleware.</p>
+<h2 id="client-authorizing-and-identifying">Client authorizing and identifying</h2>
 
-<p>The system has inspirations from Api.ai so some of their documentation found at <a href="https://docs.api.ai/">https://docs.api.ai/</a> can also be used to get an overview of some key components of this system.</p>
+<p>On connecting the client must identify itself using its client name and <code class="highlighter-rouge">token</code> found in your config.js file.</p>
 
-<h2 id="what-is-gi">What is GI?</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'identify'</span><span class="p">,{</span>
+  <span class="na">client</span><span class="p">:</span> <span class="s1">'facebook'</span><span class="p">,</span>
+  <span class="na">token</span><span class="p">:</span> <span class="s1">'this-is-my-secret-token'</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-<ul>
-  <li>It is a framework for building rule-based chat bots</li>
-  <li>It is not AI, but you could build it to be amazing AI and share it</li>
-  <li>It is not Machine Learning, but you could build machine learning into the framework and share it</li>
-  <li>It is not a Chatter Bot, but you could create some amazing intents and share it</li>
-  <li>It is not Intelligent, but you could help us build up the data and entities and share it</li>
-  <li>It is probably over engineered, but it’s fun to do!</li>
-</ul>
+<p>An event will be returned with the success and a <code class="highlighter-rouge">session_token</code>.</p>
 
-<p>…I’m under no illusion that GI might not be useful out of the npm package box but I hope it’ll turn into something interesting from the community. Contribute with your own skills, entities and data!</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Successfully identified"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"session_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"m626NfP8jFYPAKNw"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"ident"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZNWXHXYT"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"identify"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>This token must be made on all future requests. The client token is no longer needed.</p>
 
   </div>
 

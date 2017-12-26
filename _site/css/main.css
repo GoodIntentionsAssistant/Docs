@@ -638,6 +638,25 @@ div.chat {
       display: block; }
     .converse.converse-opened .converse-launcher div .fa-comments {
       display: none; }
+  .converse .converse-menu {
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.06), 0px 2px 5px rgba(0, 0, 0, 0.16);
+    width: 180px; }
+    .converse .converse-menu ul {
+      list-style-type: none;
+      margin: 5px 0; }
+      .converse .converse-menu ul li {
+        margin: 0; }
+        .converse .converse-menu ul li a {
+          display: block;
+          font-size: 13px;
+          padding: 2px 20px;
+          color: black; }
+          .converse .converse-menu ul li a:hover {
+            color: white;
+            text-decoration: none;
+            background-color: #216aff; }
   .converse .converse-messenger {
     position: fixed;
     bottom: 100px;

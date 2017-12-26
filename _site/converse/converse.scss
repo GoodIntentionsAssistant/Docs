@@ -2,6 +2,9 @@
 $converse-text-color: #565867;
 $converse-border-radius: 8px;
 
+$converse-primary-color: #216aff;
+
+
 .converse {
 	z-index:999;
 
@@ -50,6 +53,33 @@ $converse-border-radius: 8px;
 		}
 	}
 
+	.converse-menu {
+		position:absolute;
+		background-color:white;
+		box-shadow:0 -2px 2px rgba(0,0,0,.06), 0px 2px 5px rgba(0,0,0,.16);
+		width:180px;
+
+		ul {
+			list-style-type:none;
+			margin:5px 0;
+			li {
+				margin:0;
+				a {
+					display:block;
+					font-size:13px;
+					padding:2px 20px;
+					color:black;
+
+					&:hover {
+						color:white;
+						text-decoration:none;
+						background-color:$converse-primary-color;
+					}
+				}
+			}
+		}
+	}
+
 	.converse-messenger {
 		position:fixed;
 		bottom:100px;
@@ -64,7 +94,7 @@ $converse-border-radius: 8px;
 
 		.converse-header {
 			height:55px;
-			background-color:#216aff;
+			background-color:$converse-primary-color;
 			border-top-left-radius:$converse-border-radius;
 			border-top-right-radius:$converse-border-radius;
 

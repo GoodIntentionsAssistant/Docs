@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Introduction</title>
+  <title>Intent Attachments</title>
   <meta name="description" content="Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/docs/css/main.css">
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/en/intents/attachments.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Chatbot Framework" href="https://goodintentionsassistant.github.io/docs/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -126,32 +126,136 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Introduction</h1>
+    <h1 class="post-title">Intent Attachments</h1>
   </header>
 
   <div class="post-content">
-    <p>GI is a rule based chatbot framework for Node.js using simple design patterns. Our goal is to provide a structured framework that enables developers to rapidly develop robust and reliable chatbots with full flexibility and a scalable architecture.</p>
+    <p>The response from the intent can hold additional meta data such as options, images and smaller detail making messages more interactive.</p>
 
-<p>It is very much experimental and in its infancy. We’re looking for the community to build, improve and provide feedback on the framework. This documentation is not fully complete so it is only recommended to use this framework if you’re prepared to dive into the code.</p>
+<p>For example you could return two action attachments “Yes” and “No” which could be passed to Facebook to show two buttons with the message.</p>
 
-<p>The framework comes with a collection of examples.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">.</span><span class="nx">add_action</span><span class="p">(</span><span class="s1">'Yes'</span><span class="p">);</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">.</span><span class="nx">add_action</span><span class="p">(</span><span class="s1">'No'</span><span class="p">);</span>
+</code></pre>
+</div>
 
-<p>The bot server cannot just be run by itself, it requires clients to act as middleware.</p>
-
-<p>The system has inspirations from Api.ai so some of their documentation found at <a href="https://docs.api.ai/">https://docs.api.ai/</a> can also be used to get an overview of some key components of this system.</p>
-
-<h2 id="what-is-gi">What is GI?</h2>
+<p>Supported attachment types are currently:</p>
 
 <ul>
-  <li>It is a framework for building rule-based chat bots</li>
-  <li>It is not AI, but you could build it to be amazing AI and share it</li>
-  <li>It is not Machine Learning, but you could build machine learning into the framework and share it</li>
-  <li>It is not a Chatter Bot, but you could create some amazing intents and share it</li>
-  <li>It is not Intelligent, but you could help us build up the data and entities and share it</li>
-  <li>It is probably over engineered, but it’s fun to do!</li>
+  <li>Actions - Used for options to show the user</li>
+  <li>Images - Send image URL’s to be displayed</li>
+  <li>Fields - Additional small information, e.g. citation</li>
+  <li>Links - A list of links</li>
+  <li>Input - Possibility to hide the user input and only give them actions to choose from</li>
 </ul>
 
-<p>…I’m under no illusion that GI might not be useful out of the npm package box but I hope it’ll turn into something interesting from the community. Contribute with your own skills, entities and data!</p>
+<h2 id="client-support">Client support</h2>
+
+<p>The clients must support these attachment types to send to the end platform. Each platform handle these attachments differently and can have restrictions. For example Facebook support actions and buttons but have a limit of three buttons in total.</p>
+
+<p>GI’s attachments were loosely based on the <a href="https://api.slack.com/docs/message-attachments">Slack API</a>.</p>
+
+<h2 id="future-development">Future development</h2>
+
+<p>Attachments are used for meta data and has a strong interest in chat / virtual assistants for such things as handling payments and interacting with IoT devices.</p>
+
+<p>We plan to expand GI into handling more types of attachments dynamically.</p>
+
+<h2 id="actions">Actions</h2>
+
+<p>Used for showing buttons to a user.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">.</span><span class="nx">add_action</span><span class="p">(</span><span class="s1">'Yes'</span><span class="p">);</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">.</span><span class="nx">add_action</span><span class="p">(</span><span class="s1">'No'</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>Hello</span></div>
+  <div class="bot"><span>Do you like sport?</span></div>
+  <div class="attachment attachment-buttons">
+    <span>Yes</span>
+    <span>No</span>
+  </div>
+</div>
+
+<p>After one of these buttons is pressed it will send the text back to the GI client, for example “yes”.</p>
+
+<p>But without using <code class="highlighter-rouge">expecting</code> and a <code class="highlighter-rouge">parameter</code> the next input of “yes” or “no” won’t be recognised.</p>
+
+<h2 id="example">Example</h2>
+
+<p>This example uses attachment of buttons, parameters to fetch the confirmation and expecting to wait for the reply.</p>
+
+<p>The Apptem Confirm entity has a small dictionary of common confirmations for yes and no.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">AskMeAgainIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'ask me again'</span><span class="p">],</span> <span class="p">{</span> <span class="na">classifier</span><span class="p">:</span><span class="s1">'strict'</span> <span class="p">});</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'ask_again'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="s1">'Ask again'</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="s1">'App.Common.Entity.Confirm'</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">.</span><span class="nx">add_action</span><span class="p">(</span><span class="s1">'Yes'</span><span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">.</span><span class="nx">add_action</span><span class="p">(</span><span class="s1">'No'</span><span class="p">);</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">expecting</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span>
+      <span class="na">action</span><span class="p">:</span> <span class="s1">'chosen'</span><span class="p">,</span>
+      <span class="na">force</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+
+    <span class="k">return</span> <span class="s1">'Ask me again?'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">chosen</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'ask_again'</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">choice</span> <span class="o">==</span> <span class="s1">'yes'</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">request</span><span class="p">.</span><span class="nx">redirect</span><span class="p">(</span><span class="s1">'App.Example.Intent.AskMeAgain'</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="s1">'OK that is enough'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>Ask me again</span></div>
+  <div class="attachment attachment-buttons">
+    <span>Yes</span>
+    <span>No</span>
+  </div>
+  <div class="user"><span>Yes</span></div>
+  <div class="attachment attachment-buttons">
+    <span>Yes</span>
+    <span>No</span>
+  </div>
+  <div class="user"><span>Yup!</span></div>
+  <div class="attachment attachment-buttons">
+    <span>Yes</span>
+    <span>No</span>
+  </div>
+  <div class="user"><span>No</span></div>
+  <div class="bot"><span>OK that is enough</span></div>
+</div>
+
+<h2 id="images">Images</h2>
+
+<p>Used for showing buttons to a user.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">.</span><span class="nx">add_image</span><span class="p">(</span><span class="s1">'https://picsum.photos/300/300/?random'</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>Hello</span></div>
+  <div class="bot"><span><img src="https://picsum.photos/300/300/?random" /></span></div>
+</div>
 
   </div>
 

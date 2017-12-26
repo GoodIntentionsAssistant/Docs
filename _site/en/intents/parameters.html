@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Intent Parameters</title>
+  <meta name="description" content="Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
+">
+
+  <link rel="stylesheet" href="/docs/css/main.css">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/en/intents/parameters.html">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Chatbot Framework" href="https://goodintentionsassistant.github.io/docs/feed.xml">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
+
+  <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+    <img src="/docs/img/good-intentions-chatbot-logo.png">
+    <a class="site-title" href="/docs/">
+      Good Intentions
+      <span>Chatbot Framework</span>
+    </a>
+  </div>
+
+  <div class="wrapper-sub">
+    <div class="wrapper">
+      <div class="sub">
+        <h2>Docs</h2>
+      </div>
+    </div>
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="side-nav">
+          
+<nav>
+
+  <ul>
+    <li><a href="/docs/">Getting Started</a>
+      <ul style="display:none;">
+        <li><a href="/docs/en/start/installation">Installation</a></li>
+        <li><a href="/docs/en/start/configuration">Configuration</a></li>
+        <li><a href="/docs/en/start/development">Development Tips</a></li>
+        <li><a href="/docs/en/start/components">Key components</a></li>
+        <li><a href="/docs/en/start/contributing">Contributing</a></li>
+      </ul>
+    </li>
+
+    <li><a href="/docs/en/clients/">Clients</a>
+      <ul style="display:none;">
+        <li><a href="/docs/en/clients/authorizing">Authorizing</a></li>
+        <li><a href="/docs/en/clients/request">Request</a></li>
+        <li><a href="/docs/en/clients/response">Response</a></li>
+        <li><a href="/docs/en/clients/sdk">Client SDK</a></li>
+      </ul>
+
+    <li><a href="/docs/en/skills/">Skills</a>
+      <ul style="display:none;">
+        <li><a href="/docs/en/skills/create">Creating a skill</a></li>
+        <li>Events</li>
+      </ul>
+
+    <li><a href="/docs/en/intents/">Intents</a>
+      <ul style="display:none;">
+        <li><a href="/docs/en/intents/training">Training</a></li>
+        <li><a href="/docs/en/intents/parameters">Parameters</a></li>
+        <li><a href="/docs/en/intents/result">Returning result</a></li>
+        <li><a href="/docs/en/intents/attachments">Attachments</a></li>
+        <li><a href="/docs/en/intents/expects">Expects</a></li>
+        <li><a href="/docs/en/intents/redirect">Redirecting</a></li>
+        <li><a href="/docs/en/intents/fallback">Fallbacks</a></li>
+      </ul>
+    </li>
+
+    <li><a href="/docs/en/entities/">Entities</a>
+      <ul style="display:none;">
+        <li><a href="/docs/en/entities/data">Entity data</a></li>
+        <li><a href="/docs/en/entities/entity_load_json">Loading from JSON</a></li>
+        <li><a href="/docs/en/entities/entity_load_csv">Loading from CSV</a></li>
+        <li><a href="/docs/en/entities/entity_load_custom">Loading custom data</a></li>
+        <li>Parsing for parameters</li>
+      </ul>
+    </li>
+
+    <li><span>App</span>
+      <ul style="display:none;">
+        <li>Server</li>
+        <li>Clients</li>
+        <li>Training</li>
+        <li><a href="/docs/en/app/queue">Queue + flood protection</a></li>
+        <li><a href="/docs/en/app/requests">Requests</a></li>
+        <li>Data</li>
+        <li>Logging</li>
+        <li>Caching</li>
+        <li>Storage</li>
+        <li>Scrubber</li>
+      </ul>
+    </li>
+
+    <li><span>Conventions</span>
+      <ul style="display:none;">
+        <li>Code formatting</li>
+        <li>Code documentation</li>
+        <li>Unit tests</li>
+      </ul>
+    </li>
+  </ul>
+
+</nav>
+
+        </div>
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Intent Parameters</h1>
+  </header>
+
+  <div class="post-content">
+    <p>Some intents require parameters to work.</p>
+
+<p>The key of the parameter is used when fetching parameters in your intent.
+If your key was ‘date’ in your intent you can call, <code class="highlighter-rouge">request.parameters.value('date');</code> for the value.</p>
+
+<p>If a parameter is required and is not specified by the users input request.js will change the
+intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> and an error message is displayed. This saves putting additional code into your intent to handle validation and exceptions.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">OrderIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'order'</span><span class="p">,</span>
+      <span class="s1">'order food'</span>
+    <span class="p">]);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="s2">"Choice"</span><span class="p">,</span>
+      <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pizza"</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">"burger"</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">"fries"</span><span class="p">:</span> <span class="p">{}</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">choice</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s1">'You chose '</span><span class="o">+</span><span class="nx">choice</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s1">'Pizza, burger or fries?'</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Example input and output</p>
+
+<div class="chat">
+  <div class="user"><span>Order food</span></div>
+  <div class="bot"><span>Pizza, burger or fries?</span></div>
+  <div class="user"><span>Order burger</span></div>
+  <div class="bot"><span>You chose burger</span></div>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>name</td>
+      <td>Yes</td>
+      <td>Nice friendly name for the parameter. This name is used if the parameter is required and not provided</td>
+    </tr>
+    <tr>
+      <td>entity</td>
+      <td>No</td>
+      <td>Parameters need to be extracted and they need something to match aganist. If you are matching a number set the entity to be number and Entity/Number will be used. If you want to detect a date then you can use the Entity/Date module. Sometimes you don’t want to create a full entity to handle a small amount of data so you can use the ‘data’ attribute below. See the Entity section for more information.</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td>No</td>
+      <td>You cannot use ‘entity’ and ‘data’ fields together. Data is a hash of data that is used for extracting parameters when you don’t want to create an entity. All parameter extracting use entities, so when Parameter is trying to extract data from the user input and ‘data’ is set it will create Entity/Dummy and copy the data to the module. The data format is exactly the same as the data settings in entities.</td>
+    </tr>
+    <tr>
+      <td>required</td>
+      <td>No</td>
+      <td>Default is false. If the intent has been found the paramters are checked one by one before calling the action. But if a parameter is required and it’s not found the intent will be set to Errors/ParametersFailed e.g. Currency conversion requires a number, currency from and currency to. If all three of these are not found in the users input then the intent cannot be called.</td>
+    </tr>
+    <tr>
+      <td>default</td>
+      <td>No</td>
+      <td>If no value was found in the users input the <code class="highlighter-rouge">value</code> of the data will be set to <code class="highlighter-rouge">default</code>. This is useful when you want user confirmation and you want the default to be no.</td>
+    </tr>
+    <tr>
+      <td>action</td>
+      <td>No</td>
+      <td>If the parameter is found the action will be changed from ‘response’ to this value</td>
+    </tr>
+    <tr>
+      <td>slotfill</td>
+      <td>No</td>
+      <td>Attempt to load the data from previously saved parameter information</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="parameters-from-an-entity">Parameters from an Entity</h2>
+
+<p>Parameter options can be loaded from an entity using the <code class="highlighter-rouge">entity</code> key.</p>
+
+<p>Please read the guide on creating entities before using entities inside intents.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">AnimalIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+	<span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+			<span class="s1">'cat'</span><span class="p">,</span><span class="s1">'dog'</span>
+		<span class="p">]);</span>
+
+		<span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">,</span> <span class="p">{</span>
+			<span class="na">name</span><span class="p">:</span> <span class="s2">"Choice"</span><span class="p">,</span>
+			<span class="na">entity</span><span class="p">:</span> <span class="s2">"App.Example.Entity.Animal"</span>
+		<span class="p">});</span>
+	<span class="p">}</span>
+
+	<span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kd">let</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">);</span>
+
+		<span class="k">if</span><span class="p">(</span><span class="nx">choice</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="s1">'You chose '</span><span class="o">+</span><span class="nx">choice</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="s1">'Dog or cat?'</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="redirection-action">Redirection action</h2>
+
+<p>In the previous examples the initial intent and the response go to the same method.</p>
+
+<p>By defining the action in <code class="highlighter-rouge">parameter</code> if the parameter is filled it will use a different method.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">SugarIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+	<span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+			<span class="s1">'tea'</span>
+		<span class="p">]);</span>
+
+		<span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">,</span> <span class="p">{</span>
+			<span class="na">name</span><span class="p">:</span> <span class="s2">"Choice"</span><span class="p">,</span>
+			<span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+				<span class="s2">"yes"</span><span class="p">:</span> <span class="p">{},</span>
+				<span class="s2">"no"</span><span class="p">:</span> <span class="p">{}</span>
+			<span class="p">},</span>
+			<span class="na">action</span><span class="p">:</span> <span class="s1">'answered'</span>
+		<span class="p">});</span>
+	<span class="p">}</span>
+
+	<span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="s1">'Do you want sugar in your tea?'</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="nx">answered</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kd">let</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">);</span>
+		<span class="k">return</span> <span class="nx">choice</span> <span class="o">==</span> <span class="s1">'yes'</span> <span class="p">?</span> <span class="s1">'Sweet tooth'</span> <span class="p">:</span> <span class="s1">'Health option'</span><span class="p">;</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+
+</code></pre>
+</div>
+
+<h2 id="slot-filling">Slot Filling</h2>
+
+<p>To be documented</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Good Intentions Chatbot Framework</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Good Intentions Chatbot Framework</li>
+          <li><a href="mailto:darren.m@firecreekweb.com">darren.m@firecreekweb.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/darrenmoore"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">darrenmoore</span></a>
+
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+
+<script src="/docs/converse/library/handlebars-v4.0.11.js"></script>
+<script src="/docs/converse/library/socket.io.js"></script>
+<script src="/docs/converse/library/js.cookie.js"></script>
+<script src="/docs/converse/library/store.everything.min.js"></script>
+
+<script src="/docs/converse/converse.js"></script>
+
+
+<script id="converse-template" type="text/x-handlebars-template">
+
+	<div class="converse">
+
+		<div class="converse-launcher">
+			<div>
+				<i class="fas fa-comments"></i>
+				<i class="fas fa-times"></i>
+			</div>
+		</div>
+
+		<div class="converse-menu" style="display:none;">
+			<ul>
+				<li><span><a href="#" data-converse-menu="clear-history">Clear history</a></span></li>
+				<li><span><a href="#" data-converse-menu="reset-user">Reset user identity</a></span></li>
+				<li><span><a href="#" data-converse-menu="debug-mode">Debug mode on / off</a></span></li>
+			</ul>
+		</div>
+
+		<div class="converse-messenger" style="display:none;">
+			<div class="converse-header">
+				<div class="converse-title">Good Intentions</div>
+				<div class="converse-controls">
+					<div class="converse-control converse-control-menu"><i class="fas fa-cog"></i></div>
+					<div class="converse-control converse-control-close"><i class="fas fa-times"></i></div>
+				</div>
+			</div>
+
+			<div class="converse-content">
+
+				<div class="converse-history">
+				</div>
+
+				<div class="converse-connecting">
+					Connecting...
+				</div>
+
+			</div>
+
+			<div class="converse-footer">
+
+				<div class="converse-input converse-actions" style="display:none;">
+				</div>
+
+				<div class="converse-input converse-text" style="display:none;">
+					<input type="text" placeholder="Send a message">
+					<button class="send"><i class="fas fa-chevron-right"></i></button>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+</script>
+
+
+<script id="converse-partial-message-event" type="text/x-handlebars-template">
+	<div class="converse-message converse-message-event">
+		<span>{{text}}</span>
+	</div>
+</script>
+
+
+<script id="converse-partial-message-in" type="text/x-handlebars-template">
+	<div class="converse-message converse-message-in">
+		<span>{{text}}</span>
+	</div>
+</script>
+
+
+<script id="converse-partial-message-out" type="text/x-handlebars-template">
+	<div class="converse-message converse-message-out">
+		<span>{{text}}</span>
+	</div>
+</script>
+
+
+
+
+
+<script
+src="https://code.jquery.com/jquery-3.2.1.min.js"
+integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+crossorigin="anonymous"></script>
+<script type="text/javascript" src="/docs/js/site.js" charset="utf-8"></script>
+
+
+</html>

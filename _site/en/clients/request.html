@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Introduction</title>
+  <title>Client Request</title>
   <meta name="description" content="Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/docs/css/main.css">
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/en/clients/request.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Chatbot Framework" href="https://goodintentionsassistant.github.io/docs/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -126,32 +126,97 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Introduction</h1>
+    <h1 class="post-title">Client Request</h1>
   </header>
 
   <div class="post-content">
-    <p>GI is a rule based chatbot framework for Node.js using simple design patterns. Our goal is to provide a structured framework that enables developers to rapidly develop robust and reliable chatbots with full flexibility and a scalable architecture.</p>
+    <p>After the client has identified requests can be sent to the app. Certain fields must be passed along with the input.</p>
 
-<p>It is very much experimental and in its infancy. We’re looking for the community to build, improve and provide feedback on the framework. This documentation is not fully complete so it is only recommended to use this framework if you’re prepared to dive into the code.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">input</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">client</span><span class="p">:</span> <span class="s1">'facebook'</span><span class="p">,</span>
+  <span class="na">session_token</span><span class="p">:</span> <span class="s1">'m626NfP8jFYPAKNw'</span><span class="p">,</span>
+  <span class="na">user</span><span class="p">:</span> <span class="s1">'bob'</span><span class="p">,</span>
+  <span class="na">text</span><span class="p">:</span> <span class="s1">'hello to my new app!'</span>
+<span class="p">};</span>
+<span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'request'</span><span class="p">,</span><span class="nx">input</span><span class="p">);</span>
+</code></pre>
+</div>
 
-<p>The framework comes with a collection of examples.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>client</td>
+      <td>yes</td>
+      <td>Whitelisted client name. Each client should have a unique name. This must be provided for every request.</td>
+    </tr>
+    <tr>
+      <td>session_token</td>
+      <td>yes</td>
+      <td>Session token key provided by the app that must be used on all requests. The session_token is provided when the client identifies with the server after connection.</td>
+    </tr>
+    <tr>
+      <td>user</td>
+      <td>yes</td>
+      <td>Unique name or identifer for the user interfacing with the app. For example this could be their facebook graph user id. For testing any value can be used.</td>
+    </tr>
+    <tr>
+      <td>text</td>
+      <td>yes</td>
+      <td>Raw text input from the user, e.g. “Good Morning”</td>
+    </tr>
+    <tr>
+      <td>fast</td>
+      <td>no</td>
+      <td>Response from the app has delays to simulate typing to make the bot experience more human-like. By default fast is false, changing it to true will stop the simulated delays. It’s advisable to enable fast when debugging.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>The bot server cannot just be run by itself, it requires clients to act as middleware.</p>
+<h2 id="speeding-up-the-request">Speeding up the request</h2>
 
-<p>The system has inspirations from Api.ai so some of their documentation found at <a href="https://docs.api.ai/">https://docs.api.ai/</a> can also be used to get an overview of some key components of this system.</p>
+<p>When the request is passed to GI it will have a delay to simulate the bot typing. There are three methods to remove this delay.</p>
 
-<h2 id="what-is-gi">What is GI?</h2>
+<h3 id="fast-parameter">Fast Parameter</h3>
 
-<ul>
-  <li>It is a framework for building rule-based chat bots</li>
-  <li>It is not AI, but you could build it to be amazing AI and share it</li>
-  <li>It is not Machine Learning, but you could build machine learning into the framework and share it</li>
-  <li>It is not a Chatter Bot, but you could create some amazing intents and share it</li>
-  <li>It is not Intelligent, but you could help us build up the data and entities and share it</li>
-  <li>It is probably over engineered, but it’s fun to do!</li>
-</ul>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">input</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">client</span><span class="p">:</span> <span class="s1">'facebook'</span><span class="p">,</span>
+  <span class="na">session_token</span><span class="p">:</span> <span class="s1">'m626NfP8jFYPAKNw'</span><span class="p">,</span>
+  <span class="na">user</span><span class="p">:</span> <span class="s1">'bob'</span><span class="p">,</span>
+  <span class="na">text</span><span class="p">:</span> <span class="s1">'hello to my new app!'</span><span class="p">,</span>
+  <span class="na">fast</span><span class="p">:</span> <span class="kc">true</span>
+<span class="p">};</span>
+<span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'request'</span><span class="p">,</span><span class="nx">input</span><span class="p">);</span>
+</code></pre>
+</div>
 
-<p>…I’m under no illusion that GI might not be useful out of the npm package box but I hope it’ll turn into something interesting from the community. Contribute with your own skills, entities and data!</p>
+<h3 id="response-simulated-typing">Response Simulated Typing</h3>
+
+<p>In the <code class="highlighter-rouge">config.js</code> file change the <code class="highlighter-rouge">response</code> settings to <code class="highlighter-rouge">0</code>;</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">response</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">min_reply_time</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="na">letter_speed</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="na">max_response</span><span class="p">:</span> <span class="mi">0</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<h3 id="queue-speed">Queue Speed</h3>
+
+<p>In the <code class="highlighter-rouge">config.js</code> file change the loop speed. By default we recommend this value to be 500ms.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">app</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">loop_speed</span><span class="p">:</span> <span class="mi">10</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
   </div>
 

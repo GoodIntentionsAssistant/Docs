@@ -18,7 +18,7 @@
 			</div>
 		</div>
 
-		<div class="converse-menu">
+		<div class="converse-menu" style="display:none;">
 			<ul>
 				<li><span><a href="#" data-converse-menu="clear-history">Clear history</a></span></li>
 				<li><span><a href="#" data-converse-menu="reset-user">Reset user identity</a></span></li>
@@ -37,23 +37,21 @@
 
 			<div class="converse-content">
 
-				{{#if connected}}
-					<div class="converse-history">
-					</div>
-				{{^}}
-					<div class="converse-connecting">
-						Connecting...
-					</div>
-				{{/if}}
+				<div class="converse-history">
+				</div>
+
+				<div class="converse-connecting">
+					Connecting...
+				</div>
 
 			</div>
 
 			<div class="converse-footer">
 
-				<div class="converse-input converse-actions">
+				<div class="converse-input converse-actions" style="display:none;">
 				</div>
 
-				<div class="converse-input converse-text">
+				<div class="converse-input converse-text" style="display:none;">
 					<input type="text" placeholder="Send a message">
 					<button class="send"><i class="fas fa-chevron-right"></i></button>
 				</div>
@@ -88,23 +86,3 @@
 
 
 {% endraw %}
-
-<script>
-  //var converse = new Converse;
-  //converse.open();
-  /*converse.send('hello');
-  converse.send('thanks for having me I hope you are ok!');
-  converse.send('foobar');
-  converse.send('bar');
-  converse.send('foo');
-  converse.send('foobar');
-  converse.send('bar');
-  converse.send('foo');
-  converse.receive({
-  	type: 'message',
-  	messages: [
-  		'line 1',
-  		'line 2'
-  	]
-  });*/
-</script>

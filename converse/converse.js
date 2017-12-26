@@ -12,7 +12,8 @@ class Converse {
 		this.context = {
 			opened: false,
 			connected: true,
-			input: 'text'
+			input: 'text',
+			menu_open: false
 		};
 
 		this._partials = {};
@@ -24,6 +25,10 @@ class Converse {
 
 		//Template partials
 		this.partials();
+
+		//Hide history show connecting
+		$('.converse-history').hide();
+		$('.converse-connecting').show();
 
 		//Binding object events
 		this.binds();
@@ -117,7 +122,12 @@ class Converse {
 
 		//Header controls
 		$('.converse-controls .converse-control-menu').on('click',(e) => {
-			this.menu_show();
+			if(this.menu_open) {
+				this.menu_show();
+			}
+			else {
+				this.menu_hide();
+			}
 		});
 
 		$('.converse-controls .converse-control-close').on('click',(e) => {
@@ -209,11 +219,21 @@ class Converse {
 		$('.converse').addClass('converse-connected');
 		this.show_input('text');
 		this.event('Connected to server');
+
+		//
+		$('.converse-history').show();
+		$('.converse-connecting').hide();
+		this.history_scroll_down();
 	}
 
 	disconnected() {
 		$('.converse').removeClass('converse-connected');
 		this.event('Disconnected from server');
+
+		//
+		$('.converse-history').hide();
+		$('.converse-connecting').show();
+		this.hide_inputs();
 	}
 
 	example(text) {
@@ -267,11 +287,28 @@ class Converse {
 	}
 
 	menu_show() {
+		//Menu dom
+		let obj = $('.converse-menu');
 
+		//Menu button
+		let offset 	= $('.converse-controls .converse-control-menu').offset();
+		let left 		= (offset.left - obj.width()) + 40;
+		let top 		= offset.top + 58;
+
+		//Set position
+		obj.css({
+			top: top,
+			left: left,
+			zIndex:9999
+		});
+		obj.show();
+
+		this.menu_open = true;
 	}
 
-	menu_close() {
-		
+	menu_hide() {
+		$('.converse-menu').hide();
+		this.menu_open = false;
 	}
 
 }

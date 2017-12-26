@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Introduction</title>
+  <title>Key Components</title>
   <meta name="description" content="Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/docs/css/main.css">
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/en/start/components.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Chatbot Framework" href="https://goodintentionsassistant.github.io/docs/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -126,32 +126,36 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Introduction</h1>
+    <h1 class="post-title">Key Components</h1>
   </header>
 
   <div class="post-content">
-    <p>GI is a rule based chatbot framework for Node.js using simple design patterns. Our goal is to provide a structured framework that enables developers to rapidly develop robust and reliable chatbots with full flexibility and a scalable architecture.</p>
+    <h5 id="skill">Skill</h5>
+<p>A set of entities, intents and data sets</p>
 
-<p>It is very much experimental and in its infancy. We’re looking for the community to build, improve and provide feedback on the framework. This documentation is not fully complete so it is only recommended to use this framework if you’re prepared to dive into the code.</p>
+<h5 id="entity">Entity</h5>
+<p>Data source for training the system and parsing parameters from user input</p>
 
-<p>The framework comes with a collection of examples.</p>
+<h5 id="intent">Intent</h5>
+<p>Business logic for the users input</p>
 
-<p>The bot server cannot just be run by itself, it requires clients to act as middleware.</p>
+<h5 id="clients">Clients</h5>
+<p>The interface between the framework and the end-point</p>
 
-<p>The system has inspirations from Api.ai so some of their documentation found at <a href="https://docs.api.ai/">https://docs.api.ai/</a> can also be used to get an overview of some key components of this system.</p>
+<h5 id="parameters">Parameters</h5>
+<p>Parses user input with entity data</p>
 
-<h2 id="what-is-gi">What is GI?</h2>
+<h5 id="train">Train</h5>
+<p>Matching user input to an intent</p>
 
-<ul>
-  <li>It is a framework for building rule-based chat bots</li>
-  <li>It is not AI, but you could build it to be amazing AI and share it</li>
-  <li>It is not Machine Learning, but you could build machine learning into the framework and share it</li>
-  <li>It is not a Chatter Bot, but you could create some amazing intents and share it</li>
-  <li>It is not Intelligent, but you could help us build up the data and entities and share it</li>
-  <li>It is probably over engineered, but it’s fun to do!</li>
-</ul>
+<h5 id="queue">Queue</h5>
+<p>Queue user input requests for memory and flood protection</p>
 
-<p>…I’m under no illusion that GI might not be useful out of the npm package box but I hope it’ll turn into something interesting from the community. Contribute with your own skills, entities and data!</p>
+<h5 id="request">Request</h5>
+<p>Handles the user input, finding which intent to use and calling the intent</p>
+
+<h5 id="auth-and-session">Auth and Session</h5>
+<p>Identfying and storing information for people who use the bot</p>
 
   </div>
 

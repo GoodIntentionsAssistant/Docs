@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Introduction</title>
+  <title>Entity data</title>
   <meta name="description" content="Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/docs/css/main.css">
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/en/entities/data.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Chatbot Framework" href="https://goodintentionsassistant.github.io/docs/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -126,32 +126,107 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Introduction</h1>
+    <h1 class="post-title">Entity data</h1>
   </header>
 
   <div class="post-content">
-    <p>GI is a rule based chatbot framework for Node.js using simple design patterns. Our goal is to provide a structured framework that enables developers to rapidly develop robust and reliable chatbots with full flexibility and a scalable architecture.</p>
+    <p>An entity can store the data inside the entity file, from a JSON or CSV file or you can load the data manually.
+Loading the data manually can be fetched asynchronously from a remote source.</p>
 
-<p>It is very much experimental and in its infancy. We’re looking for the community to build, improve and provide feedback on the framework. This documentation is not fully complete so it is only recommended to use this framework if you’re prepared to dive into the code.</p>
+<p>If the data becomes large it’s best to load the data from JSON or CSV.</p>
 
-<p>The framework comes with a collection of examples.</p>
+<p>This is an example of storing the data within the entity.</p>
 
-<p>The bot server cannot just be run by itself, it requires clients to act as middleware.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">ColourEntity</span> <span class="kr">extends</span> <span class="nx">Entity</span> <span class="p">{</span>
 
-<p>The system has inspirations from Api.ai so some of their documentation found at <a href="https://docs.api.ai/">https://docs.api.ai/</a> can also be used to get an overview of some key components of this system.</p>
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">'red'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="s1">'blue'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="s1">'green'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="s1">'white'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="s1">'black'</span><span class="p">:</span> <span class="p">{}</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+  
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<h2 id="what-is-gi">What is GI?</h2>
+<h2 id="synonyms">Synonyms</h2>
 
-<ul>
-  <li>It is a framework for building rule-based chat bots</li>
-  <li>It is not AI, but you could build it to be amazing AI and share it</li>
-  <li>It is not Machine Learning, but you could build machine learning into the framework and share it</li>
-  <li>It is not a Chatter Bot, but you could create some amazing intents and share it</li>
-  <li>It is not Intelligent, but you could help us build up the data and entities and share it</li>
-  <li>It is probably over engineered, but it’s fun to do!</li>
-</ul>
+<p>The json data can also include synonyms for similar words. This is an example from the <code class="highlighter-rouge">EmotionEntity</code>.</p>
 
-<p>…I’m under no illusion that GI might not be useful out of the npm package box but I hope it’ll turn into something interesting from the community. Contribute with your own skills, entities and data!</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"happy"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"synonyms"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"great"</span><span class="p">,</span><span class="s2">"delighted"</span><span class="p">,</span><span class="s2">"overjoyed"</span><span class="p">,</span><span class="s2">"thankful"</span><span class="p">]</span>
+  <span class="p">},</span>
+  <span class="s2">"good"</span><span class="err">:</span> <span class="p">{</span>
+    <span class="s2">"synonyms"</span><span class="err">:</span> <span class="p">[</span><span class="s2">"calm"</span><span class="p">,</span><span class="s2">"peaceful"</span><span class="p">,</span><span class="s2">"comfortable"</span><span class="p">,</span><span class="s2">"pleased"</span><span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<h2 id="additional-meta-data">Additional meta data</h2>
+
+<p>Additional keys to the entity data which can be used for parameters to handle the data correctly.</p>
+
+<p>This example is from <code class="highlighter-rouge">UnitEntity</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"cm"</span><span class="p">:{</span>
+    <span class="s2">"label"</span><span class="p">:</span> <span class="s2">"Centimeters"</span><span class="p">,</span>
+    <span class="s2">"measure"</span><span class="p">:</span> <span class="s2">"length"</span><span class="p">,</span>
+    <span class="s2">"synonyms"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"Centimeters"</span><span class="p">,</span>
+      <span class="s2">"Centimeter"</span><span class="p">,</span>
+      <span class="s2">"cm"</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p>If you used <code class="highlighter-rouge">parameter('unit',{});</code> to your intent you could fetch <code class="highlighter-rouge">label</code> and <code class="highlighter-rouge">measure</code> with the <code class="highlighter-rouge">parameters.get()</code> method.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//Label will be 'Centimeters'</span>
+<span class="kd">let</span> <span class="nx">label</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'unit.label'</span><span class="p">);</span>
+
+<span class="c1">//Measure will be 'length'</span>
+<span class="kd">let</span> <span class="nx">measure</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'unit.measure'</span><span class="p">);</span>
+
+<span class="c1">//Normal key value will be 'cm'</span>
+<span class="kd">let</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'unit'</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<h2 id="accessing-entity-data-from-an-intent">Accessing entity data from an intent</h2>
+
+<p>To load an entity from an intent use <code class="highlighter-rouge">EntityRegistry.get()</code>.</p>
+
+<p>This example uses underscore to select a random sample from the <code class="highlighter-rouge">ColourEntity</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'underscore'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">RandomColourIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'random colour'</span>
+    <span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">entity</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">EntityRegistry</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'App.Example.Entity.Colour'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">entity</span><span class="p">.</span><span class="nx">get_data</span><span class="p">();</span>
+    <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">sample</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+    <span class="k">return</span> <span class="s1">'Random colour is '</span><span class="o">+</span><span class="nx">output</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
 
   </div>
 

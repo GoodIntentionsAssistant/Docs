@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Introduction</title>
+  <title>Fallbacks</title>
   <meta name="description" content="Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/docs/css/main.css">
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/en/intents/fallback.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Chatbot Framework" href="https://goodintentionsassistant.github.io/docs/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -126,32 +126,62 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Introduction</h1>
+    <h1 class="post-title">Fallbacks</h1>
   </header>
 
   <div class="post-content">
-    <p>GI is a rule based chatbot framework for Node.js using simple design patterns. Our goal is to provide a structured framework that enables developers to rapidly develop robust and reliable chatbots with full flexibility and a scalable architecture.</p>
+    <p>Fallback intents are triggered is a users input is not matched by any other intents already trained with GI.</p>
 
-<p>It is very much experimental and in its infancy. We’re looking for the community to build, improve and provide feedback on the framework. This documentation is not fully complete so it is only recommended to use this framework if you’re prepared to dive into the code.</p>
+<p>For a more genuine assistant and less annoying one fall backs can be used to give the user direction to using the chat bot.</p>
 
-<p>The framework comes with a collection of examples.</p>
+<p>GI has some system fallbacks you can use, make sure they are enabled in your <code class="highlighter-rouge">config.js</code> file.</p>
 
-<p>The bot server cannot just be run by itself, it requires clients to act as middleware.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">skills</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s1">'App.Fallback'</span>
+<span class="p">];</span>
+</code></pre>
+</div>
 
-<p>The system has inspirations from Api.ai so some of their documentation found at <a href="https://docs.api.ai/">https://docs.api.ai/</a> can also be used to get an overview of some key components of this system.</p>
+<p>These system fallbacks can be turned off and you could enhance them with your own skill to return random replies.</p>
 
-<h2 id="what-is-gi">What is GI?</h2>
+<p>Example of the system <code class="highlighter-rouge">why</code> intent.</p>
 
-<ul>
-  <li>It is a framework for building rule-based chat bots</li>
-  <li>It is not AI, but you could build it to be amazing AI and share it</li>
-  <li>It is not Machine Learning, but you could build machine learning into the framework and share it</li>
-  <li>It is not a Chatter Bot, but you could create some amazing intents and share it</li>
-  <li>It is not Intelligent, but you could help us build up the data and entities and share it</li>
-  <li>It is probably over engineered, but it’s fun to do!</li>
-</ul>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">WhyIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
-<p>…I’m under no illusion that GI might not be useful out of the npm package box but I hope it’ll turn into something interesting from the community. Contribute with your own skills, entities and data!</p>
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'why'</span><span class="p">],</span> <span class="p">{</span>
+      <span class="na">classifier</span><span class="p">:</span> <span class="s1">'fallback'</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+
+  <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'Everyone asks why'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>how so?</span></div>
+  <div class="bot"><span>How does anything happen?</span></div>
+
+  <div class="user"><span>what are you</span></div>
+  <div class="bot"><span>Not sure, Google might know</span></div>
+
+  <div class="user"><span>when is my birthday</span></div>
+  <div class="bot"><span>I am not sure when</span></div>
+
+  <div class="user"><span>where are my keys</span></div>
+  <div class="bot"><span>Could be anywhere. I have no idea</span></div>
+
+  <div class="user"><span>who ate my cake</span></div>
+  <div class="bot"><span>No idea who!</span></div>
+
+  <div class="user"><span>why do rainbows exist?</span></div>
+  <div class="bot"><span>Everyone asks why</span></div>
+</div>
 
   </div>
 
