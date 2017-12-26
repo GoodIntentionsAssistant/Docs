@@ -1,0 +1,110 @@
+
+<script src="{{ site.baseurl }}/converse/library/handlebars-v4.0.11.js"></script>
+<script src="{{ site.baseurl }}/converse/library/socket.io.js"></script>
+<script src="{{ site.baseurl }}/converse/library/js.cookie.js"></script>
+<script src="{{ site.baseurl }}/converse/library/store.everything.min.js"></script>
+
+<script src="{{ site.baseurl }}/converse/converse.js"></script>
+
+{% raw %}
+<script id="converse-template" type="text/x-handlebars-template">
+
+	<div class="converse">
+
+		<div class="converse-launcher">
+			<div>
+				<i class="fas fa-comments"></i>
+				<i class="fas fa-times"></i>
+			</div>
+		</div>
+
+		<div class="converse-menu">
+			<ul>
+				<li><span><a href="#" data-converse-menu="clear-history">Clear history</a></span></li>
+				<li><span><a href="#" data-converse-menu="reset-user">Reset user identity</a></span></li>
+				<li><span><a href="#" data-converse-menu="debug-mode">Debug mode on / off</a></span></li>
+			</ul>
+		</div>
+
+		<div class="converse-messenger" style="display:none;">
+			<div class="converse-header">
+				<div class="converse-title">Good Intentions</div>
+				<div class="converse-controls">
+					<div class="converse-control converse-control-menu"><i class="fas fa-cog"></i></div>
+					<div class="converse-control converse-control-close"><i class="fas fa-times"></i></div>
+				</div>
+			</div>
+
+			<div class="converse-content">
+
+				{{#if connected}}
+					<div class="converse-history">
+					</div>
+				{{^}}
+					<div class="converse-connecting">
+						Connecting...
+					</div>
+				{{/if}}
+
+			</div>
+
+			<div class="converse-footer">
+
+				<div class="converse-input converse-actions">
+				</div>
+
+				<div class="converse-input converse-text">
+					<input type="text" placeholder="Send a message">
+					<button class="send"><i class="fas fa-chevron-right"></i></button>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+</script>
+
+
+<script id="converse-partial-message-event" type="text/x-handlebars-template">
+	<div class="converse-message converse-message-event">
+		<span>{{text}}</span>
+	</div>
+</script>
+
+
+<script id="converse-partial-message-in" type="text/x-handlebars-template">
+	<div class="converse-message converse-message-in">
+		<span>{{text}}</span>
+	</div>
+</script>
+
+
+<script id="converse-partial-message-out" type="text/x-handlebars-template">
+	<div class="converse-message converse-message-out">
+		<span>{{text}}</span>
+	</div>
+</script>
+
+
+{% endraw %}
+
+<script>
+  //var converse = new Converse;
+  //converse.open();
+  /*converse.send('hello');
+  converse.send('thanks for having me I hope you are ok!');
+  converse.send('foobar');
+  converse.send('bar');
+  converse.send('foo');
+  converse.send('foobar');
+  converse.send('bar');
+  converse.send('foo');
+  converse.receive({
+  	type: 'message',
+  	messages: [
+  		'line 1',
+  		'line 2'
+  	]
+  });*/
+</script>
