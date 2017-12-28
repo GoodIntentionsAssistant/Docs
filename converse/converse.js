@@ -13,8 +13,9 @@ class Converse {
 			opened: false,
 			connected: true,
 			input: 'text',
-			speak: true,
-			menu_open: false
+			speak: false,
+			menu_open: false,
+			last_message_sent: null
 		};
 
 		this._partials = {};
@@ -98,13 +99,40 @@ class Converse {
 		return template(data);
 	}
 
+
+/**
+ * State
+ *
+ */
+	state() {
+		//Load history
+		let history = store.get('converse-history');
+		$('.converse-history').html(history);
+		this.history_scroll_down();
+
+		//Open messenger
+		let state = store.get('state');
+		if(state) {
+			this._state = state;
+		}
+
+		//Check if the messenger should be opened
+		if(this.state_get('opened')) {
+			this.open();
+		}
+	}
+
+
 	state_set(key, val) {
 		this._state[key] = val;
+		store.set('state', this._state);
 	}
+
 
 	state_get(key) {
 		return this._state[key];
 	}
+
 
 	binds() {
 		//Open and close the messaging window
@@ -118,9 +146,17 @@ class Converse {
 		});
 
 		//Text input
-		$('.converse-text input').keypress((e) => {
+		$('.converse-text input').keydown((e) => {
 			if(e.which == 13) {
+				//Return key
 				this.submit_text();
+			}
+			else if(e.which == 38) {
+				//Arrow key up
+				let last_message = this.state_get('last_message_sent');
+				if(last_message) {
+					$('.converse-text input').val(last_message);
+				}
 			}
 		});
 		$('.converse-text button').on('click',(e) => {
@@ -161,8 +197,11 @@ class Converse {
 		let html = this.partial('message-out',{
 			text: text
 		});
-		this.history_add(html);
 		this.emit(text);
+		this.history_add(html);
+
+		//Save previous message sent
+		this.state_set('last_message_sent', text);
 	}
 
 	identify() {
@@ -195,10 +234,20 @@ class Converse {
 			if(data.attachments.actions) {
 				this.show_input('actions', data.attachments.actions);
 			}
+
+			if(data.attachments.images) {
+				for(var ii=0; ii<data.attachments.images.length; ii++) {
+					let html = this.partial('message-in',{
+						img: data.attachments.images[ii].url
+					});
+					this.history_add(html);
+				}
+			}
 		}
 	}
 
 	speak(text) {
+		return;
 		if(!this.state_get('speak')) {
 			return false;
 		}
@@ -213,19 +262,6 @@ class Converse {
 			text: data
 		});
 		this.history_add(html);
-	}
-
-	state() {
-		//Load history
-		let history = store.get('converse-history');
-		$('.converse-history').html(history);
-		this.history_scroll_down();
-
-		//Open messenger
-		let opened = store.get('converse-opened');
-		if(opened) {
-			this.open();
-		}
 	}
 
 	history_add(html) {
@@ -304,9 +340,7 @@ class Converse {
 	}
 
 	open() {
-		this._state.opened = true;
-
-		store.set('converse-opened', true);
+		this.state_set('opened', true);
 
 		$('.converse').addClass('converse-opened');
 		$('.converse-messenger').show();
@@ -317,9 +351,7 @@ class Converse {
 	}
 
 	close() {
-		this._state.opened = false;
-
-		store.set('converse-opened', false);
+		this.state_set('opened', false);
 
 		$('.converse').removeClass('converse-opened');
 		$('.converse-messenger').hide();

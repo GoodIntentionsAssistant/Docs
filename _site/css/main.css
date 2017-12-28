@@ -165,7 +165,7 @@ pre {
     height: 30px;
     padding-top: 10px; }
   .site-header .wrapper-sub {
-    background: linear-gradient(to bottom, #216aff 0%, #c125ff 100%); }
+    background: #216aff; }
     .site-header .wrapper-sub h2 {
       font-family: Roboto,sans-serif;
       color: white;
@@ -737,6 +737,7 @@ div.chat {
           background-repeat: no-repeat; }
           .converse .converse-messenger .converse-content .converse-message.converse-message-in span {
             margin-left: 70px;
+            margin-right: 20px;
             background-color: #f7f7f7; }
             .converse .converse-messenger .converse-content .converse-message.converse-message-in span::after {
               left: 0;
@@ -762,7 +763,10 @@ div.chat {
           border-radius: 20px;
           padding: 10px 20px;
           position: relative;
-          display: inline-block; }
+          display: inline-block;
+          word-wrap: break-word; }
+          .converse .converse-messenger .converse-content .converse-message.converse-message-in span img, .converse .converse-messenger .converse-content .converse-message.converse-message-out span img {
+            width: 100%; }
           .converse .converse-messenger .converse-content .converse-message.converse-message-in span::after, .converse .converse-messenger .converse-content .converse-message.converse-message-out span::after {
             content: '';
             position: absolute;
@@ -802,11 +806,12 @@ div.chat {
         cursor: pointer;
         margin: 5px;
         height: 35px;
-        border-radius: 5px;
+        border-radius: 20px;
         border: none;
         flex-grow: 1;
         background-color: #216aff;
         color: white;
+        font-weight: bold;
         font-size: 18px; }
         .converse .converse-messenger .converse-footer .converse-actions button:hover {
           background-color: #1952c6; }

@@ -7,12 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Returning a result</title>
-  <meta name="description" content="Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
+  <meta name="description" content="Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://goodintentionsassistant.github.io/en/intents/result.html">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Chatbot Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
@@ -28,7 +28,7 @@
     <img src="/img/good-intentions-chatbot-logo.png">
     <a class="site-title" href="/">
       Good Intentions
-      <span>Chatbot Framework</span>
+      <span>Assistant Chatbot Framework</span>
     </a>
   </div>
 
@@ -136,14 +136,25 @@
 
 <h2 id="simple-return-example">Simple return example</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">PingIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">RepeatIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'ping'</span><span class="p">,</span><span class="s1">'pong'</span><span class="p">]);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^repeat/</span><span class="p">,</span><span class="s1">'i'</span><span class="p">),</span>
+      <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^say/</span><span class="p">,</span><span class="s1">'i'</span><span class="p">)</span>
+    <span class="p">],</span> <span class="p">{</span>
+      <span class="na">classifier</span><span class="p">:</span> <span class="s1">'strict'</span>
+    <span class="p">});</span>
   <span class="p">}</span>
 
-  <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="s1">'Pong'</span><span class="p">;</span>
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">input</span><span class="p">.</span><span class="nx">text</span><span class="p">;</span>
+
+    <span class="nx">result</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^repeat/i</span><span class="p">,</span><span class="s1">''</span><span class="p">).</span><span class="nx">trim</span><span class="p">();</span>
+    <span class="nx">result</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^say/i</span><span class="p">,</span><span class="s1">''</span><span class="p">).</span><span class="nx">trim</span><span class="p">();</span>
+    <span class="nx">result</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^after me/i</span><span class="p">,</span><span class="s1">''</span><span class="p">).</span><span class="nx">trim</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
@@ -151,8 +162,10 @@
 </div>
 
 <div class="chat">
-  <div class="user"><span>Ping</span></div>
-  <div class="bot"><span>Pong</span></div>
+  <div class="user"><span>Repeat after me I am great!</span></div>
+  <div class="bot"><span>I am great!</span></div>
+  <div class="user"><span>Say hey</span></div>
+  <div class="bot"><span>hey</span></div>
 </div>
 
 <h2 id="returning-an-array">Returning an array</h2>
@@ -212,6 +225,38 @@
   <div class="user"><span>Five seconds</span></div>
   <div class="info"><span>Five seconds later</span></div>
   <div class="bot"><span>5 seconds are up</span></div>
+</div>
+
+<p>If you want to asynchronous read a file from the skill <code class="highlighter-rouge">Data</code> directory manually.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">CatfactsIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'catfact'</span><span class="p">,</span>
+      <span class="s1">'cat facts'</span><span class="p">,</span>
+      <span class="s1">'cat fact'</span>
+    <span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">filename</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Path</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'skills.app'</span><span class="p">)</span><span class="o">+</span><span class="s1">'/CatFacts/Data/catfacts.txt'</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'fs'</span><span class="p">);</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="s1">'utf8'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">lines</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/</span><span class="se">\r?\n</span><span class="sr">/</span><span class="p">);</span>
+        <span class="nx">resolve</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">sample</span><span class="p">(</span><span class="nx">lines</span><span class="p">));</span>
+      <span class="p">});</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+<div class="chat">
+  <div class="user"><span>Give me a fact about cats</span></div>
+  <div class="bot"><span>Most cats adore sardines</span></div>
 </div>
 
 <h2 id="multiple-delayed-responses">Multiple delayed responses</h2>
@@ -274,12 +319,12 @@
 
   <div class="wrapper">
 
-    <h2 class="footer-heading">Good Intentions Chatbot Framework</h2>
+    <h2 class="footer-heading">Good Intentions Assistant Framework</h2>
 
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li>Good Intentions Chatbot Framework</li>
+          <li>Good Intentions Assistant Framework</li>
           <li><a href="mailto:darren.m@firecreekweb.com">darren.m@firecreekweb.com</a></li>
         </ul>
       </div>
@@ -299,7 +344,7 @@
       </div>
 
       <div class="footer-col footer-col-3">
-        <p>Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
+        <p>Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 </p>
       </div>
     </div>
@@ -388,14 +433,23 @@
 
 <script id="converse-partial-message-in" type="text/x-handlebars-template">
 	<div class="converse-message converse-message-in">
-		<span>{{text}}</span>
+		<span>
+			{{#if text}}
+				{{text}}
+			{{/if}}
+			{{#if img}}
+				<img src="{{img}}">
+			{{/if}}
+		</span>
 	</div>
 </script>
 
 
 <script id="converse-partial-message-out" type="text/x-handlebars-template">
 	<div class="converse-message converse-message-out">
-		<span>{{text}}</span>
+		<span>
+			{{text}}
+		</span>
 	</div>
 </script>
 

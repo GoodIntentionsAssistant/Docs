@@ -21,6 +21,11 @@ module.exports = class PingIntent extends Intent {
 }
 ~~~
 
+<div class="chat" markdown="0">
+  <div class="user"><span>Ping</span></div>
+  <div class="bot"><span>Pong</span></div>
+</div>
+
 
 ## Loading from an entity
 
@@ -145,8 +150,30 @@ this.train([
 ~~~
 
 
+<div class="chat" markdown="0">
+  <div class="user"><span>1+2</span></div>
+  <div class="bot"><span>3</span></div>
+
+  <div class="user"><span>20% of 90</span></div>
+  <div class="bot"><span>18</span></div>
+
+  <div class="user"><span>60 + 5%</span></div>
+  <div class="bot"><span>63</span></div>
+
+  <div class="user"><span>60 + 5%</span></div>
+  <div class="bot"><span>63</span></div>
+
+  <div class="user"><span>24 + 54 + 68 - 34 * 9 / 8</span></div>
+  <div class="bot"><span>107.75</span></div>
+</div>
+
+
+
+
 ## Fallback classifier
 
 It's always nice to have fallback intents if the classifiers with trained data did not get a match.
 
 GI has common fallback intents in `Common/Intent/Fallbacks` for How, What, When, Where, Who and Why.
+
+See the fallbacks documentation for more information.

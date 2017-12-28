@@ -20,3 +20,8 @@ module.exports = class BoingIntent extends Intent {
 
 }
 ~~~
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Boing</span></div>
+  <div class="bot"><span>Pong</span></div>
+</div>

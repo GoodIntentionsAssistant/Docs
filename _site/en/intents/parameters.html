@@ -7,12 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Intent Parameters</title>
-  <meta name="description" content="Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
+  <meta name="description" content="Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://goodintentionsassistant.github.io/en/intents/parameters.html">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Chatbot Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
@@ -28,7 +28,7 @@
     <img src="/img/good-intentions-chatbot-logo.png">
     <a class="site-title" href="/">
       Good Intentions
-      <span>Chatbot Framework</span>
+      <span>Assistant Chatbot Framework</span>
     </a>
   </div>
 
@@ -267,35 +267,49 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 
 <p>By defining the action in <code class="highlighter-rouge">parameter</code> if the parameter is filled it will use a different method.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">SugarIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">TeaIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
-	<span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-		<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-			<span class="s1">'tea'</span>
-		<span class="p">]);</span>
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+    <span class="s1">'tea'</span>
+    <span class="p">]);</span>
 
-		<span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">,</span> <span class="p">{</span>
-			<span class="na">name</span><span class="p">:</span> <span class="s2">"Choice"</span><span class="p">,</span>
-			<span class="na">data</span><span class="p">:</span> <span class="p">{</span>
-				<span class="s2">"yes"</span><span class="p">:</span> <span class="p">{},</span>
-				<span class="s2">"no"</span><span class="p">:</span> <span class="p">{}</span>
-			<span class="p">},</span>
-			<span class="na">action</span><span class="p">:</span> <span class="s1">'answered'</span>
-		<span class="p">});</span>
-	<span class="p">}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="s2">"Choice"</span><span class="p">,</span>
+      <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"yes"</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">"no"</span><span class="p">:</span> <span class="p">{}</span>
+      <span class="p">},</span>
+      <span class="na">action</span><span class="p">:</span> <span class="s1">'answered'</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
 
-	<span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="s1">'Do you want sugar in your tea?'</span><span class="p">;</span>
-	<span class="p">}</span>
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">expecting</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span>
+      <span class="na">force</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="s1">'Do you want sugar in your tea?'</span><span class="p">;</span>
+  <span class="p">}</span>
 
-	<span class="nx">answered</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-		<span class="kd">let</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">);</span>
-		<span class="k">return</span> <span class="nx">choice</span> <span class="o">==</span> <span class="s1">'yes'</span> <span class="p">?</span> <span class="s1">'Sweet tooth'</span> <span class="p">:</span> <span class="s1">'Health option'</span><span class="p">;</span>
-	<span class="p">}</span>
+  <span class="nx">answered</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">choice</span> <span class="o">==</span> <span class="s1">'yes'</span> <span class="p">?</span> <span class="s1">'Sweet tooth'</span> <span class="p">:</span> <span class="s1">'Healthy option'</span><span class="p">;</span>
+  <span class="p">}</span>
 
 <span class="p">}</span>
 
 </code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>Can I have tea?</span></div>
+  <div class="bot"><span>Do you want sugar in your tea?</span></div>
+  <div class="user"><span>Yes</span></div>
+  <div class="bot"><span>Sweet tooth</span></div>
+  <div class="user"><span>Can I have tea?</span></div>
+  <div class="bot"><span>Do you want sugar in your tea?</span></div>
+  <div class="user"><span>No</span></div>
+  <div class="bot"><span>Healthy option</span></div>
 </div>
 
 <h2 id="slot-filling">Slot Filling</h2>
@@ -313,12 +327,12 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 
   <div class="wrapper">
 
-    <h2 class="footer-heading">Good Intentions Chatbot Framework</h2>
+    <h2 class="footer-heading">Good Intentions Assistant Framework</h2>
 
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li>Good Intentions Chatbot Framework</li>
+          <li>Good Intentions Assistant Framework</li>
           <li><a href="mailto:darren.m@firecreekweb.com">darren.m@firecreekweb.com</a></li>
         </ul>
       </div>
@@ -338,7 +352,7 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
       </div>
 
       <div class="footer-col footer-col-3">
-        <p>Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
+        <p>Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 </p>
       </div>
     </div>
@@ -427,14 +441,23 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 
 <script id="converse-partial-message-in" type="text/x-handlebars-template">
 	<div class="converse-message converse-message-in">
-		<span>{{text}}</span>
+		<span>
+			{{#if text}}
+				{{text}}
+			{{/if}}
+			{{#if img}}
+				<img src="{{img}}">
+			{{/if}}
+		</span>
 	</div>
 </script>
 
 
 <script id="converse-partial-message-out" type="text/x-handlebars-template">
 	<div class="converse-message converse-message-out">
-		<span>{{text}}</span>
+		<span>
+			{{text}}
+		</span>
 	</div>
 </script>
 

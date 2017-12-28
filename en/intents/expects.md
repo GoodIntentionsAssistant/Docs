@@ -46,6 +46,17 @@ module.exports = class HowOldAreYouIntent extends Intent {
 </div>
 
 
+The above example won't check the user input so the following problem can happen...
+
+<div class="chat" markdown="0">
+  <div class="user"><span>How old are you?</span></div>
+  <div class="bot"><span>I have no age, I am a bot!</span></div>
+  <div class="bot"><span>How old are you?</span></div>
+  <div class="user"><span>Apples</span></div>
+  <div class="bot"><span>OK, you are Apples</span></div>
+</div>
+
+
 
 Key | Required | Default | Description
 --- | --- | --- | ---
@@ -56,16 +67,6 @@ entity | No | false | User input will be parsed to get entity data. The result i
 
 
 ## Expects with an entity
-
-The above example won't check for a number so the following problem can happen...
-
-<div class="chat" markdown="0">
-  <div class="user"><span>How old are you?</span></div>
-  <div class="bot"><span>I have no age, I am a bot!</span></div>
-  <div class="bot"><span>How old are you?</span></div>
-  <div class="user"><span>Apples</span></div>
-  <div class="bot"><span>OK, you are Apples</span></div>
-</div>
 
 You could handle lots of different exceptions in your `reply` method but you could also make an entity to parse and check for the information creating a better flow.
 
@@ -114,18 +115,14 @@ module.exports = class FavoriteNumberIntent extends Intent {
   <div class="bot"><span>That is not a number</span></div>
 </div>
 
-If you had set `force` to false it would have only called the `reply` method if a match was found so it would have replied with.
 
-<div class="chat" markdown="0">
-  <div class="user"><span>What is your favorite number?</span></div>
-  <div class="bot"><span>Not sure, what is your favorite number?</span></div>
-  <div class="user"><span>Bananas</span></div>
-  <div class="bot"><span>Sorry, I don't understand</span></div>
-</div>
+## Force
+
+Example to be written
 
 
 
-## Using save answer
+## Save answer
 
 Saving the users expected answer will store the information in the user session.
 

@@ -3,9 +3,9 @@ layout: page
 title: Fallbacks
 ---
 
-Fallback intents are triggered is a users input is not matched by any other intents already trained with GI.
+Fallback intents are triggered when user input is not matched by any other intents already trained with GI.
 
-For a more genuine assistant and less annoying one fall backs can be used to give the user direction to using the chat bot.
+For a more genuine assistant and less annoying one fall backs can be used to give the user direction to using the assistant.
 
 GI has some system fallbacks you can use, make sure they are enabled in your `config.js` file.
 

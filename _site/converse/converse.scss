@@ -190,6 +190,7 @@ $converse-primary-color2: #1952c6;
 
 			    span {
 			      margin-left:70px;
+			      margin-right:20px;
 			      background-color:#f7f7f7;
 			  
 			      &::after {
@@ -228,6 +229,11 @@ $converse-primary-color2: #1952c6;
 				    padding:10px 20px;
 				    position:relative;
 				    display:inline-block;
+				    word-wrap:break-word;
+
+				    img {
+				    	width:100%;
+				    }
 
 				    &::after {
 				      content: '';
@@ -288,11 +294,12 @@ $converse-primary-color2: #1952c6;
 					cursor:pointer;
 					margin:5px;
 					height:35px;
-					border-radius:5px;
+					border-radius:20px;
 					border:none;
 					flex-grow:1;
 					background-color:$converse-primary-color;
 					color:white;
+					font-weight:bold;
 					font-size:18px;
 
 					&:hover {

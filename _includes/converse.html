@@ -75,14 +75,23 @@
 
 <script id="converse-partial-message-in" type="text/x-handlebars-template">
 	<div class="converse-message converse-message-in">
-		<span>{{text}}</span>
+		<span>
+			{{#if text}}
+				{{text}}
+			{{/if}}
+			{{#if img}}
+				<img src="{{img}}">
+			{{/if}}
+		</span>
 	</div>
 </script>
 
 
 <script id="converse-partial-message-out" type="text/x-handlebars-template">
 	<div class="converse-message converse-message-out">
-		<span>{{text}}</span>
+		<span>
+			{{text}}
+		</span>
 	</div>
 </script>
 

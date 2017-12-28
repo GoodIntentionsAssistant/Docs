@@ -7,12 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Expects</title>
-  <meta name="description" content="Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
+  <meta name="description" content="Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://goodintentionsassistant.github.io/en/intents/expects.html">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Chatbot Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
@@ -28,7 +28,7 @@
     <img src="/img/good-intentions-chatbot-logo.png">
     <a class="site-title" href="/">
       Good Intentions
-      <span>Chatbot Framework</span>
+      <span>Assistant Chatbot Framework</span>
     </a>
   </div>
 
@@ -171,6 +171,16 @@
   <div class="bot"><span>OK, you are 30</span></div>
 </div>
 
+<p>The above example won’t check the user input so the following problem can happen…</p>
+
+<div class="chat">
+  <div class="user"><span>How old are you?</span></div>
+  <div class="bot"><span>I have no age, I am a bot!</span></div>
+  <div class="bot"><span>How old are you?</span></div>
+  <div class="user"><span>Apples</span></div>
+  <div class="bot"><span>OK, you are Apples</span></div>
+</div>
+
 <table>
   <thead>
     <tr>
@@ -209,16 +219,6 @@
 </table>
 
 <h2 id="expects-with-an-entity">Expects with an entity</h2>
-
-<p>The above example won’t check for a number so the following problem can happen…</p>
-
-<div class="chat">
-  <div class="user"><span>How old are you?</span></div>
-  <div class="bot"><span>I have no age, I am a bot!</span></div>
-  <div class="bot"><span>How old are you?</span></div>
-  <div class="user"><span>Apples</span></div>
-  <div class="bot"><span>OK, you are Apples</span></div>
-</div>
 
 <p>You could handle lots of different exceptions in your <code class="highlighter-rouge">reply</code> method but you could also make an entity to parse and check for the information creating a better flow.</p>
 
@@ -267,16 +267,11 @@
   <div class="bot"><span>That is not a number</span></div>
 </div>
 
-<p>If you had set <code class="highlighter-rouge">force</code> to false it would have only called the <code class="highlighter-rouge">reply</code> method if a match was found so it would have replied with.</p>
+<h2 id="force">Force</h2>
 
-<div class="chat">
-  <div class="user"><span>What is your favorite number?</span></div>
-  <div class="bot"><span>Not sure, what is your favorite number?</span></div>
-  <div class="user"><span>Bananas</span></div>
-  <div class="bot"><span>Sorry, I don't understand</span></div>
-</div>
+<p>Example to be written</p>
 
-<h2 id="using-save-answer">Using save answer</h2>
+<h2 id="save-answer">Save answer</h2>
 
 <p>Saving the users expected answer will store the information in the user session.</p>
 
@@ -342,12 +337,12 @@
 
   <div class="wrapper">
 
-    <h2 class="footer-heading">Good Intentions Chatbot Framework</h2>
+    <h2 class="footer-heading">Good Intentions Assistant Framework</h2>
 
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li>Good Intentions Chatbot Framework</li>
+          <li>Good Intentions Assistant Framework</li>
           <li><a href="mailto:darren.m@firecreekweb.com">darren.m@firecreekweb.com</a></li>
         </ul>
       </div>
@@ -367,7 +362,7 @@
       </div>
 
       <div class="footer-col footer-col-3">
-        <p>Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
+        <p>Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 </p>
       </div>
     </div>
@@ -456,14 +451,23 @@
 
 <script id="converse-partial-message-in" type="text/x-handlebars-template">
 	<div class="converse-message converse-message-in">
-		<span>{{text}}</span>
+		<span>
+			{{#if text}}
+				{{text}}
+			{{/if}}
+			{{#if img}}
+				<img src="{{img}}">
+			{{/if}}
+		</span>
 	</div>
 </script>
 
 
 <script id="converse-partial-message-out" type="text/x-handlebars-template">
 	<div class="converse-message converse-message-out">
-		<span>{{text}}</span>
+		<span>
+			{{text}}
+		</span>
 	</div>
 </script>
 

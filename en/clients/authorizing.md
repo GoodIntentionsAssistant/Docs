@@ -5,7 +5,7 @@ title: Client Authorization
 
 ## White listing a new client
 
-Only clients that have been white listed can connect and send input to the framework. In the app config file are settings to define the name and the client token. If you create a new client you must add the key and token to the configuration file first.
+Only clients that have been white listed can connect and send input to the framework. In your `app/Config/config.json` file are settings to define the name and the client token. If you create a new client you must add the key and token to the configuration file first.
 
 ~~~javascript
 config.clients = {

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Introduction
+title: Good Intentions Assistant Chatbot Framework
 ---
 
 GI is a rule based chatbot framework for Node.js using simple design patterns. Our goal is to provide a structured framework that enables developers to rapidly develop robust and reliable chatbots with full flexibility and a scalable architecture.

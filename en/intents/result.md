@@ -11,22 +11,35 @@ Either via the `return` method or using the `request` parameter if there will be
 ## Simple return example
 
 ~~~javascript
-module.exports = class PingIntent extends Intent {
+module.exports = class RepeatIntent extends Intent {
 
   setup() {
-    this.train(['ping','pong']);
+    this.train([
+      new RegExp(/^repeat/,'i'),
+      new RegExp(/^say/,'i')
+    ], {
+      classifier: 'strict'
+    });
   }
 
-  response() {
-    return 'Pong';
+  response(request) {
+    let result = request.input.text;
+
+    result = result.replace(/^repeat/i,'').trim();
+    result = result.replace(/^say/i,'').trim();
+    result = result.replace(/^after me/i,'').trim();
+
+    return result;
   }
 
 }
 ~~~
 
 <div class="chat" markdown="0">
-  <div class="user"><span>Ping</span></div>
-  <div class="bot"><span>Pong</span></div>
+  <div class="user"><span>Repeat after me I am great!</span></div>
+  <div class="bot"><span>I am great!</span></div>
+  <div class="user"><span>Say hey</span></div>
+  <div class="bot"><span>hey</span></div>
 </div>
 
 
@@ -90,6 +103,38 @@ module.exports = class FiveSecondsIntent extends Intent {
   <div class="user"><span>Five seconds</span></div>
   <div class="info"><span>Five seconds later</span></div>
   <div class="bot"><span>5 seconds are up</span></div>
+</div>
+
+If you want to asynchronous read a file from the skill `Data` directory manually.
+
+~~~javascript
+module.exports = class CatfactsIntent extends Intent {
+
+  setup() {
+    this.train([
+      'catfact',
+      'cat facts',
+      'cat fact'
+    ]);
+  }
+
+  response(request) {
+    var filename = request.app.Path.get('skills.app')+'/CatFacts/Data/catfacts.txt';
+
+    return new Promise(function(resolve, reject) {
+      var fs = require('fs');
+      fs.readFile(filename, 'utf8', function(err, data) {
+        var lines = data.split(/\r?\n/);
+        resolve(_.sample(lines));
+      });
+    });
+  }
+
+}
+~~~
+<div class="chat" markdown="0">
+  <div class="user"><span>Give me a fact about cats</span></div>
+  <div class="bot"><span>Most cats adore sardines</span></div>
 </div>
 
 

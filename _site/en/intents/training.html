@@ -7,12 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Intent Training</title>
-  <meta name="description" content="Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
+  <meta name="description" content="Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://goodintentionsassistant.github.io/en/intents/training.html">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Chatbot Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
@@ -28,7 +28,7 @@
     <img src="/img/good-intentions-chatbot-logo.png">
     <a class="site-title" href="/">
       Good Intentions
-      <span>Chatbot Framework</span>
+      <span>Assistant Chatbot Framework</span>
     </a>
   </div>
 
@@ -146,6 +146,11 @@
 
 <span class="p">}</span>
 </code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>Ping</span></div>
+  <div class="bot"><span>Pong</span></div>
 </div>
 
 <h2 id="loading-from-an-entity">Loading from an entity</h2>
@@ -266,11 +271,30 @@
 </code></pre>
 </div>
 
+<div class="chat">
+  <div class="user"><span>1+2</span></div>
+  <div class="bot"><span>3</span></div>
+
+  <div class="user"><span>20% of 90</span></div>
+  <div class="bot"><span>18</span></div>
+
+  <div class="user"><span>60 + 5%</span></div>
+  <div class="bot"><span>63</span></div>
+
+  <div class="user"><span>60 + 5%</span></div>
+  <div class="bot"><span>63</span></div>
+
+  <div class="user"><span>24 + 54 + 68 - 34 * 9 / 8</span></div>
+  <div class="bot"><span>107.75</span></div>
+</div>
+
 <h2 id="fallback-classifier">Fallback classifier</h2>
 
 <p>It’s always nice to have fallback intents if the classifiers with trained data did not get a match.</p>
 
 <p>GI has common fallback intents in <code class="highlighter-rouge">Common/Intent/Fallbacks</code> for How, What, When, Where, Who and Why.</p>
+
+<p>See the fallbacks documentation for more information.</p>
 
   </div>
 
@@ -283,12 +307,12 @@
 
   <div class="wrapper">
 
-    <h2 class="footer-heading">Good Intentions Chatbot Framework</h2>
+    <h2 class="footer-heading">Good Intentions Assistant Framework</h2>
 
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li>Good Intentions Chatbot Framework</li>
+          <li>Good Intentions Assistant Framework</li>
           <li><a href="mailto:darren.m@firecreekweb.com">darren.m@firecreekweb.com</a></li>
         </ul>
       </div>
@@ -308,7 +332,7 @@
       </div>
 
       <div class="footer-col footer-col-3">
-        <p>Node.js Chatbot framework designed for developers to quickly build chatbots with structure, conventions and useful utilities.
+        <p>Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 </p>
       </div>
     </div>
@@ -397,14 +421,23 @@
 
 <script id="converse-partial-message-in" type="text/x-handlebars-template">
 	<div class="converse-message converse-message-in">
-		<span>{{text}}</span>
+		<span>
+			{{#if text}}
+				{{text}}
+			{{/if}}
+			{{#if img}}
+				<img src="{{img}}">
+			{{/if}}
+		</span>
 	</div>
 </script>
 
 
 <script id="converse-partial-message-out" type="text/x-handlebars-template">
 	<div class="converse-message converse-message-out">
-		<span>{{text}}</span>
+		<span>
+			{{text}}
+		</span>
 	</div>
 </script>
 

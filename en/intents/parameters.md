@@ -108,35 +108,49 @@ In the previous examples the initial intent and the response go to the same meth
 By defining the action in `parameter` if the parameter is filled it will use a different method.
 
 ~~~javascript
-module.exports = class SugarIntent extends Intent {
+module.exports = class TeaIntent extends Intent {
 
-	setup() {
-		this.train([
-			'tea'
-		]);
+  setup() {
+    this.train([
+    'tea'
+    ]);
 
-		this.parameter('choice', {
-			name: "Choice",
-			data: {
-				"yes": {},
-				"no": {}
-			},
-			action: 'answered'
-		});
-	}
+    this.parameter('choice', {
+      name: "Choice",
+      data: {
+        "yes": {},
+        "no": {}
+      },
+      action: 'answered'
+    });
+  }
 
-	response(request) {
-		return 'Do you want sugar in your tea?';
-	}
+  response(request) {
+    request.expecting.set({
+      force: true
+    });
+    return 'Do you want sugar in your tea?';
+  }
 
-	answered(request) {
-		let choice = request.parameters.value('choice');
-		return choice == 'yes' ? 'Sweet tooth' : 'Health option';
-	}
+  answered(request) {
+    let choice = request.parameters.value('choice');
+    return choice == 'yes' ? 'Sweet tooth' : 'Healthy option';
+  }
 
 }
 
 ~~~
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Can I have tea?</span></div>
+  <div class="bot"><span>Do you want sugar in your tea?</span></div>
+  <div class="user"><span>Yes</span></div>
+  <div class="bot"><span>Sweet tooth</span></div>
+  <div class="user"><span>Can I have tea?</span></div>
+  <div class="bot"><span>Do you want sugar in your tea?</span></div>
+  <div class="user"><span>No</span></div>
+  <div class="bot"><span>Healthy option</span></div>
+</div>
 
 
 ## Slot Filling

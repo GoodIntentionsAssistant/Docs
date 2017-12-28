@@ -46,8 +46,8 @@ request.attachment.add_action('No');
 ~~~
 
 <div class="chat" markdown="0">
-  <div class="user"><span>Hello</span></div>
-  <div class="bot"><span>Do you like sport?</span></div>
+  <div class="user"><span>Cheese</span></div>
+  <div class="bot"><span>Do you like cheese?</span></div>
   <div class="attachment attachment-buttons">
     <span>Yes</span>
     <span>No</span>
@@ -131,6 +131,6 @@ request.attachment.add_image('https://picsum.photos/300/300/?random');
 ~~~
 
 <div class="chat" markdown="0">
-  <div class="user"><span>Hello</span></div>
+  <div class="user"><span>Random picture</span></div>
   <div class="bot"><span><img src="https://picsum.photos/300/300/?random"></span></div>
 </div>
