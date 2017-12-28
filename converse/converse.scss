@@ -3,6 +3,7 @@ $converse-text-color: #565867;
 $converse-border-radius: 8px;
 
 $converse-primary-color: #216aff;
+$converse-primary-color2: #1952c6;
 
 
 .converse {
@@ -19,11 +20,15 @@ $converse-primary-color: #216aff;
 		overflow:hidden;
 
 		border-radius:50%;
-		background-color:#2392ec;
+		background-color: $converse-primary-color;
 		box-shadow:0 1px 6px rgba(0,0,0,.06),0 2px 32px rgba(0,0,0,.16);
 
 		&.active {
 			box-shadow:0 2px 8px rgba(0,0,0,.09),0 4px 40px rgba(0,0,0,.24);
+		}
+
+		&:hover {
+			background-color: $converse-primary-color2;
 		}
 
 		div {
@@ -248,10 +253,6 @@ $converse-primary-color: #216aff;
 			border-bottom-left-radius:$converse-border-radius;
 			border-bottom-right-radius:$converse-border-radius;
 
-			.converse-actions {
-				button {}
-			}
-
 			.converse-text {
 
 				input[type=text] {
@@ -275,6 +276,27 @@ $converse-primary-color: #216aff;
 					&:hover {
 						cursor:pointer;
 						color:#83888e;
+					}
+				}
+			}
+
+			.converse-actions {
+				div {
+					display:flex;
+				}
+				button {
+					cursor:pointer;
+					margin:5px;
+					height:35px;
+					border-radius:5px;
+					border:none;
+					flex-grow:1;
+					background-color:$converse-primary-color;
+					color:white;
+					font-size:18px;
+
+					&:hover {
+						background-color:$converse-primary-color2;
 					}
 				}
 			}

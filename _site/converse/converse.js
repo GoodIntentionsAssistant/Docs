@@ -9,10 +9,11 @@
 class Converse {
 
 	constructor() {
-		this.context = {
+		this._state = {
 			opened: false,
 			connected: true,
 			input: 'text',
+			speak: true,
 			menu_open: false
 		};
 
@@ -72,11 +73,9 @@ class Converse {
 	}
 
 	template() {
-		var source   = $("#converse-template").html();
-		var template = Handlebars.compile(source);
-		
-		var context = { "name" : "Ritesh Kumar", "occupation" : "developer" };
-		var html = template(this.context);
+		var source   	= $("#converse-template").html();
+		var template 	= Handlebars.compile(source);
+		var html 			= template();
 
 		$(document.body).append(html);
 	}
@@ -99,10 +98,18 @@ class Converse {
 		return template(data);
 	}
 
+	state_set(key, val) {
+		this._state[key] = val;
+	}
+
+	state_get(key) {
+		return this._state[key];
+	}
+
 	binds() {
 		//Open and close the messaging window
 		$('.converse-launcher').on('click', () => {
-			if(this.context.opened) {
+			if(this._state.opened) {
 				this.close();
 			}
 			else {
@@ -178,8 +185,26 @@ class Converse {
 				let html = this.partial('message-in',{
 					text: data.messages[ii]
 				});
+				this.speak(data.messages[ii]);
 				this.history_add(html);
 			}
+		}
+
+		//Attachments
+		if(data.attachments) {
+			if(data.attachments.actions) {
+				this.show_input('actions', data.attachments.actions);
+			}
+		}
+	}
+
+	speak(text) {
+		if(!this.state_get('speak')) {
+			return false;
+		}
+
+		if(responsiveVoice.voiceSupport()) {
+			responsiveVoice.speak(text, 'UK English Female');
 		}
 	}
 
@@ -245,13 +270,14 @@ class Converse {
 		$('.converse-input').hide();
 	}
 
-	show_input(type) {
+	show_input(type, data) {
 		this.hide_inputs();
+
 		if(type == 'text') {
 			this.show_input_text();
 		}
 		else if(type == 'actions') {
-			this.show_input_actions();
+			this.show_input_actions(data);
 		}
 	}
 
@@ -260,25 +286,38 @@ class Converse {
 		$('.converse-input.converse-text input[type=text]:first').focus();
 	}
 
-	show_input_actions() {
-		$('.converse-input.converse-text').hide();
+	show_input_actions(data) {
+		let html = $('<div>');
+
+		data.forEach((action) => {
+			let button = $('<button>');
+			button.text(action.text);
+			button.on('click', () => {
+				this.send(action.text);
+				this.show_input('text');
+			});
+			html.append(button);
+		});
+
+		$('.converse-input.converse-actions').show();
+		$('.converse-input.converse-actions').html(html);
 	}
 
 	open() {
-		this.context.opened = true;
+		this._state.opened = true;
 
 		store.set('converse-opened', true);
 
 		$('.converse').addClass('converse-opened');
 		$('.converse-messenger').show();
 
-		if(this.context.input == 'text') {
+		if(this._state.input == 'text') {
 			$('.converse-input.converse-text input[type=text]:first').focus();
 		}
 	}
 
 	close() {
-		this.context.opened = false;
+		this._state.opened = false;
 
 		store.set('converse-opened', false);
 

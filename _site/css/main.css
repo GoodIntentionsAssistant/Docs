@@ -618,10 +618,12 @@ div.chat {
     height: 60px;
     overflow: hidden;
     border-radius: 50%;
-    background-color: #2392ec;
+    background-color: #216aff;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06), 0 2px 32px rgba(0, 0, 0, 0.16); }
     .converse .converse-launcher.active {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09), 0 4px 40px rgba(0, 0, 0, 0.24); }
+    .converse .converse-launcher:hover {
+      background-color: #1952c6; }
     .converse .converse-launcher div {
       width: 60px;
       height: 60px;
@@ -794,5 +796,19 @@ div.chat {
         .converse .converse-messenger .converse-footer .converse-text button.send:hover {
           cursor: pointer;
           color: #83888e; }
+      .converse .converse-messenger .converse-footer .converse-actions div {
+        display: flex; }
+      .converse .converse-messenger .converse-footer .converse-actions button {
+        cursor: pointer;
+        margin: 5px;
+        height: 35px;
+        border-radius: 5px;
+        border: none;
+        flex-grow: 1;
+        background-color: #216aff;
+        color: white;
+        font-size: 18px; }
+        .converse .converse-messenger .converse-footer .converse-actions button:hover {
+          background-color: #1952c6; }
   .converse.converse-connected .converse-footer {
     background-color: white; }
