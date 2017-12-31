@@ -153,6 +153,67 @@ module.exports = class TeaIntent extends Intent {
 </div>
 
 
+
+## Default parameter value
+
+If a parameter wasn't found in the text instead of setting the value of the parameter to `null` it will be set to the `default` value in the parameter option.
+
+~~~javascript
+module.exports = class FlipCoinIntent extends Intent {
+
+  setup() {
+    this.train([
+      'flip coin',
+      'toss coin',
+      'coin toss',
+      'flip penny',
+      'flip pennies',
+      'throw coin'
+    ]);
+
+    this.parameter('flips', {
+      name: "Flips",
+      entity: 'App.Common.Entity.Number',
+      required: false,
+      default: 1
+    });
+  }
+
+  response(request) {
+    let results = [];
+    let flips = request.parameters.value('flips');
+
+    if(flips > 5) {
+      flips = 5;
+    }
+
+    for(let ii=0; ii < flips; ii++) {
+      let flip = _.random(1, 2);
+      if(flip == 1) {
+        results.push('Heads');
+      }
+      else if(flip == 2) {
+        results.push('Tails');
+      }
+    }
+
+    let output = results.join(', ');
+
+    return output;
+  }
+
+}
+~~~
+
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Flip a coin</span></div>
+  <div class="bot"><span>Heads</span></div>
+  <div class="user"><span>Flip 5 pennies</span></div>
+  <div class="bot"><span>Heads, Tails, Heads, Tails, Tails</span></div>
+</div>
+
+
 ## Slot Filling
 
 To be documented

@@ -57,7 +57,7 @@ class Converse {
 
 
 	client() {
-		this.socket = io('http://localhost:7000');
+		this.socket = io('//:7000');
 
 		this.socket.on('connect', () => {
 			this.connected();

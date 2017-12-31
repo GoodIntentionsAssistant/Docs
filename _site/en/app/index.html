@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Client Authorization</title>
+  <title>App</title>
   <meta name="description" content="Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/en/clients/authorizing.html">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/en/app/">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -127,46 +127,12 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Client Authorization</h1>
+    <h1 class="post-title">App</h1>
   </header>
 
   <div class="post-content">
-    <h2 id="white-listing-a-new-client">White listing a new client</h2>
+    <p>Guides to general GI app development.</p>
 
-<p>Only clients that have been white listed can connect and send input to the framework. In your <code class="highlighter-rouge">app/Config/config.json</code> file are settings to define the name and the client token. If you create a new client you must add the key and token to the configuration file first.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">clients</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'facebook'</span><span class="p">:</span> <span class="p">{</span> 
-    <span class="s1">'token'</span><span class="p">:</span> <span class="s1">'this-is-my-secret-token'</span>
-  <span class="p">}</span>
-<span class="p">};</span>
-</code></pre>
-</div>
-
-<h2 id="client-authorizing-and-identifying">Client authorizing and identifying</h2>
-
-<p>On connecting the client must identify itself using its client name and <code class="highlighter-rouge">token</code> found in your config.js file.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'identify'</span><span class="p">,{</span>
-  <span class="na">client</span><span class="p">:</span> <span class="s1">'facebook'</span><span class="p">,</span>
-  <span class="na">token</span><span class="p">:</span> <span class="s1">'this-is-my-secret-token'</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
-<p>An event will be returned with the success and a <code class="highlighter-rouge">session_token</code>.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Successfully identified"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"session_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"m626NfP8jFYPAKNw"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"ident"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZNWXHXYT"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"identify"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
-
-<p>This token must be made on all future requests. The client token is no longer needed.</p>
 
   </div>
 

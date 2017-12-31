@@ -96,18 +96,19 @@
       </ul>
     </li>
 
-    <li><span>App</span>
+    <li><a href="/en/app/">App</a>
       <ul style="display:none;">
-        <li>Server</li>
-        <li>Clients</li>
-        <li>Training</li>
-        <li><a href="/en/app/queue">Queue + flood protection</a></li>
-        <li><a href="/en/app/requests">Requests</a></li>
-        <li>Data</li>
-        <li>Logging</li>
-        <li>Caching</li>
-        <li>Storage</li>
-        <li>Scrubber</li>
+        <li><a href="/en/app/errors">Errors</a></li>
+        <li style="display:none;">Server</li>
+        <li style="display:none;">Clients</li>
+        <li style="display:none;">Training</li>
+        <li style="display:none;"><a href="/en/app/queue">Queue + flood protection</a></li>
+        <li style="display:none;"><a href="/en/app/requests">Requests</a></li>
+        <li style="display:none;">Data</li>
+        <li style="display:none;">Logging</li>
+        <li style="display:none;">Caching</li>
+        <li style="display:none;">Storage</li>
+        <li style="display:none;">Scrubber</li>
       </ul>
     </li>
 
@@ -310,6 +311,64 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
   <div class="bot"><span>Do you want sugar in your tea?</span></div>
   <div class="user"><span>No</span></div>
   <div class="bot"><span>Healthy option</span></div>
+</div>
+
+<h2 id="default-parameter-value">Default parameter value</h2>
+
+<p>If a parameter wasn’t found in the text instead of setting the value of the parameter to <code class="highlighter-rouge">null</code> it will be set to the <code class="highlighter-rouge">default</code> value in the parameter option.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">FlipCoinIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'flip coin'</span><span class="p">,</span>
+      <span class="s1">'toss coin'</span><span class="p">,</span>
+      <span class="s1">'coin toss'</span><span class="p">,</span>
+      <span class="s1">'flip penny'</span><span class="p">,</span>
+      <span class="s1">'flip pennies'</span><span class="p">,</span>
+      <span class="s1">'throw coin'</span>
+    <span class="p">]);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'flips'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="s2">"Flips"</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="s1">'App.Common.Entity.Number'</span><span class="p">,</span>
+      <span class="na">required</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="na">default</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">results</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">let</span> <span class="nx">flips</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'flips'</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">flips</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">flips</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">ii</span> <span class="o">&lt;</span> <span class="nx">flips</span><span class="p">;</span> <span class="nx">ii</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">flip</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">flip</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">'Heads'</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">flip</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">'Tails'</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="nx">results</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">', '</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nx">output</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>Flip a coin</span></div>
+  <div class="bot"><span>Heads</span></div>
+  <div class="user"><span>Flip 5 pennies</span></div>
+  <div class="bot"><span>Heads, Tails, Heads, Tails, Tails</span></div>
 </div>
 
 <h2 id="slot-filling">Slot Filling</h2>
