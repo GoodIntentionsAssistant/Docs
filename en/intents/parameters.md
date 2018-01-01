@@ -45,8 +45,6 @@ module.exports = class OrderIntent extends Intent {
 }
 ~~~
 
-Example input and output
-
 <div class="chat" markdown="0">
   <div class="user"><span>Order food</span></div>
   <div class="bot"><span>Pizza, burger or fries?</span></div>
@@ -73,39 +71,62 @@ Parameter options can be loaded from an entity using the `entity` key.
 Please read the guide on creating entities before using entities inside intents.
 
 ~~~javascript
-module.exports = class AnimalIntent extends Intent {
+module.exports = class RandomNumberIntent extends Intent {
 
-	setup() {
-		this.train([
-			'cat','dog'
-		]);
+  setup() {
+    this.train([
+      'random number'
+    ]);
 
-		this.parameter('choice', {
-			name: "Choice",
-			entity: "App.Example.Entity.Animal"
-		});
-	}
+    this.parameter('number', {
+      name: "Number",
+      entity: "App.Common.Entity.Number",
+      required: false
+    });
 
-	response(request) {
-		let choice = request.parameters.value('choice');
+    this.parameter('number_to', {
+      name: "Number To",
+      entity: "App.Common.Entity.Number",
+      required: false
+    });
+  }
 
-		if(choice) {
-			return 'You chose '+choice;
-		}
-		else {
-			return 'Dog or cat?';
-		}
-	}
+
+  response(request) {
+    let number = request.parameters.value('number');
+    let number_to = request.parameters.value('number_to');
+    let result;
+    
+    if(number && number_to) {
+      result = _.random(parseInt(number), parseInt(number_to));
+    }
+    else if(number) {
+      result = _.random(0, parseInt(number));
+    }
+    else {
+      result = _.random(1, 100);
+    }
+
+    return 'The random number is '+result;
+  }
 
 }
 ~~~
 
+<div class="chat" markdown="0">
+  <div class="user"><span>Random number</span></div>
+  <div class="bot"><span>The random number is 75</span></div>
+  <div class="user"><span>Random number up to 20</span></div>
+  <div class="bot"><span>The random number is 11</span></div>
+  <div class="user"><span>Random number between 5 and 10</span></div>
+  <div class="bot"><span>The random number is 6</span></div>
+</div>
+
+
 
 ## Redirection action
 
-In the previous examples the initial intent and the response go to the same method.
-
-By defining the action in `parameter` if the parameter is filled it will use a different method.
+If a parameter has been filled the `action` key will set the method that the intent will call instead of the default response method.
 
 ~~~javascript
 module.exports = class TeaIntent extends Intent {

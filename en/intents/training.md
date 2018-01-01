@@ -82,29 +82,33 @@ See the Entity documentation for more information on ways to store data.
 
 
 
-## Classifiers
+## Classifier collections
 
-When training GI the default classifier is using NLP to match the user input to an intent.
+When training GI the `default` collection will use the NLP classifier to match the user input to an intent.
 
-Triggers and symnomns train the default classifier. To change the classifer change it as an option when using the `train()` method.
+Triggers and symnomns train the default collection. To change the collection change it as an option when using the `train()` method.
 
 
 ~~~javascript
-//Default NLP classifier
+//Default NLP collection
 this.train(['kiss me'], { classifier: 'default' });
 
-//Use the strict classifier
+//Use the strict collection
 this.train(['kiss me'], { classifier: 'strict' });
 
 //If nothing is found in default or strict then try the fall back
 this.train(['kiss me'], { classifier: 'fallback' });
 ~~~
 
-## Strict classifier
 
-When the user input is received by the app the strict classifier will be checked for matches before the NLP classifier. This is useful when you're expecting exact input or input which can be matched with regular expressions. If a match is made the NLP classifier is not checked.
 
-Adding a strict match for `kiss me` means the user will always go to that intent and the NLP default classifier is not checked.
+## Strict collection
+
+When the user input is received by the app the strict collection will be checked for matches before the NLP collection. This is useful when you're expecting exact input or input which can be matched with regular expressions.
+
+If the strict collection makes a match the default NLP collection is not checked.
+
+Adding a strict match for `kiss me` means the user will always go to that intent and the NLP default collection is not checked.
 
 Case is ignored.
 
@@ -168,6 +172,25 @@ this.train([
 </div>
 
 
+The classifier collection will be automatically set to `strict` when using the `RegExp` method in the `train()` method so it's possible to mix NLP and strict collections.
+
+~~~javascript
+this.train([
+  'roll',
+  'rolling',
+  'dice',
+  new RegExp(/^(\d+)?d((\d+)([+-]\d+)?)?$/,'g')
+]);
+~~~
+
+
+<div class="chat" markdown="0">
+  <div class="user"><span>roll a dice</span></div>
+  <div class="bot"><span>Rolled 2</span></div>
+
+  <div class="user"><span>6d2</span></div>
+  <div class="bot"><span>Rolled 8</span></div>
+</div>
 
 
 ## Fallback classifier

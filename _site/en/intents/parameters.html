@@ -172,8 +172,6 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 </code></pre>
 </div>
 
-<p>Example input and output</p>
-
 <div class="chat">
   <div class="user"><span>Order food</span></div>
   <div class="bot"><span>Pizza, burger or fries?</span></div>
@@ -234,39 +232,61 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 
 <p>Please read the guide on creating entities before using entities inside intents.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">AnimalIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">RandomNumberIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
-	<span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-		<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-			<span class="s1">'cat'</span><span class="p">,</span><span class="s1">'dog'</span>
-		<span class="p">]);</span>
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'random number'</span>
+    <span class="p">]);</span>
 
-		<span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">,</span> <span class="p">{</span>
-			<span class="na">name</span><span class="p">:</span> <span class="s2">"Choice"</span><span class="p">,</span>
-			<span class="na">entity</span><span class="p">:</span> <span class="s2">"App.Example.Entity.Animal"</span>
-		<span class="p">});</span>
-	<span class="p">}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'number'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="s2">"Number"</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="s2">"App.Common.Entity.Number"</span><span class="p">,</span>
+      <span class="na">required</span><span class="p">:</span> <span class="kc">false</span>
+    <span class="p">});</span>
 
-	<span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-		<span class="kd">let</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'number_to'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="s2">"Number To"</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="s2">"App.Common.Entity.Number"</span><span class="p">,</span>
+      <span class="na">required</span><span class="p">:</span> <span class="kc">false</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
 
-		<span class="k">if</span><span class="p">(</span><span class="nx">choice</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">return</span> <span class="s1">'You chose '</span><span class="o">+</span><span class="nx">choice</span><span class="p">;</span>
-		<span class="p">}</span>
-		<span class="k">else</span> <span class="p">{</span>
-			<span class="k">return</span> <span class="s1">'Dog or cat?'</span><span class="p">;</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">number</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'number'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">number_to</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'number_to'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">result</span><span class="p">;</span>
+    
+    <span class="k">if</span><span class="p">(</span><span class="nx">number</span> <span class="o">&amp;&amp;</span> <span class="nx">number_to</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">result</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">number</span><span class="p">),</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">number_to</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">result</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">number</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">result</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="s1">'The random number is '</span><span class="o">+</span><span class="nx">result</span><span class="p">;</span>
+  <span class="p">}</span>
 
 <span class="p">}</span>
 </code></pre>
 </div>
 
+<div class="chat">
+  <div class="user"><span>Random number</span></div>
+  <div class="bot"><span>The random number is 75</span></div>
+  <div class="user"><span>Random number up to 20</span></div>
+  <div class="bot"><span>The random number is 11</span></div>
+  <div class="user"><span>Random number between 5 and 10</span></div>
+  <div class="bot"><span>The random number is 6</span></div>
+</div>
+
 <h2 id="redirection-action">Redirection action</h2>
 
-<p>In the previous examples the initial intent and the response go to the same method.</p>
-
-<p>By defining the action in <code class="highlighter-rouge">parameter</code> if the parameter is filled it will use a different method.</p>
+<p>If a parameter has been filled the <code class="highlighter-rouge">action</code> key will set the method that the intent will call instead of the default response method.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">TeaIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 

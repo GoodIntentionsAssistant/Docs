@@ -207,16 +207,16 @@
   <div class="bot"><span>I don't understand</span></div>
 </div>
 
-<h2 id="classifiers">Classifiers</h2>
+<h2 id="classifier-collections">Classifier collections</h2>
 
-<p>When training GI the default classifier is using NLP to match the user input to an intent.</p>
+<p>When training GI the <code class="highlighter-rouge">default</code> collection will use the NLP classifier to match the user input to an intent.</p>
 
-<p>Triggers and symnomns train the default classifier. To change the classifer change it as an option when using the <code class="highlighter-rouge">train()</code> method.</p>
+<p>Triggers and symnomns train the default collection. To change the collection change it as an option when using the <code class="highlighter-rouge">train()</code> method.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//Default NLP classifier</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//Default NLP collection</span>
 <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'kiss me'</span><span class="p">],</span> <span class="p">{</span> <span class="na">classifier</span><span class="p">:</span> <span class="s1">'default'</span> <span class="p">});</span>
 
-<span class="c1">//Use the strict classifier</span>
+<span class="c1">//Use the strict collection</span>
 <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'kiss me'</span><span class="p">],</span> <span class="p">{</span> <span class="na">classifier</span><span class="p">:</span> <span class="s1">'strict'</span> <span class="p">});</span>
 
 <span class="c1">//If nothing is found in default or strict then try the fall back</span>
@@ -224,11 +224,13 @@
 </code></pre>
 </div>
 
-<h2 id="strict-classifier">Strict classifier</h2>
+<h2 id="strict-collection">Strict collection</h2>
 
-<p>When the user input is received by the app the strict classifier will be checked for matches before the NLP classifier. This is useful when you’re expecting exact input or input which can be matched with regular expressions. If a match is made the NLP classifier is not checked.</p>
+<p>When the user input is received by the app the strict collection will be checked for matches before the NLP collection. This is useful when you’re expecting exact input or input which can be matched with regular expressions.</p>
 
-<p>Adding a strict match for <code class="highlighter-rouge">kiss me</code> means the user will always go to that intent and the NLP default classifier is not checked.</p>
+<p>If the strict collection makes a match the default NLP collection is not checked.</p>
+
+<p>Adding a strict match for <code class="highlighter-rouge">kiss me</code> means the user will always go to that intent and the NLP default collection is not checked.</p>
 
 <p>Case is ignored.</p>
 
@@ -287,6 +289,25 @@
 
   <div class="user"><span>24 + 54 + 68 - 34 * 9 / 8</span></div>
   <div class="bot"><span>107.75</span></div>
+</div>
+
+<p>The classifier collection will be automatically set to <code class="highlighter-rouge">strict</code> when using the <code class="highlighter-rouge">RegExp</code> method in the <code class="highlighter-rouge">train()</code> method so it’s possible to mix NLP and strict collections.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+  <span class="s1">'roll'</span><span class="p">,</span>
+  <span class="s1">'rolling'</span><span class="p">,</span>
+  <span class="s1">'dice'</span><span class="p">,</span>
+  <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^</span><span class="se">(\d</span><span class="sr">+</span><span class="se">)?</span><span class="sr">d</span><span class="se">((\d</span><span class="sr">+</span><span class="se">)([</span><span class="sr">+-</span><span class="se">]\d</span><span class="sr">+</span><span class="se">)?)?</span><span class="sr">$/</span><span class="p">,</span><span class="s1">'g'</span><span class="p">)</span>
+<span class="p">]);</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>roll a dice</span></div>
+  <div class="bot"><span>Rolled 2</span></div>
+
+  <div class="user"><span>6d2</span></div>
+  <div class="bot"><span>Rolled 8</span></div>
 </div>
 
 <h2 id="fallback-classifier">Fallback classifier</h2>
