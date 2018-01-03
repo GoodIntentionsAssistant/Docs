@@ -104,8 +104,8 @@ module.exports = class AskMeAgainIntent extends Intent {
   }
 
   response(request) {
-    request.attachment.add_action('Yes');
-    request.attachment.add_action('No');
+    request.attachment('action','Yes');
+    request.attachment('action','No');
 
     request.expecting.set({
       action: 'chosen',
@@ -153,7 +153,7 @@ module.exports = class AskMeAgainIntent extends Intent {
 Used for showing buttons to a user.
 
 ~~~javascript
-request.attachment.add_image('https://picsum.photos/300/300/?random');
+request.attachment('image','https://picsum.photos/300/300/?random');
 ~~~
 
 <div class="chat" markdown="0">

@@ -228,8 +228,8 @@
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">.</span><span class="nx">add_action</span><span class="p">(</span><span class="s1">'Yes'</span><span class="p">);</span>
-    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">.</span><span class="nx">add_action</span><span class="p">(</span><span class="s1">'No'</span><span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'action'</span><span class="p">,</span><span class="s1">'Yes'</span><span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'action'</span><span class="p">,</span><span class="s1">'No'</span><span class="p">);</span>
 
     <span class="nx">request</span><span class="p">.</span><span class="nx">expecting</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span>
       <span class="na">action</span><span class="p">:</span> <span class="s1">'chosen'</span><span class="p">,</span>
@@ -275,7 +275,7 @@
 
 <p>Used for showing buttons to a user.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">.</span><span class="nx">add_image</span><span class="p">(</span><span class="s1">'https://picsum.photos/300/300/?random'</span><span class="p">);</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'image'</span><span class="p">,</span><span class="s1">'https://picsum.photos/300/300/?random'</span><span class="p">);</span>
 </code></pre>
 </div>
 
