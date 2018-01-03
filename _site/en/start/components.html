@@ -83,15 +83,17 @@
         <li><a href="/en/intents/expects">Expects</a></li>
         <li><a href="/en/intents/redirect">Redirecting</a></li>
         <li><a href="/en/intents/fallback">Fallbacks</a></li>
+        <li><a href="/en/intents/callback">Callbacks</a></li>
       </ul>
     </li>
 
     <li><a href="/en/entities/">Entities</a>
       <ul style="display:none;">
         <li><a href="/en/entities/data">Entity data</a></li>
-        <li><a href="/en/entities/entity_load_json">Loading from JSON</a></li>
-        <li><a href="/en/entities/entity_load_csv">Loading from CSV</a></li>
-        <li><a href="/en/entities/entity_load_custom">Loading custom data</a></li>
+        <li><a href="/en/entities/entity_load_json">Data from JSON</a></li>
+        <li><a href="/en/entities/entity_load_csv">Data from CSV</a></li>
+        <li><a href="/en/entities/entity_load_custom">Custom data</a></li>
+        <li><a href="/en/entities/entity_object">Fetch entity object</a></li>
         <li>Parsing for parameters</li>
       </ul>
     </li>
@@ -101,6 +103,7 @@
         <li><a href="/en/app/errors">Errors</a></li>
         <li style="display:none;">Server</li>
         <li style="display:none;">Clients</li>
+        <li style="display:none;">Identifier</li>
         <li style="display:none;">Training</li>
         <li style="display:none;"><a href="/en/app/queue">Queue + flood protection</a></li>
         <li style="display:none;"><a href="/en/app/requests">Requests</a></li>
@@ -140,23 +143,26 @@
 <h5 id="intent">Intent</h5>
 <p>Business logic for the users input</p>
 
-<h5 id="clients">Clients</h5>
-<p>The interface between the framework and the end-point</p>
+<h5 id="client">Client</h5>
+<p>The interface between GI and the end-point, e.g. Facebook Messenger</p>
 
-<h5 id="parameters">Parameters</h5>
-<p>Parses user input with entity data</p>
+<h5 id="parameter">Parameter</h5>
+<p>Parsed user input with entity data</p>
+
+<h5 id="understand">Understand</h5>
+<p>Matching user input to an intent using trained data</p>
 
 <h5 id="train">Train</h5>
-<p>Matching user input to an intent</p>
-
-<h5 id="queue">Queue</h5>
-<p>Queue user input requests for memory and flood protection</p>
+<p>Intents train classifier collections for Understand</p>
 
 <h5 id="request">Request</h5>
 <p>Handles the user input, finding which intent to use and calling the intent</p>
 
-<h5 id="auth-and-session">Auth and Session</h5>
-<p>Identfying and storing information for people who use the bot</p>
+<h5 id="attachment">Attachment</h5>
+<p>Additional meta information send to the client such as buttons and cards</p>
+
+<h5 id="event">Event</h5>
+<p>An event that happens within GI core and can be listened to</p>
 
   </div>
 

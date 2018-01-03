@@ -133,7 +133,7 @@ module.exports = class TeaIntent extends Intent {
 
   setup() {
     this.train([
-    'tea'
+      'tea'
     ]);
 
     this.parameter('choice', {

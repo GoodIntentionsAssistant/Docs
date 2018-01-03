@@ -91,13 +91,13 @@ Triggers and symnomns train the default collection. To change the collection cha
 
 ~~~javascript
 //Default NLP collection
-this.train(['kiss me'], { classifier: 'default' });
+this.train(['kiss me'], { collection: 'default' });
 
 //Use the strict collection
-this.train(['kiss me'], { classifier: 'strict' });
+this.train(['kiss me'], { collection: 'strict' });
 
 //If nothing is found in default or strict then try the fall back
-this.train(['kiss me'], { classifier: 'fallback' });
+this.train(['kiss me'], { collection: 'fallback' });
 ~~~
 
 
@@ -118,7 +118,7 @@ module.exports = class KissMeIntent extends Intent {
 
   setup() {
     this.train(['kiss me'], {
-      classifier: 'strict'
+      collection: 'strict'
     });
   }
 
@@ -141,7 +141,7 @@ module.exports = class KissMeIntent extends Intent {
 
 ## Regular expression training
 
-Regular expressions can be added to the training for matching. These will be added to the strict classifier for checking before the default NLP checking.
+Regular expressions can be added to the training for matching. These will be added to the strict collection for checking before the NLP collection checking.
 
 It's not really recommended to use regular expressions because an extact match is required but it can be useful for a calculator intent.
 

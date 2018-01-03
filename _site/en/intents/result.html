@@ -83,15 +83,17 @@
         <li><a href="/en/intents/expects">Expects</a></li>
         <li><a href="/en/intents/redirect">Redirecting</a></li>
         <li><a href="/en/intents/fallback">Fallbacks</a></li>
+        <li><a href="/en/intents/callback">Callbacks</a></li>
       </ul>
     </li>
 
     <li><a href="/en/entities/">Entities</a>
       <ul style="display:none;">
         <li><a href="/en/entities/data">Entity data</a></li>
-        <li><a href="/en/entities/entity_load_json">Loading from JSON</a></li>
-        <li><a href="/en/entities/entity_load_csv">Loading from CSV</a></li>
-        <li><a href="/en/entities/entity_load_custom">Loading custom data</a></li>
+        <li><a href="/en/entities/entity_load_json">Data from JSON</a></li>
+        <li><a href="/en/entities/entity_load_csv">Data from CSV</a></li>
+        <li><a href="/en/entities/entity_load_custom">Custom data</a></li>
+        <li><a href="/en/entities/entity_object">Fetch entity object</a></li>
         <li>Parsing for parameters</li>
       </ul>
     </li>
@@ -101,6 +103,7 @@
         <li><a href="/en/app/errors">Errors</a></li>
         <li style="display:none;">Server</li>
         <li style="display:none;">Clients</li>
+        <li style="display:none;">Identifier</li>
         <li style="display:none;">Training</li>
         <li style="display:none;"><a href="/en/app/queue">Queue + flood protection</a></li>
         <li style="display:none;"><a href="/en/app/requests">Requests</a></li>
@@ -144,7 +147,7 @@
       <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^repeat/</span><span class="p">,</span><span class="s1">'i'</span><span class="p">),</span>
       <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^say/</span><span class="p">,</span><span class="s1">'i'</span><span class="p">)</span>
     <span class="p">],</span> <span class="p">{</span>
-      <span class="na">classifier</span><span class="p">:</span> <span class="s1">'strict'</span>
+      <span class="na">collection</span><span class="p">:</span> <span class="s1">'strict'</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
@@ -196,6 +199,41 @@
   <div class="bot"><span>Hey!</span></div>
   <div class="bot"><span>Very nice to meet you</span></div>
   <div class="bot"><span>Let me know if you need any help</span></div>
+</div>
+
+<h2 id="returning-a-random-response">Returning a random response</h2>
+
+<p>Your intent can use the <code class="highlighter-rouge">_.sample()</code> method from the <a href="http://underscorejs.org/">Underscore.js</a> library to return random responses.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'underscore'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">DoingIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'doing'</span><span class="p">,</span>
+      <span class="s1">'up to'</span><span class="p">,</span>
+      <span class="s1">'going on'</span><span class="p">,</span>
+      <span class="s1">'sup'</span>
+    <span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">choices</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="s2">"Helping as many people as I can and entertaining them with cat facts!"</span><span class="p">,</span>
+      <span class="s2">"Calculations, currency and checking the time in different countries"</span><span class="p">,</span>
+      <span class="s2">"Browsing tech sites and trying to figure out what I\'ll be doing in 10 years time"</span>
+    <span class="p">];</span>
+    <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">sample</span><span class="p">(</span><span class="nx">choices</span><span class="p">);</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>What are you doing?</span></div>
+  <div class="bot"><span>Calculations, currency and checking the time in different countries</span></div>
 </div>
 
 <h2 id="delaying-a-response">Delaying a response</h2>

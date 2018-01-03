@@ -18,15 +18,17 @@ Typical directory structure.
 
 The skill file must match the directory name using lower case and underscore format.
 
+For the skill to load it must be added to your `config` file.
+
 ## Skill file
 
 ~~~javascript
 module.exports = class ExampleMenuSkill extends Skill {
 
-	constructor(app) {
-		super(app);
-		this.intents = [];
-	}
+  constructor(app) {
+    super(app);
+    this.intents = [];
+  }
 
 }
 ~~~
@@ -48,3 +50,16 @@ To just load the Order2 intent you would set the intents array to be...
 ~~~javascript
 this.intents = ['Order2'];
 ~~~
+
+
+
+## Enabling the skill
+
+In `app/Config/config.js` add the skill to the `config.skills` array then restart the GI server.
+
+The GI Cli will load the intents and all of the entities within the skill.
+
+
+
+
+

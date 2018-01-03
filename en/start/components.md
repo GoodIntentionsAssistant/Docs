@@ -12,20 +12,23 @@ Data source for training the system and parsing parameters from user input
 ##### Intent
 Business logic for the users input
 
-##### Clients
-The interface between the framework and the end-point
+##### Client
+The interface between GI and the end-point, e.g. Facebook Messenger
 
-##### Parameters
-Parses user input with entity data
+##### Parameter
+Parsed user input with entity data
+
+##### Understand
+Matching user input to an intent using trained data
 
 ##### Train
-Matching user input to an intent
-
-##### Queue
-Queue user input requests for memory and flood protection
+Intents train classifier collections for Understand
 
 ##### Request
 Handles the user input, finding which intent to use and calling the intent
 
-##### Auth and Session
-Identfying and storing information for people who use the bot
+##### Attachment
+Additional meta information send to the client such as buttons and cards
+
+##### Event
+An event that happens within GI core and can be listened to

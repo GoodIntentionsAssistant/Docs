@@ -83,15 +83,17 @@
         <li><a href="/en/intents/expects">Expects</a></li>
         <li><a href="/en/intents/redirect">Redirecting</a></li>
         <li><a href="/en/intents/fallback">Fallbacks</a></li>
+        <li><a href="/en/intents/callback">Callbacks</a></li>
       </ul>
     </li>
 
     <li><a href="/en/entities/">Entities</a>
       <ul style="display:none;">
         <li><a href="/en/entities/data">Entity data</a></li>
-        <li><a href="/en/entities/entity_load_json">Loading from JSON</a></li>
-        <li><a href="/en/entities/entity_load_csv">Loading from CSV</a></li>
-        <li><a href="/en/entities/entity_load_custom">Loading custom data</a></li>
+        <li><a href="/en/entities/entity_load_json">Data from JSON</a></li>
+        <li><a href="/en/entities/entity_load_csv">Data from CSV</a></li>
+        <li><a href="/en/entities/entity_load_custom">Custom data</a></li>
+        <li><a href="/en/entities/entity_object">Fetch entity object</a></li>
         <li>Parsing for parameters</li>
       </ul>
     </li>
@@ -101,6 +103,7 @@
         <li><a href="/en/app/errors">Errors</a></li>
         <li style="display:none;">Server</li>
         <li style="display:none;">Clients</li>
+        <li style="display:none;">Identifier</li>
         <li style="display:none;">Training</li>
         <li style="display:none;"><a href="/en/app/queue">Queue + flood protection</a></li>
         <li style="display:none;"><a href="/en/app/requests">Requests</a></li>
@@ -214,13 +217,13 @@
 <p>Triggers and symnomns train the default collection. To change the collection change it as an option when using the <code class="highlighter-rouge">train()</code> method.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//Default NLP collection</span>
-<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'kiss me'</span><span class="p">],</span> <span class="p">{</span> <span class="na">classifier</span><span class="p">:</span> <span class="s1">'default'</span> <span class="p">});</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'kiss me'</span><span class="p">],</span> <span class="p">{</span> <span class="na">collection</span><span class="p">:</span> <span class="s1">'default'</span> <span class="p">});</span>
 
 <span class="c1">//Use the strict collection</span>
-<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'kiss me'</span><span class="p">],</span> <span class="p">{</span> <span class="na">classifier</span><span class="p">:</span> <span class="s1">'strict'</span> <span class="p">});</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'kiss me'</span><span class="p">],</span> <span class="p">{</span> <span class="na">collection</span><span class="p">:</span> <span class="s1">'strict'</span> <span class="p">});</span>
 
 <span class="c1">//If nothing is found in default or strict then try the fall back</span>
-<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'kiss me'</span><span class="p">],</span> <span class="p">{</span> <span class="na">classifier</span><span class="p">:</span> <span class="s1">'fallback'</span> <span class="p">});</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'kiss me'</span><span class="p">],</span> <span class="p">{</span> <span class="na">collection</span><span class="p">:</span> <span class="s1">'fallback'</span> <span class="p">});</span>
 </code></pre>
 </div>
 
@@ -239,7 +242,7 @@
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'kiss me'</span><span class="p">],</span> <span class="p">{</span>
-      <span class="na">classifier</span><span class="p">:</span> <span class="s1">'strict'</span>
+      <span class="na">collection</span><span class="p">:</span> <span class="s1">'strict'</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
@@ -262,7 +265,7 @@
 
 <h2 id="regular-expression-training">Regular expression training</h2>
 
-<p>Regular expressions can be added to the training for matching. These will be added to the strict classifier for checking before the default NLP checking.</p>
+<p>Regular expressions can be added to the training for matching. These will be added to the strict collection for checking before the NLP collection checking.</p>
 
 <p>It’s not really recommended to use regular expressions because an extact match is required but it can be useful for a calculator intent.</p>
 

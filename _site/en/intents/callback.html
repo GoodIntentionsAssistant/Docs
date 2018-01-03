@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Clients</title>
+  <title>Intent callbacks</title>
   <meta name="description" content="Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/en/clients/">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/en/intents/callback.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -130,20 +130,106 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Clients</h1>
+    <h1 class="post-title">Intent callbacks</h1>
   </header>
 
   <div class="post-content">
-    <p>Clients act as middleware between the server and the service it will connect to.</p>
+    <p>There are two call backs that can be used within intents.</p>
 
-<p>Clients could include interfaces to Facebook, Line, Hipchat, Slack, IRC and any other type of chat interface. These clients must be written by a developer to make GI useful. We hope to provide packaged clients with GI after the first stable release.</p>
+<p>Both callbacks are synchronous, do not use Promises in these methods.</p>
 
-<h2 id="cli-test-client">CLI Test Client</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">GuessNumberIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
-<p>GI provides a CLI test client found in <code class="highlighter-rouge">clients/cli.js</code>.</p>
+  <span class="nx">before_request</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">}</span>
 
-<p>Load the server and then load the client. The client will identify with the server with the client token (stored in your config.js file) and the server will generate a session_token for all requests. You can then type in any command to test the app.</p>
+  <span class="nx">after_request</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">}</span>
 
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="after-request-trap-example">After request trap example</h2>
+
+<p>This method can be useful to “trap” a user within an intent.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">GuessNumberIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'guess number game'</span>
+    <span class="p">]);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'guess'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="s2">"Number"</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="s2">"App.Common.Entity.Number"</span><span class="p">,</span>
+      <span class="na">required</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="na">action</span><span class="p">:</span> <span class="s1">'guess'</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">after_request</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//Dont set expecting if the number has been reset</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">request</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="s1">'guess_number'</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">expecting</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="s1">'App.Common.Entity.Number'</span><span class="p">,</span>
+      <span class="na">fail</span><span class="p">:</span> <span class="s1">'invalid'</span><span class="p">,</span>
+      <span class="na">force</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">number</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'guess_number'</span><span class="p">,</span> <span class="nx">number</span><span class="p">);</span>
+    <span class="k">return</span> <span class="s1">'Ok, I am thinking of a number between 1 and 100. Guess my number!'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">invalid</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'You must type in a number between 1 and 100'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">guess</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">number</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'guess_number'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">guess</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'guess'</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">guess</span> <span class="o">==</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">request</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'guess_number'</span><span class="p">);</span>
+      <span class="k">return</span> <span class="s1">'Well done, my number was '</span><span class="o">+</span><span class="nx">number</span><span class="o">+</span><span class="s1">'!'</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">guess</span> <span class="o">&lt;</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s1">'Higher!'</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">guess</span> <span class="o">&gt;</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s1">'Lower!'</span>
+    <span class="p">}</span>
+
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>guess number game</span></div>
+  <div class="bot"><span>Ok, I am thinking of a number between 1 and 100. Guess my number!</span></div>
+
+  <div class="user"><span>banana</span></div>
+  <div class="bot"><span>You must type in a number between 1 and 100</span></div>
+
+  <div class="user"><span>10</span></div>
+  <div class="bot"><span>Higher!</span></div>
+
+  <div class="user"><span>32</span></div>
+  <div class="bot"><span>Lower!</span></div>
+
+  <div class="user"><span>28</span></div>
+  <div class="bot"><span>Well done, my number was 34!</span></div>
+</div>
 
   </div>
 

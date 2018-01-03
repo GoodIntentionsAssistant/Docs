@@ -3,23 +3,47 @@ layout: page
 title: Intent Attachments
 ---
 
-The response from the intent can hold additional meta data such as options, images and smaller detail making messages more interactive.
+The response from the intent can hold additional meta data such as action buttons, images and field data making messages more interactive.
 
-For example you could return two action attachments "Yes" and "No" which could be passed to Facebook to show two buttons with the message.
+An intent can return two action attachments "Yes" and "No" which could be passed to Facebook to show two buttons with the message.
 
 ~~~javascript
-request.attachment.add_action('Yes');
-request.attachment.add_action('No');
+request.attachment('action', 'Yes');
+request.attachment('action', 'No');
 ~~~
+
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Cheese</span></div>
+  <div class="bot"><span>Do you like cheese?</span></div>
+  <div class="attachment attachment-buttons">
+    <span>Yes</span>
+    <span>No</span>
+  </div>
+</div>
+
 
 
 Supported attachment types are currently:
 
-* Actions - Used for options to show the user
-* Images - Send image URL's to be displayed
-* Fields - Additional small information, e.g. citation
-* Links - A list of links
-* Input - Possibility to hide the user input and only give them actions to choose from
+* `action` - Button options to show the user
+* `image` - Send image URL's to be displayed
+* `field` - Additional small information, e.g. citation
+
+
+## Enabling attachments
+
+Attachments are found in `/src/Attachment/`
+
+For an attachment to work they must be enabled in your `config.js` file and the server must be restarted.
+
+~~~javascript
+config.attachments = [
+  'Sys.Attachment.Image',
+  'Sys.Attachment.Action',
+  'Sys.Attachment.Field'
+];
+~~~
 
 
 ## Client support
@@ -36,21 +60,23 @@ Attachments are used for meta data and has a strong interest in chat / virtual a
 We plan to expand GI into handling more types of attachments dynamically.
 
 
-## Actions
+## Action buttons
 
-Used for showing buttons to a user.
+Show option buttons to the user.
 
 ~~~javascript
-request.attachment.add_action('Yes');
-request.attachment.add_action('No');
+request.attachment('action', 'Rock');
+request.attachment('action', 'Paper');
+request.attachment('action', 'Scissors');
 ~~~
 
 <div class="chat" markdown="0">
-  <div class="user"><span>Cheese</span></div>
-  <div class="bot"><span>Do you like cheese?</span></div>
+  <div class="user"><span>Play rock paper scissors</span></div>
+  <div class="bot"><span>Rock, paper or scissors?</span></div>
   <div class="attachment attachment-buttons">
-    <span>Yes</span>
-    <span>No</span>
+    <span>Rock</span>
+    <span>Paper</span>
+    <span>Scissors</span>
   </div>
 </div>
 

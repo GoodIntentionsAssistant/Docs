@@ -83,15 +83,17 @@
         <li><a href="/en/intents/expects">Expects</a></li>
         <li><a href="/en/intents/redirect">Redirecting</a></li>
         <li><a href="/en/intents/fallback">Fallbacks</a></li>
+        <li><a href="/en/intents/callback">Callbacks</a></li>
       </ul>
     </li>
 
     <li><a href="/en/entities/">Entities</a>
       <ul style="display:none;">
         <li><a href="/en/entities/data">Entity data</a></li>
-        <li><a href="/en/entities/entity_load_json">Loading from JSON</a></li>
-        <li><a href="/en/entities/entity_load_csv">Loading from CSV</a></li>
-        <li><a href="/en/entities/entity_load_custom">Loading custom data</a></li>
+        <li><a href="/en/entities/entity_load_json">Data from JSON</a></li>
+        <li><a href="/en/entities/entity_load_csv">Data from CSV</a></li>
+        <li><a href="/en/entities/entity_load_custom">Custom data</a></li>
+        <li><a href="/en/entities/entity_object">Fetch entity object</a></li>
         <li>Parsing for parameters</li>
       </ul>
     </li>
@@ -101,6 +103,7 @@
         <li><a href="/en/app/errors">Errors</a></li>
         <li style="display:none;">Server</li>
         <li style="display:none;">Clients</li>
+        <li style="display:none;">Identifier</li>
         <li style="display:none;">Training</li>
         <li style="display:none;"><a href="/en/app/queue">Queue + flood protection</a></li>
         <li style="display:none;"><a href="/en/app/requests">Requests</a></li>
@@ -146,14 +149,16 @@
 
 <p>The skill file must match the directory name using lower case and underscore format.</p>
 
+<p>For the skill to load it must be added to your <code class="highlighter-rouge">config</code> file.</p>
+
 <h2 id="skill-file">Skill file</h2>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">ExampleMenuSkill</span> <span class="kr">extends</span> <span class="nx">Skill</span> <span class="p">{</span>
 
-	<span class="nx">constructor</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
-		<span class="kr">super</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
-		<span class="k">this</span><span class="p">.</span><span class="nx">intents</span> <span class="o">=</span> <span class="p">[];</span>
-	<span class="p">}</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">intents</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="p">}</span>
 
 <span class="p">}</span>
 </code></pre>
@@ -176,6 +181,13 @@
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">intents</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Order2'</span><span class="p">];</span>
 </code></pre>
 </div>
+
+<h2 id="enabling-the-skill">Enabling the skill</h2>
+
+<p>In <code class="highlighter-rouge">app/Config/config.js</code> add the skill to the <code class="highlighter-rouge">config.skills</code> array then restart the GI server.</p>
+
+<p>The GI Cli will load the intents and all of the entities within the skill.</p>
+
 
   </div>
 

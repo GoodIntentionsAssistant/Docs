@@ -83,15 +83,17 @@
         <li><a href="/en/intents/expects">Expects</a></li>
         <li><a href="/en/intents/redirect">Redirecting</a></li>
         <li><a href="/en/intents/fallback">Fallbacks</a></li>
+        <li><a href="/en/intents/callback">Callbacks</a></li>
       </ul>
     </li>
 
     <li><a href="/en/entities/">Entities</a>
       <ul style="display:none;">
         <li><a href="/en/entities/data">Entity data</a></li>
-        <li><a href="/en/entities/entity_load_json">Loading from JSON</a></li>
-        <li><a href="/en/entities/entity_load_csv">Loading from CSV</a></li>
-        <li><a href="/en/entities/entity_load_custom">Loading custom data</a></li>
+        <li><a href="/en/entities/entity_load_json">Data from JSON</a></li>
+        <li><a href="/en/entities/entity_load_csv">Data from CSV</a></li>
+        <li><a href="/en/entities/entity_load_custom">Custom data</a></li>
+        <li><a href="/en/entities/entity_object">Fetch entity object</a></li>
         <li>Parsing for parameters</li>
       </ul>
     </li>
@@ -101,6 +103,7 @@
         <li><a href="/en/app/errors">Errors</a></li>
         <li style="display:none;">Server</li>
         <li style="display:none;">Clients</li>
+        <li style="display:none;">Identifier</li>
         <li style="display:none;">Training</li>
         <li style="display:none;"><a href="/en/app/queue">Queue + flood protection</a></li>
         <li style="display:none;"><a href="/en/app/requests">Requests</a></li>
@@ -131,24 +134,45 @@
   </header>
 
   <div class="post-content">
-    <p>The response from the intent can hold additional meta data such as options, images and smaller detail making messages more interactive.</p>
+    <p>The response from the intent can hold additional meta data such as action buttons, images and field data making messages more interactive.</p>
 
-<p>For example you could return two action attachments “Yes” and “No” which could be passed to Facebook to show two buttons with the message.</p>
+<p>An intent can return two action attachments “Yes” and “No” which could be passed to Facebook to show two buttons with the message.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">.</span><span class="nx">add_action</span><span class="p">(</span><span class="s1">'Yes'</span><span class="p">);</span>
-<span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">.</span><span class="nx">add_action</span><span class="p">(</span><span class="s1">'No'</span><span class="p">);</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'action'</span><span class="p">,</span> <span class="s1">'Yes'</span><span class="p">);</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'action'</span><span class="p">,</span> <span class="s1">'No'</span><span class="p">);</span>
 </code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>Cheese</span></div>
+  <div class="bot"><span>Do you like cheese?</span></div>
+  <div class="attachment attachment-buttons">
+    <span>Yes</span>
+    <span>No</span>
+  </div>
 </div>
 
 <p>Supported attachment types are currently:</p>
 
 <ul>
-  <li>Actions - Used for options to show the user</li>
-  <li>Images - Send image URL’s to be displayed</li>
-  <li>Fields - Additional small information, e.g. citation</li>
-  <li>Links - A list of links</li>
-  <li>Input - Possibility to hide the user input and only give them actions to choose from</li>
+  <li><code class="highlighter-rouge">action</code> - Button options to show the user</li>
+  <li><code class="highlighter-rouge">image</code> - Send image URL’s to be displayed</li>
+  <li><code class="highlighter-rouge">field</code> - Additional small information, e.g. citation</li>
 </ul>
+
+<h2 id="enabling-attachments">Enabling attachments</h2>
+
+<p>Attachments are found in <code class="highlighter-rouge">/src/Attachment/</code></p>
+
+<p>For an attachment to work they must be enabled in your <code class="highlighter-rouge">config.js</code> file and the server must be restarted.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">attachments</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s1">'Sys.Attachment.Image'</span><span class="p">,</span>
+  <span class="s1">'Sys.Attachment.Action'</span><span class="p">,</span>
+  <span class="s1">'Sys.Attachment.Field'</span>
+<span class="p">];</span>
+</code></pre>
+</div>
 
 <h2 id="client-support">Client support</h2>
 
@@ -162,21 +186,23 @@
 
 <p>We plan to expand GI into handling more types of attachments dynamically.</p>
 
-<h2 id="actions">Actions</h2>
+<h2 id="action-buttons">Action buttons</h2>
 
-<p>Used for showing buttons to a user.</p>
+<p>Show option buttons to the user.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">.</span><span class="nx">add_action</span><span class="p">(</span><span class="s1">'Yes'</span><span class="p">);</span>
-<span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">.</span><span class="nx">add_action</span><span class="p">(</span><span class="s1">'No'</span><span class="p">);</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'action'</span><span class="p">,</span> <span class="s1">'Rock'</span><span class="p">);</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'action'</span><span class="p">,</span> <span class="s1">'Paper'</span><span class="p">);</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'action'</span><span class="p">,</span> <span class="s1">'Scissors'</span><span class="p">);</span>
 </code></pre>
 </div>
 
 <div class="chat">
-  <div class="user"><span>Cheese</span></div>
-  <div class="bot"><span>Do you like cheese?</span></div>
+  <div class="user"><span>Play rock paper scissors</span></div>
+  <div class="bot"><span>Rock, paper or scissors?</span></div>
   <div class="attachment attachment-buttons">
-    <span>Yes</span>
-    <span>No</span>
+    <span>Rock</span>
+    <span>Paper</span>
+    <span>Scissors</span>
   </div>
 </div>
 

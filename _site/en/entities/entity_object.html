@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Clients</title>
+  <title>Fetch entity object</title>
   <meta name="description" content="Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/en/clients/">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/en/entities/entity_object.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -130,20 +130,56 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Clients</h1>
+    <h1 class="post-title">Fetch entity object</h1>
   </header>
 
   <div class="post-content">
-    <p>Clients act as middleware between the server and the service it will connect to.</p>
+    <p>You can fetch a loaded entity object using the <code class="highlighter-rouge">EntityRegistry</code> which is available via the app using the object identifier.</p>
 
-<p>Clients could include interfaces to Facebook, Line, Hipchat, Slack, IRC and any other type of chat interface. These clients must be written by a developer to make GI useful. We hope to provide packaged clients with GI after the first stable release.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">entity</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">EntityRegistry</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'App.Common.Entity.Parting'</span><span class="p">);</span>
+</code></pre>
+</div>
 
-<h2 id="cli-test-client">CLI Test Client</h2>
+<h2 id="example-usage">Example usage</h2>
 
-<p>GI provides a CLI test client found in <code class="highlighter-rouge">clients/cli.js</code>.</p>
+<p>The parting intent fetches the <code class="highlighter-rouge">App.Common.Entity.Parting</code> entity data and takes a random sample / record for a response.</p>
 
-<p>Load the server and then load the client. The client will identify with the server with the client token (stored in your config.js file) and the server will generate a session_token for all requests. You can then type in any command to test the app.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">PartingIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'@App.Common.Entity.Parting'</span>
+    <span class="p">],</span> <span class="p">{</span>
+      <span class="na">classifier</span><span class="p">:</span> <span class="s1">'strict'</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">entity</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">EntityRegistry</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'App.Common.Entity.Parting'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">entity</span><span class="p">.</span><span class="nx">get_data</span><span class="p">();</span>
+
+    <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">sample</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="nx">output</span><span class="p">].</span><span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">output</span> <span class="o">=</span> <span class="nx">data</span><span class="p">[</span><span class="nx">output</span><span class="p">].</span><span class="nx">reply</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">output</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>Good bye</span></div>
+  <div class="bot"><span>Au revoir</span></div>
+  <div class="user"><span>Good bye</span></div>
+  <div class="bot"><span>So long</span></div>
+  <div class="user"><span>Ciao</span></div>
+  <div class="bot"><span>Good bye</span></div>
+</div>
 
   </div>
 
