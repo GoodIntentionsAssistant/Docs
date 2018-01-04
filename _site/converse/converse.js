@@ -218,13 +218,15 @@ class Converse {
 	}
 
 	response(data) {
-		console.log(data);
+		//console.log(data);
+
 		if(data.type == 'message') {
 			for(var ii=0; ii<data.messages.length; ii++) {
+				let msg = data.messages[ii];
 				let html = this.partial('message-in',{
-					text: data.messages[ii]
+					text: msg
 				});
-				this.speak(data.messages[ii]);
+				this.speak(msg);
 				this.history_add(html);
 			}
 		}

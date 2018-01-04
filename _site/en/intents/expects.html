@@ -209,6 +209,12 @@
       <td>If set to true what ever user input after will be directed to the same intent</td>
     </tr>
     <tr>
+      <td>fail</td>
+      <td>No</td>
+      <td>false</td>
+      <td>If forced is true and the input is not matched the action is changed to the value of fail</td>
+    </tr>
+    <tr>
       <td>save_answer</td>
       <td>No</td>
       <td>false</td>
@@ -218,7 +224,13 @@
       <td>entity</td>
       <td>No</td>
       <td>false</td>
-      <td>User input will be parsed to get entity data. The result if matched will be set to a parameter key called <code class="highlighter-rouge">expects</code></td>
+      <td>User input will be parsed to get entity data. The result if matched will be set to a parameter key called <code class="highlighter-rouge">expects</code>. If entity is not set then data must be passed.</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td>No</td>
+      <td>null</td>
+      <td>If instead of using entity data it’s possible to manually set the data to be checked</td>
     </tr>
   </tbody>
 </table>
@@ -272,9 +284,87 @@
   <div class="bot"><span>That is not a number</span></div>
 </div>
 
-<h2 id="force">Force</h2>
+<h2 id="force-with-fail-and-manual-data">Force with fail and manual data</h2>
 
-<p>Example to be written</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">FlowerMenuIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'flowers'</span>
+    <span class="p">]);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">menu</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="mi">1</span><span class="p">:</span> <span class="s1">'Order flowers'</span><span class="p">,</span>
+      <span class="mi">2</span><span class="p">:</span> <span class="s1">'Check your status'</span><span class="p">,</span>
+      <span class="mi">3</span><span class="p">:</span> <span class="s1">'Contact us'</span><span class="p">,</span>
+      <span class="mi">4</span><span class="p">:</span> <span class="s1">'Exit'</span>
+    <span class="p">};</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">stop</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">after_request</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">stop</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">expecting</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span>
+      <span class="na">force</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="na">action</span><span class="p">:</span> <span class="s1">'chosen'</span><span class="p">,</span>
+      <span class="na">fail</span><span class="p">:</span> <span class="s1">'incorrect'</span><span class="p">,</span>
+      <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"1"</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">"2"</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">"3"</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">"4"</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s2">"synonyms"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"exit"</span><span class="p">]</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">menu</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">output</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">key</span><span class="o">+</span><span class="s1">'. '</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">menu</span><span class="p">[</span><span class="nx">key</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">output</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">chosen</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">val</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'expects'</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">val</span> <span class="o">==</span> <span class="s1">'4'</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">stop</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+      <span class="k">return</span> <span class="s1">'Thanks for shopping with us!'</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="s1">'You chose "'</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">menu</span><span class="p">[</span><span class="nx">val</span><span class="p">]</span><span class="o">+</span><span class="s1">'"'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">incorrect</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'Sorry, there is no menu option '</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">input</span><span class="p">.</span><span class="nx">text</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>Flowers</span></div>
+  <div class="bot"><span>
+      1. Order flowers<br />
+      2. Check your status<br />
+      3. Contact us<br />
+      4. Exit
+  </span></div>
+  <div class="user"><span>6</span></div>
+  <div class="bot"><span>Sorry, there is no menu option 6</span></div>
+  <div class="user"><span>2</span></div>
+  <div class="bot"><span>You chose "Check your status"</span></div>
+  <div class="user"><span>4</span></div>
+  <div class="bot"><span>Thanks for shopping with us!</span></div>
+</div>
 
 <h2 id="save-answer">Save answer</h2>
 

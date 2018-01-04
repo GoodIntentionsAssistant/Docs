@@ -62,8 +62,11 @@ Key | Required | Default | Description
 --- | --- | --- | ---
 action | No | response | Action to use when the expected input has been matched
 force | No | false | If set to true what ever user input after will be directed to the same intent
+fail | No | false | If forced is true and the input is not matched the action is changed to the value of fail
 save_answer | No | false | If set to true the users input will be stored to their session and could be used for slotfilling
-entity | No | false | User input will be parsed to get entity data. The result if matched will be set to a parameter key called `expects`
+entity | No | false | User input will be parsed to get entity data. The result if matched will be set to a parameter key called `expects`. If entity is not set then data must be passed.
+data | No | null | If instead of using entity data it's possible to manually set the data to be checked
+
 
 
 ## Expects with an entity
@@ -116,9 +119,91 @@ module.exports = class FavoriteNumberIntent extends Intent {
 </div>
 
 
-## Force
 
-Example to be written
+
+## Force with fail and manual data
+
+~~~javascript
+module.exports = class FlowerMenuIntent extends Intent {
+
+  setup() {
+    this.train([
+      'flowers'
+    ]);
+
+    this.menu = {
+      1: 'Order flowers',
+      2: 'Check your status',
+      3: 'Contact us',
+      4: 'Exit'
+    };
+
+    this.stop = false;
+  }
+
+  after_request(request) {
+    if(this.stop) {
+      return false;
+    }
+
+    request.expecting.set({
+      force: true,
+      action: 'chosen',
+      fail: 'incorrect',
+      data: {
+        "1": {},
+        "2": {},
+        "3": {},
+        "4": {
+          "synonyms": ["exit"]
+        }
+      }
+    });
+  }
+
+  response(request) {
+    let output = [];
+    for(var key in this.menu) {
+      output.push(key+'. '+this.menu[key]);
+    }
+    return output;
+  }
+
+  chosen(request) {
+    let val = request.parameters.value('expects');
+
+    if(val == '4') {
+      this.stop = true;
+      return 'Thanks for shopping with us!';
+    }
+
+    return 'You chose "'+this.menu[val]+'"';
+  }
+
+  incorrect(request) {
+    return 'Sorry, there is no menu option ' + request.input.text;
+  }
+
+}
+~~~
+
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Flowers</span></div>
+  <div class="bot"><span>
+      1. Order flowers<br>
+      2. Check your status<br>
+      3. Contact us<br>
+      4. Exit
+  </span></div>
+  <div class="user"><span>6</span></div>
+  <div class="bot"><span>Sorry, there is no menu option 6</span></div>
+  <div class="user"><span>2</span></div>
+  <div class="bot"><span>You chose "Check your status"</span></div>
+  <div class="user"><span>4</span></div>
+  <div class="bot"><span>Thanks for shopping with us!</span></div>
+</div>
+
 
 
 
