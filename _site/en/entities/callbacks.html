@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Fetch entity object</title>
+  <title>Entity callbacks</title>
   <meta name="description" content="Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/en/entities/entity_object.html">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/en/entities/callbacks.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -131,56 +131,30 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Fetch entity object</h1>
+    <h1 class="post-title">Entity callbacks</h1>
   </header>
 
   <div class="post-content">
-    <p>You can fetch a loaded entity object using the <code class="highlighter-rouge">EntityRegistry</code> which is available via the app using the object identifier.</p>
+    <p>Both callbacks are synchronous, do not use Promises in these methods.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">entity</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">EntityRegistry</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'App.Common.Entity.Parting'</span><span class="p">);</span>
-</code></pre>
-</div>
+<p><code class="highlighter-rouge">after_load</code> can be useful to check if an entity has loaded in the data or to manipulate the data after its loaded.</p>
 
-<h2 id="example-usage">Example usage</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">CityEntity</span> <span class="kr">extends</span> <span class="nx">Entity</span> <span class="p">{</span>
 
-<p>The parting intent fetches the <code class="highlighter-rouge">App.Common.Entity.Parting</code> entity data and takes a random sample / record for a response.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">PartingIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
-
-  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="s1">'@App.Common.Entity.Parting'</span>
-    <span class="p">],</span> <span class="p">{</span>
-      <span class="na">classifier</span><span class="p">:</span> <span class="s1">'strict'</span>
-    <span class="p">});</span>
+  <span class="nx">before_load</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//Data will be empty</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
   <span class="p">}</span>
 
-  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">let</span> <span class="nx">entity</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">EntityRegistry</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'App.Common.Entity.Parting'</span><span class="p">);</span>
-    <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">entity</span><span class="p">.</span><span class="nx">get_data</span><span class="p">();</span>
-
-    <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">sample</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
-
-    <span class="k">if</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="nx">output</span><span class="p">].</span><span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">output</span> <span class="o">=</span> <span class="nx">data</span><span class="p">[</span><span class="nx">output</span><span class="p">].</span><span class="nx">reply</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="nx">output</span><span class="p">;</span>
+  <span class="nx">after_load</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//Data should be populated</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-
 </code></pre>
 </div>
 
-<div class="chat">
-  <div class="user"><span>Good bye</span></div>
-  <div class="bot"><span>Au revoir</span></div>
-  <div class="user"><span>Good bye</span></div>
-  <div class="bot"><span>So long</span></div>
-  <div class="user"><span>Ciao</span></div>
-  <div class="bot"><span>Good bye</span></div>
-</div>
 
   </div>
 
