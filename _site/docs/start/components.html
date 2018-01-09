@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Good Intentions Assistant Chatbot Framework</title>
+  <title>Key Components</title>
   <meta name="description" content="Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/start/components.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -20,7 +20,7 @@
 </head>
 
 
-  <body class="front">
+  <body class="docs">
 
     <header class="site-header">
 
@@ -45,29 +45,139 @@
 </header>
 
 
+    <div class="sub-header bar bar-primary">
+        <div class="wrapper sub">
+          <h2>Docs</h2>
+        </div>
+    </div>
+
     <div class="page-content">
-      
-<div class="bar bar-light bar-hero">
-  <div class="wrapper">
-    <h2>Good Intentions</h2>
-    <h4>Open Source Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.</h4>
+      <div class="wrapper">
+        <div class="side-nav">
+          
+<nav>
 
-    <p><a href="/docs" class="button">Read the Documentation</a></p>
+  <ul>
+    <li><a href="/docs/">Getting Started</a>
+      <ul style="display:none;">
+        <li><a href="/docs/start/installation">Installation</a></li>
+        <li><a href="/docs/start/configuration">Configuration</a></li>
+        <li><a href="/docs/start/development">Development Tips</a></li>
+        <li><a href="/docs/start/components">Key components</a></li>
+        <li><a href="/docs/start/contributing">Contributing</a></li>
+      </ul>
+    </li>
+
+    <li><a href="/docs/clients/">Clients</a>
+      <ul style="display:none;">
+        <li><a href="/docs/clients/authorizing">Authorizing</a></li>
+        <li><a href="/docs/clients/request">Request</a></li>
+        <li><a href="/docs/clients/response">Response</a></li>
+        <li><a href="/docs/clients/sdk">Client SDK</a></li>
+      </ul>
+
+    <li><a href="/docs/skills/">Skills</a>
+      <ul style="display:none;">
+        <li><a href="/docs/skills/create">Creating a skill</a></li>
+        <li>Events</li>
+      </ul>
+
+    <li><a href="/docs/intents/">Intents</a>
+      <ul style="display:none;">
+        <li><a href="/docs/intents/training">Training</a></li>
+        <li><a href="/docs/intents/parameters">Parameters</a></li>
+        <li><a href="/docs/intents/result">Returning result</a></li>
+        <li><a href="/docs/intents/attachments">Attachments</a></li>
+        <li><a href="/docs/intents/expects">Expects</a></li>
+        <li><a href="/docs/intents/redirect">Redirecting</a></li>
+        <li><a href="/docs/intents/fallback">Fallbacks</a></li>
+        <li><a href="/docs/intents/callback">Callbacks</a></li>
+      </ul>
+    </li>
+
+    <li><a href="/docs/entities/">Entities</a>
+      <ul style="display:none;">
+        <li><a href="/docs/entities/data">Entity data</a></li>
+        <li><a href="/docs/entities/entity_load_json">Data from JSON</a></li>
+        <li><a href="/docs/entities/entity_load_csv">Data from CSV</a></li>
+        <li><a href="/docs/entities/entity_load_custom">Custom data</a></li>
+        <li><a href="/docs/entities/entity_object">Fetch entity object</a></li>
+        <li><a href="/docs/entities/callbacks">Callbacks</a></li>
+        <li>Parsing for parameters</li>
+      </ul>
+    </li>
+
+    <li><a href="/docs/app/">App</a>
+      <ul style="display:none;">
+        <li><a href="/docs/app/errors">Errors</a></li>
+        <li style="display:none;">Server</li>
+        <li style="display:none;">Clients</li>
+        <li style="display:none;">Identifier</li>
+        <li style="display:none;">Training</li>
+        <li style="display:none;"><a href="/docs/app/queue">Queue + flood protection</a></li>
+        <li style="display:none;"><a href="/docs/app/requests">Requests</a></li>
+        <li style="display:none;">Data</li>
+        <li style="display:none;">Logging</li>
+        <li style="display:none;">Caching</li>
+        <li style="display:none;">Storage</li>
+        <li style="display:none;">Scrubber</li>
+      </ul>
+    </li>
+
+    <li><span>Conventions</span>
+      <ul style="display:none;">
+        <li>Code formatting</li>
+        <li>Code documentation</li>
+        <li>Unit tests</li>
+      </ul>
+    </li>
+  </ul>
+
+</nav>
+
+        </div>
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Key Components</h1>
+  </header>
+
+  <div class="post-content">
+    <h5 id="skill">Skill</h5>
+<p>A set of entities, intents and data sets</p>
+
+<h5 id="entity">Entity</h5>
+<p>Data source for training the system and parsing parameters from user input</p>
+
+<h5 id="intent">Intent</h5>
+<p>Business logic for the users input</p>
+
+<h5 id="client">Client</h5>
+<p>The interface between GI and the end-point, e.g. Facebook Messenger</p>
+
+<h5 id="parameter">Parameter</h5>
+<p>Parsed user input with entity data</p>
+
+<h5 id="understand">Understand</h5>
+<p>Matching user input to an intent using trained data</p>
+
+<h5 id="train">Train</h5>
+<p>Intents train classifier collections for Understand</p>
+
+<h5 id="request">Request</h5>
+<p>Handles the user input, finding which intent to use and calling the intent</p>
+
+<h5 id="attachment">Attachment</h5>
+<p>Additional meta information send to the client such as buttons and cards</p>
+
+<h5 id="event">Event</h5>
+<p>An event that happens within GI core and can be listened to</p>
+
   </div>
-</div>
 
-<div class="wrapper">
-  <p>GI is a rule based chatbot framework for Node.js using simple design patterns. Our goal is to provide a structured framework that enables developers to rapidly develop robust and reliable chatbots with full flexibility and a scalable architecture.</p>
+</article>
 
-  <p>It is very much experimental and in its infancy. We’re looking for the community to build, improve and provide feedback on the framework. This documentation is not fully complete so it is only recommended to use this framework if you’re prepared to dive into the code.</p>
-
-  <p>The framework comes with a collection of examples.</p>
-
-  <p>The bot server cannot just be run by itself, it requires clients to act as middleware.</p>
-
-  <p>The system has inspirations from Api.ai so some of their documentation found at <a href="https://docs.api.ai/">https://docs.api.ai/</a> can also be used to get an overview of some key components of this system.</p>
-</div>
-
+      </div>
     </div>
 
     <footer class="site-footer">

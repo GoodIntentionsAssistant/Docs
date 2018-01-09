@@ -218,7 +218,7 @@ class Converse {
 	}
 
 	response(data) {
-		//console.log(data);
+		console.log(data);
 
 		if(data.type == 'message') {
 			for(var ii=0; ii<data.messages.length; ii++) {

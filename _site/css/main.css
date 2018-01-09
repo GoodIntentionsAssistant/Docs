@@ -147,30 +147,58 @@ pre {
  */
 .site-header {
   position: relative; }
-  .site-header .site-title {
-    font-size: 22px;
-    font-family: Roboto,sans-serif;
-    font-weight: 400;
-    letter-spacing: -1px;
-    margin-bottom: 0;
-    color: #757575;
-    padding: 10px 0;
-    display: block;
-    margin-left: 40px; }
-    .site-header .site-title span {
-      font-weight: 100;
-      font-size: 0.8em; }
-  .site-header img {
-    float: left;
-    height: 30px;
-    padding-top: 10px; }
-  .site-header .wrapper-sub {
-    background: #216aff; }
-    .site-header .wrapper-sub h2 {
+  .site-header .logo {
+    float: left; }
+    .site-header .logo .site-title {
+      font-size: 22px;
       font-family: Roboto,sans-serif;
-      color: white;
+      font-weight: 400;
+      letter-spacing: -1px;
+      margin-bottom: 0;
+      color: #757575;
+      padding: 10px 0;
+      display: block;
+      margin-left: 40px; }
+      .site-header .logo .site-title span {
+        font-weight: 100;
+        font-size: 0.8em; }
+      .site-header .logo .site-title:hover {
+        text-decoration: none; }
+    .site-header .logo img {
+      float: left;
+      height: 30px;
+      padding-top: 10px; }
+  .site-header nav.main-nav {
+    float: left;
+    margin-left: 50px;
+    height: 53px; }
+    .site-header nav.main-nav ul {
       margin: 0;
-      padding: 30px 0; }
+      padding: 0;
+      list-style-type: none; }
+      .site-header nav.main-nav ul li {
+        margin: 0;
+        padding: 0;
+        float: left; }
+        .site-header nav.main-nav ul li span {
+          display: inline-block; }
+          .site-header nav.main-nav ul li span a {
+            font-family: Roboto,sans-serif;
+            color: #757575;
+            display: inline-block;
+            padding: 17px 20px 15px 20px;
+            font-size: 14px; }
+            .site-header nav.main-nav ul li span a:hover {
+              text-decoration: none;
+              color: black; }
+
+.sub-header {
+  position: relative; }
+  .sub-header h2 {
+    font-family: Roboto,sans-serif;
+    color: white;
+    margin: 0;
+    padding: 30px 0; }
 
 .site-nav {
   float: right;
@@ -357,6 +385,11 @@ table {
   .post-content li {
     margin-bottom: 0.4em; }
 
+body.front .page-content {
+  padding: 0; }
+body.front header.site-header {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.16); }
+
 /**
  * Syntax highlighting styles
  */
@@ -523,6 +556,35 @@ table {
 
 article.post {
   margin-left: 320px; }
+
+.bar.bar-light {
+  background: rgba(0, 0, 0, 0.06); }
+.bar.bar-primary {
+  background: #216aff; }
+.bar.bar-secondary {
+  background: #bd27ff; }
+.bar.bar-hero {
+  padding: 50px 0;
+  margin: 0 0 50px 0; }
+  .bar.bar-hero h2, .bar.bar-hero h4 {
+    font-family: Roboto,sans-serif;
+    color: #757575; }
+  .bar.bar-hero h2 {
+    font-size: 42px; }
+  .bar.bar-hero h4 {
+    font-size: 26px;
+    margin-bottom: 40px; }
+.bar .button {
+  font-family: Roboto,sans-serif;
+  font-size: 15px;
+  background: #216aff;
+  color: white;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.06), 4px 4px 8px rgba(0, 0, 0, 0.16); }
+  .bar .button:hover {
+    background-color: #1952c6;
+    text-decoration: none; }
 
 div.chat {
   width: 400px;
