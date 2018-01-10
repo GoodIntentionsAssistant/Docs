@@ -6,7 +6,7 @@
   }
 
   &.bar-primary {
-    background: #216aff;
+    background: $primary-colour;
   }
 
   &.bar-secondary {
@@ -28,21 +28,6 @@
     h4 {
       font-size:26px;
       margin-bottom:40px;
-    }
-  }
-
-  .button {
-    font-family:Roboto,sans-serif;
-    font-size:15px;
-    background: #216aff;
-    color:white;
-    padding:10px 20px;
-    text-transform: uppercase;
-    box-shadow:0 4px 4px rgba(0,0,0,.06), 4px 4px 8px rgba(0,0,0,.16);
-
-    &:hover {
-      background-color:#1952c6;
-      text-decoration:none;
     }
   }
 

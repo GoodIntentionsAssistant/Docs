@@ -389,6 +389,8 @@ body.front .page-content {
   padding: 0; }
 body.front header.site-header {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.16); }
+body.front .bar-hero a.button {
+  margin-right: 20px; }
 
 /**
  * Syntax highlighting styles
@@ -574,17 +576,6 @@ article.post {
   .bar.bar-hero h4 {
     font-size: 26px;
     margin-bottom: 40px; }
-.bar .button {
-  font-family: Roboto,sans-serif;
-  font-size: 15px;
-  background: #216aff;
-  color: white;
-  padding: 10px 20px;
-  text-transform: uppercase;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.06), 4px 4px 8px rgba(0, 0, 0, 0.16); }
-  .bar .button:hover {
-    background-color: #1952c6;
-    text-decoration: none; }
 
 div.chat {
   width: 400px;
@@ -669,6 +660,31 @@ div.chat {
       flex-grow: 1;
       text-align: center;
       font-weight: bold; }
+
+.button {
+  font-family: Roboto,sans-serif;
+  font-size: 15px;
+  color: white;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.06), 4px 4px 8px rgba(0, 0, 0, 0.16); }
+  .button:hover {
+    text-decoration: none; }
+  .button.button-primary {
+    color: white;
+    background: #216aff; }
+    .button.button-primary:hover {
+      background: #1952c6; }
+  .button.button-secondary {
+    color: white;
+    background: #bd27ff; }
+    .button.button-secondary:hover {
+      background: #8c1ebc; }
+  .button.button-ghost {
+    color: black;
+    background: white; }
+    .button.button-ghost:hover {
+      background: rgba(0, 0, 0, 0.01); }
 
 .converse {
   z-index: 999; }

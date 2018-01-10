@@ -1,0 +1,40 @@
+
+.button {
+  font-family:Roboto,sans-serif;
+  font-size:15px;
+  color:white;
+  padding:10px 20px;
+  text-transform: uppercase;
+  box-shadow:0 4px 4px rgba(0,0,0,.06), 4px 4px 8px rgba(0,0,0,.16);
+
+  &:hover {
+    text-decoration:none;
+  }
+
+  &.button-primary {
+    color:white;
+    background: $primary-colour;
+
+    &:hover {
+      background: $primary-colour2;
+    }
+  }
+
+  &.button-secondary {
+    color:white;
+    background: $secondary-colour;
+
+    &:hover {
+      background: $secondary-colour2;
+    }
+  }
+
+  &.button-ghost {
+    color:black;
+    background: white;
+
+    &:hover {
+      background: rgba(0,0,0,0.01);
+    }
+  }
+}

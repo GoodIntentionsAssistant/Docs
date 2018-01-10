@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Client Response</title>
+  <title>Events</title>
   <meta name="description" content="Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/clients/response.html">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/skills/events.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -139,84 +139,58 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Client Response</h1>
+    <h1 class="post-title">Events</h1>
   </header>
 
   <div class="post-content">
-    <p>The response from the app will return JSON formatted data. A response will come in multiple parts and have the same ident and an increasing sequence number.</p>
+    <p>Good Intentions enabled extendability with its event system using EventEmitter.</p>
 
-<p>Multipart sending can be useful when the result could be delayed by latency when calling a remote API, such as flight searches. It’s possible to send the first message telling the user to wait a moment.</p>
+<p>These events can be listened from your skill file.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"message"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"messages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Hi! I'm the Good Intentions bot!"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"attachments"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
-  </span><span class="nt">"intent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fun/Greeting"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"response"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"namespace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"response"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="mf">22.5646096341948</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"sequence"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"microtime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1503840844828</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+<h2 id="events-supported">Events supported</h2>
 
 <table>
   <thead>
     <tr>
       <th>Key</th>
+      <th>Parameters</th>
       <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>type</td>
-      <td>Currently supported types are “start”, “end” and “message”.</td>
+      <td>incoming</td>
+      <td>ident, input</td>
+      <td>Incoming message</td>
     </tr>
     <tr>
-      <td>messages</td>
-      <td>If the <code class="highlighter-rouge">type</code> is message an array of messages will be returned.</td>
-    </tr>
-    <tr>
-      <td>attachments</td>
-      <td>Rich meta data including payload data for images, links, action buttons for the clients.</td>
+      <td>unknown</td>
+      <td>ident, input</td>
+      <td>Message could not be understood</td>
     </tr>
     <tr>
       <td>intent</td>
-      <td>The intent which was called.</td>
-    </tr>
-    <tr>
-      <td>action</td>
-      <td>The indents action which was called.</td>
-    </tr>
-    <tr>
-      <td>namespace</td>
-      <td>Return socket.io name space</td>
-    </tr>
-    <tr>
-      <td>confidence</td>
-      <td>Intent classifiers confidence</td>
-    </tr>
-    <tr>
-      <td>sequence</td>
-      <td>Incrementing number since the server was started</td>
-    </tr>
-    <tr>
-      <td>microtime</td>
-      <td>Server microtime when the data was sent</td>
+      <td>ident, input, identifier, action</td>
+      <td>Calling of an intent on a successful classifier match</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="example-of-catching-response">Example of catching response</h2>
+<h2 id="example">Example</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'response'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="k">if</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">type</span> <span class="o">==</span> <span class="s1">'message'</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">ii</span><span class="o">&lt;</span><span class="nx">data</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">ii</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Message:'</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="nx">ii</span><span class="p">]);</span>
-    <span class="p">}</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">ExampleSkill</span> <span class="kr">extends</span> <span class="nx">Skill</span> <span class="p">{</span>
+
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
+
+    <span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'intent'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">identifier</span> <span class="o">===</span> <span class="s1">'App.Example.Intent.Boing'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Boing redirect was called!'</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
   <span class="p">}</span>
-<span class="p">});</span>
+
+<span class="p">}</span>
 </code></pre>
 </div>
 

@@ -267,3 +267,20 @@ module.exports = class FootballQuestionIntent extends Intent {
   <div class="user"><span>Do you like football?</span></div>
   <div class="bot"><span>Yes I do and I know you don't enjoy it already</span></div>
 </div>
+
+
+
+## Cancelling expects
+
+If the user is trapped in a conversation using expects they can use `cancel` keywords.
+
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Take survey</span></div>
+  <div class="bot"><span>Do you watch sports TV?</span></div>
+  <div class="user"><span>Yes</span></div>
+  <div class="bot"><span>Which sports do you watch the most?</span></div>
+  <div class="user"><span>Stop</span></div>
+  <div class="bot"><span>No problems!</span></div>
+</div>
+

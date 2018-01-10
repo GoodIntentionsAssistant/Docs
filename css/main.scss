@@ -3,6 +3,16 @@
 @charset "utf-8";
 
 
+//GI
+$primary-colour: #216aff;
+$primary-colour2: #1952c6;
+
+$secondary-colour: #bd27ff;
+$secondary-colour2: #8c1ebc;
+
+$light-colour: rgba(0,0,0,0.06);
+
+
 
 // Our variables
 $base-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -54,5 +64,6 @@ $on-laptop:        800px;
   "nav",
   "bars",
   "chat",
+  "buttons",
   "../converse/converse"
 ;
