@@ -14,7 +14,7 @@ Key | Parameters | Description
 --- | --- | ---
 incoming | ident, input | Incoming message
 unknown | ident, input | Message could not be understood
-intent | ident, input, identifier, action | Calling of an intent on a successful classifier match
+dispatch | ident, input, identifier, action | Calling of an intent on a successful classifier match
 
 
 ## Example

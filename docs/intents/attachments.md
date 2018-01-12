@@ -53,13 +53,6 @@ The clients must support these attachment types to send to the end platform. Eac
 GI's attachments were loosely based on the [Slack API](https://api.slack.com/docs/message-attachments).
 
 
-## Future development
-
-Attachments are used for meta data and has a strong interest in chat / virtual assistants for such things as handling payments and interacting with IoT devices.
-
-We plan to expand GI into handling more types of attachments dynamically.
-
-
 ## Action buttons
 
 Show option buttons to the user.
@@ -159,4 +152,97 @@ request.attachment('image','https://picsum.photos/300/300/?random');
 <div class="chat" markdown="0">
   <div class="user"><span>Random picture</span></div>
   <div class="bot"><span><img src="https://picsum.photos/300/300/?random"></span></div>
+</div>
+
+
+
+## Creating an attachment
+
+Within your skill directory create a new directory called `Attachment` and create a file prepending the name of the attachment.
+
+This following example is stored in `app/Skill/Example/Attachment/navigation.js`
+
+
+~~~javascript
+module.exports = class NavigationAttachment extends Attachment {
+
+  constructor(app) {
+    super(app);
+
+    //Can't have more than one of these attachments
+    this.multiple = false;
+  }
+
+  build(data) {
+    return {
+      name: data.name,
+      url: data.url
+    };
+  }
+
+}
+~~~
+
+Enable the new attachment in your app config using the identifier name.
+
+~~~javascript
+config.attachments = [
+  'App.Example.Attachment.Navigation'
+];
+~~~
+
+Then your intents from any skill can use this attachment.
+
+~~~javascript
+module.exports = class DocumentationIntent extends Intent {
+
+  setup() {
+    this.train([
+      '@App.Example.Entity.Documentation',
+      new RegExp(/^go to/,'g')
+    ]);
+
+    this.parameter('page', {
+      name: "Page",
+      entity: "App.Example.Entity.Documentation"
+    });
+  }
+
+  response(request) {
+    if(!request.parameters.has('page')) {
+      return 'I\'m not sure of that page in the documentation';
+    }
+
+    let label = request.parameters.get('page.data.label');
+    let url = request.parameters.get('page.data.url');
+
+    request.attachment('navigation', {
+      name: label,
+      url: url
+    });
+
+    return 'Taking you to '+label;
+  }
+
+}
+~~~
+
+This attachment will then be included in the response that your client can handle.
+
+
+~~~javascript
+{
+  "attachments": {
+    "navigation": {
+      "name": "Intent attachments",
+      "url": "/docs/intents/attachments"
+    }
+  }
+}
+~~~
+
+
+<div class="chat" markdown="0">
+  <div class="user"><span>go to attachments</span></div>
+  <div class="bot"><span>Taking you to Intent attachments</span></div>
 </div>

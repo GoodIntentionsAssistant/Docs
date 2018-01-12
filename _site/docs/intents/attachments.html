@@ -37,6 +37,7 @@
       <ul>
         <li><span><a href="/">Overview</a></span></li>
         <li><span><a href="/docs">Documentation</a></span></li>
+        <li><span><a href="https://github.com/GoodIntentionsAssistant">Download</a></span></li>
       </ul>
     </li>
 
@@ -189,12 +190,6 @@
 
 <p>GI’s attachments were loosely based on the <a href="https://api.slack.com/docs/message-attachments">Slack API</a>.</p>
 
-<h2 id="future-development">Future development</h2>
-
-<p>Attachments are used for meta data and has a strong interest in chat / virtual assistants for such things as handling payments and interacting with IoT devices.</p>
-
-<p>We plan to expand GI into handling more types of attachments dynamically.</p>
-
 <h2 id="action-buttons">Action buttons</h2>
 
 <p>Show option buttons to the user.</p>
@@ -291,6 +286,94 @@
 <div class="chat">
   <div class="user"><span>Random picture</span></div>
   <div class="bot"><span><img src="https://picsum.photos/300/300/?random" /></span></div>
+</div>
+
+<h2 id="creating-an-attachment">Creating an attachment</h2>
+
+<p>Within your skill directory create a new directory called <code class="highlighter-rouge">Attachment</code> and create a file prepending the name of the attachment.</p>
+
+<p>This following example is stored in <code class="highlighter-rouge">app/Skill/Example/Attachment/navigation.js</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">NavigationAttachment</span> <span class="kr">extends</span> <span class="nx">Attachment</span> <span class="p">{</span>
+
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
+
+    <span class="c1">//Can't have more than one of these attachments</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">multiple</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">build</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span>
+      <span class="na">url</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">url</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Enable the new attachment in your app config using the identifier name.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">attachments</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s1">'App.Example.Attachment.Navigation'</span>
+<span class="p">];</span>
+</code></pre>
+</div>
+
+<p>Then your intents from any skill can use this attachment.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">DocumentationIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'@App.Example.Entity.Documentation'</span><span class="p">,</span>
+      <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^go to/</span><span class="p">,</span><span class="s1">'g'</span><span class="p">)</span>
+    <span class="p">]);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'page'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="s2">"Page"</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="s2">"App.Example.Entity.Documentation"</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="s1">'page'</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s1">'I\'m not sure of that page in the documentation'</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kd">let</span> <span class="nx">label</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'page.data.label'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'page.data.url'</span><span class="p">);</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'navigation'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="nx">label</span><span class="p">,</span>
+      <span class="na">url</span><span class="p">:</span> <span class="nx">url</span>
+    <span class="p">});</span>
+
+    <span class="k">return</span> <span class="s1">'Taking you to '</span><span class="o">+</span><span class="nx">label</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>This attachment will then be included in the response that your client can handle.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span>
+  <span class="s2">"attachments"</span><span class="err">:</span> <span class="p">{</span>
+    <span class="s2">"navigation"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s2">"name"</span><span class="err">:</span> <span class="s2">"Intent attachments"</span><span class="p">,</span>
+      <span class="s2">"url"</span><span class="err">:</span> <span class="s2">"/docs/intents/attachments"</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>go to attachments</span></div>
+  <div class="bot"><span>Taking you to Intent attachments</span></div>
 </div>
 
   </div>

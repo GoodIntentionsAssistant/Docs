@@ -68,10 +68,10 @@ If you used `parameter('unit',{});` to your intent you could fetch `label` and `
 
 ~~~javascript
 //Label will be 'Centimeters'
-let label = request.parameters.get('unit.label');
+let label = request.parameters.get('unit.data.label');
 
 //Measure will be 'length'
-let measure = request.parameters.get('unit.measure');
+let measure = request.parameters.get('unit.data.measure');
 
 //Normal key value will be 'cm'
 let value = request.parameters.value('unit');

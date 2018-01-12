@@ -245,6 +245,10 @@ class Converse {
 					this.history_add(html);
 				}
 			}
+
+			if(data.attachments.navigation) {
+				document.location.href = data.attachments.navigation.url;
+			}
 		}
 	}
 

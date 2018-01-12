@@ -37,6 +37,7 @@
       <ul>
         <li><span><a href="/">Overview</a></span></li>
         <li><span><a href="/docs">Documentation</a></span></li>
+        <li><span><a href="https://github.com/GoodIntentionsAssistant">Download</a></span></li>
       </ul>
     </li>
 
@@ -204,10 +205,10 @@ Loading the data manually can be fetched asynchronously from a remote source.</p
 <p>If you used <code class="highlighter-rouge">parameter('unit',{});</code> to your intent you could fetch <code class="highlighter-rouge">label</code> and <code class="highlighter-rouge">measure</code> with the <code class="highlighter-rouge">parameters.get()</code> method.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//Label will be 'Centimeters'</span>
-<span class="kd">let</span> <span class="nx">label</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'unit.label'</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">label</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'unit.data.label'</span><span class="p">);</span>
 
 <span class="c1">//Measure will be 'length'</span>
-<span class="kd">let</span> <span class="nx">measure</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'unit.measure'</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">measure</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'unit.data.measure'</span><span class="p">);</span>
 
 <span class="c1">//Normal key value will be 'cm'</span>
 <span class="kd">let</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'unit'</span><span class="p">);</span>
