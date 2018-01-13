@@ -2,10 +2,13 @@
 /**
  * Navigation
  */
+.page-content > .wrapper {
+  display: flex;
+  align-items: flex-start;
+}
 
 .side-nav {
-  float: left;
-  position: relative;
+  flex-shrink:0;
 
   width:220px;
 
@@ -28,6 +31,30 @@
 }
 
 
+.contents-nav {
+  width:180px;
+  flex-shrink:0;
+
+  nav {
+    border-left:5px solid $primary-colour;
+
+    ul {
+      margin:0;
+      padding:5px 0;
+      li {
+        margin:0 0 12px 10px;
+        font-size:12px;
+        list-style-type:none;
+        line-height:1rem;
+
+        &:last-child {
+          margin-bottom:0;
+        }
+      }
+    }
+  }
+}
+
 article.post {
-  margin-left:320px;
+  margin:0 50px;
 }

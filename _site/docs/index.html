@@ -59,29 +59,7 @@
 <nav>
 
   <ul>
-    <li><a href="/docs/">Getting Started</a>
-      <ul style="display:none;">
-        <li><a href="/docs/start/installation">Installation</a></li>
-        <li><a href="/docs/start/configuration">Configuration</a></li>
-        <li><a href="/docs/start/development">Development Tips</a></li>
-        <li><a href="/docs/start/components">Key components</a></li>
-        <li><a href="/docs/start/contributing">Contributing</a></li>
-      </ul>
-    </li>
-
-    <li><a href="/docs/clients/">Clients</a>
-      <ul style="display:none;">
-        <li><a href="/docs/clients/authorizing">Authorizing</a></li>
-        <li><a href="/docs/clients/request">Request</a></li>
-        <li><a href="/docs/clients/response">Response</a></li>
-        <li><a href="/docs/clients/sdk">Client SDK</a></li>
-      </ul>
-
-    <li><a href="/docs/skills/">Skills</a>
-      <ul style="display:none;">
-        <li><a href="/docs/skills/create">Creating a skill</a></li>
-        <li><a href="/docs/skills/events">Events</a></li>
-      </ul>
+    <li><a href="/docs/">Getting Started</a></li>
 
     <li><a href="/docs/intents/">Intents</a>
       <ul style="display:none;">
@@ -99,12 +77,25 @@
     <li><a href="/docs/entities/">Entities</a>
       <ul style="display:none;">
         <li><a href="/docs/entities/data">Entity data</a></li>
-        <li><a href="/docs/entities/entity_load_json">Data from JSON</a></li>
-        <li><a href="/docs/entities/entity_load_csv">Data from CSV</a></li>
-        <li><a href="/docs/entities/entity_load_custom">Custom data</a></li>
         <li><a href="/docs/entities/entity_object">Fetch entity object</a></li>
         <li><a href="/docs/entities/callbacks">Callbacks</a></li>
         <li>Parsing for parameters</li>
+      </ul>
+    </li>
+
+    <li><a href="/docs/clients/">Clients</a>
+      <ul style="display:none;">
+        <li><a href="/docs/clients/authorizing">Authorizing</a></li>
+        <li><a href="/docs/clients/request">Request</a></li>
+        <li><a href="/docs/clients/response">Response</a></li>
+        <li><a href="/docs/clients/sdk">Client SDK</a></li>
+      </ul>
+    </li>
+
+    <li><a href="/docs/skills/">Skills</a>
+      <ul style="display:none;">
+        <li><a href="/docs/skills/create">Creating a skill</a></li>
+        <li><a href="/docs/skills/events">Events</a></li>
       </ul>
     </li>
 
@@ -144,12 +135,169 @@
   </header>
 
   <div class="post-content">
-    <p>Documentation for Good Intentions</p>
+    <p>This documentation has live examples and it’s preferable to browse this site on a desktop browser.</p>
+
+<div class="chat">
+  <div class="user"><span>50 GBP to USD</span></div>
+  <div class="bot"><span>50 GBP is 68.65 USD</span></div>
+  <div class="user"><span>Weather in Bangkok</span></div>
+  <div class="bot"><span>Currently 26c, Mostly Cloudy in Asia, Bangkok</span></div>
+</div>
+
+<h2 id="installation">Installation</h2>
+
+<p>GI uses NodeJS 8.x and the code has only been tested on Linux Mint. Install node.js from https://nodejs.org. It is also recommended to use nvm (node version manager) to manage your node.js versions.</p>
+
+<p>It is recommended that GI is downloaded as a package directly from Github and not via NPM for now. Once GI is stable it will be available to download as a standard node package with setup scripts and a different installation guide.</p>
+
+<h3 id="configuration">Configuration</h3>
+
+<p>Copy the file <code class="highlighter-rouge">app/Config/config.example.js</code> to <code class="highlighter-rouge">app/Config/config.js</code>.</p>
+
+<p>The file contains many options for configuring your instance of GI including server ports, queue speeds, access tokens and which skills the app should load.</p>
+
+<h3 id="how-to-run">How to Run</h3>
+
+<p>Run the server which will listen to a port specified in your config file. This will then be ready for client connections. You cannot interact with the server directly but it will verbose information.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm install
+node server.js
+</code></pre>
+</div>
+
+<p>After the server has successfully loaded run the CLI test script in a different terminal console. The client will connect to the server and give you an interface to interact to the app. Never use the terminal client for production, it should only be used for debugging.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd clients
+node cli.js
+</code></pre>
+</div>
+
+<h3 id="test-cli-client">Test CLI Client</h3>
+
+<p>The test CLI client is located in the <code class="highlighter-rouge">clients/</code> directory. This test client is not designed for production and must only be used for locally testing the server.</p>
+
+<p>If the CLI client returns errors about invalid tokens check the client configuration settings in <code class="highlighter-rouge">app/Config/config.js</code> match up with the configuration settings in <code class="highlighter-rouge">clients/cli.js</code> file.</p>
+
+<h2 id="development-tips">Development Tips</h2>
+
+<p>Using nodemon with both the server and test cli client.</p>
+
+<p>When any code is updated the server and / or client will be restarted.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>nodemon server.js
+</code></pre>
+</div>
+
+<h2 id="key-components">Key Components</h2>
+
+<h5 id="skill">Skill</h5>
+<p>A set of entities, intents and data sets</p>
+
+<h5 id="entity">Entity</h5>
+<p>Data source for training the system and parsing parameters from user input</p>
+
+<h5 id="intent">Intent</h5>
+<p>Business logic for the users input</p>
+
+<h5 id="client">Client</h5>
+<p>The interface between GI and the end-point, e.g. Facebook Messenger</p>
+
+<h5 id="parameter">Parameter</h5>
+<p>Parsed user input with entity data</p>
+
+<h5 id="understand">Understand</h5>
+<p>Matching user input to an intent using trained data</p>
+
+<h5 id="train">Train</h5>
+<p>Intents train classifier collections for Understand</p>
+
+<h5 id="request">Request</h5>
+<p>Handles the user input, finding which intent to use and calling the intent</p>
+
+<h5 id="attachment">Attachment</h5>
+<p>Additional meta information send to the client such as buttons and cards</p>
+
+<h5 id="event">Event</h5>
+<p>An event that happens within GI core and can be listened to</p>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>We welcome contributions from developers to fix bugs, enhance existing features and creating new features for the chat bot. If you’re just getting started check out the project <a href="https://github.com/darrenmoore/GoodIntentionsChatBot/issues">Github Issues</a> for a list of improvements, bugs and wild ideas!</p>
+
+<h3 id="areas-of-interest">Areas of interest</h3>
+
+<ul>
+  <li>Clients</li>
+  <li>Example intents</li>
+  <li>Skills</li>
+  <li>Entities and data</li>
+  <li>NLP improvements</li>
+  <li>Database layer / ORM improvements</li>
+  <li>Documentation</li>
+  <li>Reporting issues</li>
+</ul>
+
+<h3 id="how-to-contribute">How to Contribute</h3>
+
+<ol>
+  <li>Fork the code from master</li>
+  <li>Create a branch (git checkout -b my-branch)</li>
+  <li>Commit your changes (git commit -m “My fix or feature”)</li>
+  <li>Push to the origin branch (git push origin my-branch)</li>
+  <li>Create a new Pull Request</li>
+</ol>
+
+<h3 id="reporting-issues">Reporting Issues</h3>
+
+<p>Github Issues is used for managing bugs, improvements and future ideas.</p>
+
+<p>For all improvements and feature requests that the following format is adheared to as often as possible for the description.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>WHO
+Optional
+Who the issue is affecting or the target audience for the issue
+
+WHY
+Not required if it's a bug
+Why the issue is required or why the target audience needs it
+
+WHAT
+Detailed information about the issue.
+User stories and example dialog.
+</code></pre>
+</div>
+
+<p>An example for creating a “Ping” Skill.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>WHO
+Onboarding new developers to the framework
+
+WHY
+There is a learning curve for GI so providing a simple example skill with an intent is useful
+
+WHAT
+As a new developer who downloads GI I want to learn how to build my first skill.
+As a reference I go into my app skills directory and can see the "Ping" skill.
+I then copy this directory, rename the skill, filenames and can make my own skill with an intent quickly
+</code></pre>
+</div>
 
   </div>
 
 </article>
 
+        <div class="contents-nav" style="display:none;">
+          <nav>
+            <ul>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </div>
 

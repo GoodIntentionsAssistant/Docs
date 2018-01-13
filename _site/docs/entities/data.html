@@ -59,29 +59,7 @@
 <nav>
 
   <ul>
-    <li><a href="/docs/">Getting Started</a>
-      <ul style="display:none;">
-        <li><a href="/docs/start/installation">Installation</a></li>
-        <li><a href="/docs/start/configuration">Configuration</a></li>
-        <li><a href="/docs/start/development">Development Tips</a></li>
-        <li><a href="/docs/start/components">Key components</a></li>
-        <li><a href="/docs/start/contributing">Contributing</a></li>
-      </ul>
-    </li>
-
-    <li><a href="/docs/clients/">Clients</a>
-      <ul style="display:none;">
-        <li><a href="/docs/clients/authorizing">Authorizing</a></li>
-        <li><a href="/docs/clients/request">Request</a></li>
-        <li><a href="/docs/clients/response">Response</a></li>
-        <li><a href="/docs/clients/sdk">Client SDK</a></li>
-      </ul>
-
-    <li><a href="/docs/skills/">Skills</a>
-      <ul style="display:none;">
-        <li><a href="/docs/skills/create">Creating a skill</a></li>
-        <li><a href="/docs/skills/events">Events</a></li>
-      </ul>
+    <li><a href="/docs/">Getting Started</a></li>
 
     <li><a href="/docs/intents/">Intents</a>
       <ul style="display:none;">
@@ -99,12 +77,25 @@
     <li><a href="/docs/entities/">Entities</a>
       <ul style="display:none;">
         <li><a href="/docs/entities/data">Entity data</a></li>
-        <li><a href="/docs/entities/entity_load_json">Data from JSON</a></li>
-        <li><a href="/docs/entities/entity_load_csv">Data from CSV</a></li>
-        <li><a href="/docs/entities/entity_load_custom">Custom data</a></li>
         <li><a href="/docs/entities/entity_object">Fetch entity object</a></li>
         <li><a href="/docs/entities/callbacks">Callbacks</a></li>
         <li>Parsing for parameters</li>
+      </ul>
+    </li>
+
+    <li><a href="/docs/clients/">Clients</a>
+      <ul style="display:none;">
+        <li><a href="/docs/clients/authorizing">Authorizing</a></li>
+        <li><a href="/docs/clients/request">Request</a></li>
+        <li><a href="/docs/clients/response">Response</a></li>
+        <li><a href="/docs/clients/sdk">Client SDK</a></li>
+      </ul>
+    </li>
+
+    <li><a href="/docs/skills/">Skills</a>
+      <ul style="display:none;">
+        <li><a href="/docs/skills/create">Creating a skill</a></li>
+        <li><a href="/docs/skills/events">Events</a></li>
       </ul>
     </li>
 
@@ -182,7 +173,7 @@ Loading the data manually can be fetched asynchronously from a remote source.</p
 </code></pre>
 </div>
 
-<h2 id="additional-meta-data">Additional meta data</h2>
+<h2 id="entity-meta-data">Entity meta data</h2>
 
 <p>Additional keys to the entity data which can be used for parameters to handle the data correctly.</p>
 
@@ -215,7 +206,7 @@ Loading the data manually can be fetched asynchronously from a remote source.</p
 </code></pre>
 </div>
 
-<h2 id="accessing-entity-data-from-an-intent">Accessing entity data from an intent</h2>
+<h2 id="entity-data-from-intent">Entity data from intent</h2>
 
 <p>To load an entity from an intent use <code class="highlighter-rouge">EntityRegistry.get()</code>.</p>
 
@@ -242,10 +233,153 @@ Loading the data manually can be fetched asynchronously from a remote source.</p
 </code></pre>
 </div>
 
+<h2 id="loading-from-json">Loading from JSON</h2>
+
+<p>Entity data can be stored in a <code class="highlighter-rouge">.json</code> file and loaded into the entity.</p>
+
+<p>In this example the file is created, <code class="highlighter-rouge">app/Skill/Example/Data/animals.json</code>.</p>
+
+<p>The file contents formatting should match exactly the same as if the data was defined within the exports.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"entries"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"dog"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+    </span><span class="nt">"cat"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>The entity can load this and other json compatible files using <code class="highlighter-rouge">this.import</code> and defining <code class="highlighter-rouge">file</code> and <code class="highlighter-rouge">type</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">AnimalEntity</span> <span class="kr">extends</span> <span class="nx">Entity</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="kr">import</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="na">file</span><span class="p">:</span> <span class="s2">"App.Example.Data.animals"</span><span class="p">,</span>
+      <span class="na">type</span><span class="p">:</span> <span class="s2">"json"</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>This example uses the <code class="highlighter-rouge">AnimalExample</code> intent.</p>
+
+<h2 id="loading-from-csv">Loading from CSV</h2>
+
+<p>Entity data stored in a <code class="highlighter-rouge">.csv</code> format can be useful if you have a large dataset which you don’t want to convert to JSON.</p>
+
+<p>The first value is the key and all columns after will be used as synonyms.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"EUR","Euro"
+"FJD","Fijian Dollar"
+"FKP","Falkland Islands Pound"
+"GBP","British Pound Sterling","Sterling"
+</code></pre>
+</div>
+
+<p>If you was going to convert this data to a standard GI json file it would look like…</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"entries"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"EUR"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"synonyms"</span><span class="p">:[</span><span class="s2">"Euro"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"FJD"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"synonyms"</span><span class="p">:[</span><span class="s2">"Fijian Dollar"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"FKP"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"synonyms"</span><span class="p">:[</span><span class="s2">"Falkland Islands Pound"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"GBP"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"synonyms"</span><span class="p">:[</span><span class="s2">"British Pound Sterling"</span><span class="p">,</span><span class="s2">"Sterling"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Using <code class="highlighter-rouge">this.import</code> and defining <code class="highlighter-rouge">file</code> and <code class="highlighter-rouge">type</code> the CSV file can be imports to the entity.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">CurrencyEntity</span> <span class="kr">extends</span> <span class="nx">Entity</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="kr">import</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="na">file</span><span class="p">:</span> <span class="s2">"Data.Common.currencies"</span><span class="p">,</span>
+      <span class="na">type</span><span class="p">:</span> <span class="s2">"csv"</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>This example uses the <code class="highlighter-rouge">CurrencyIntent</code> intent.</p>
+
+<h2 id="loading-custom-data">Loading custom data</h2>
+
+<p>Loading data into an entity using a custom method is useful for processing unformatted JSON and CSV data, data manipulation, fetching data from a database or a remote source.</p>
+
+<p>The <code class="highlighter-rouge">Drink</code> Entity and Intent will load data from a .txt file into the entity data.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">DrinkEntity</span> <span class="kr">extends</span> <span class="nx">Entity</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="kr">import</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="na">type</span><span class="p">:</span> <span class="s1">'custom'</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+
+
+  <span class="nx">load_data</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'fs'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">filename</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Path</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'skills.app'</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'/Example/Data/drinks.txt'</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="p">{};</span>
+
+    <span class="kd">let</span> <span class="nx">promise</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="s1">'utf8'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">throw</span> <span class="nx">err</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">lines</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/</span><span class="se">\r?\n</span><span class="sr">/</span><span class="p">);</span>
+        <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">ii</span><span class="o">&lt;</span><span class="nx">lines</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">ii</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">lines</span><span class="p">[</span><span class="nx">ii</span><span class="p">])</span> <span class="p">{</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+          <span class="nx">output</span><span class="p">[</span><span class="nx">lines</span><span class="p">[</span><span class="nx">ii</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{};</span>
+        <span class="p">}</span>
+        <span class="nx">resolve</span><span class="p">(</span><span class="nx">output</span><span class="p">);</span>
+      <span class="p">});</span>
+    <span class="p">});</span>
+
+    <span class="k">return</span> <span class="nx">promise</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>The data stored in <code class="highlighter-rouge">drinks.txt</code> is simply a new line list of different drinks.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>water
+sprite
+7up
+coke
+pepsi
+coffee
+tea
+beer
+lager
+</code></pre>
+</div>
+
+
   </div>
 
 </article>
 
+        <div class="contents-nav" style="display:none;">
+          <nav>
+            <ul>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </div>
 
