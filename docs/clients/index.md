@@ -14,4 +14,3 @@ GI provides a CLI test client found in `clients/cli.js`.
 
 Load the server and then load the client. The client will identify with the server with the client token (stored in your config.js file) and the server will generate a session_token for all requests. You can then type in any command to test the app.
 
-

@@ -540,7 +540,7 @@ body.front .bar-hero a.button {
 /**
  * Navigation
  */
-.page-content > .wrapper {
+.docs .page-content > .wrapper {
   display: flex;
   align-items: flex-start; }
 
@@ -574,6 +574,8 @@ body.front .bar-hero a.button {
         line-height: 1rem; }
         .contents-nav nav ul li:last-child {
           margin-bottom: 0; }
+        .contents-nav nav ul li:first-child a {
+          font-weight: bold; }
 
 article.post {
   margin: 0 50px; }
@@ -654,7 +656,7 @@ div.chat {
   div.chat .info {
     text-align: center;
     position: relative;
-    z-index: 1; }
+    /*z-index: 1;*/ }
     div.chat .info span {
       color: #757575;
       background-color: white;
@@ -962,6 +964,8 @@ div.chat-hint {
       .converse .converse-messenger .converse-footer .converse-actions div {
         display: flex; }
       .converse .converse-messenger .converse-footer .converse-actions button {
+        flex-grow: 1;
+        flex-basis: 0;
         cursor: pointer;
         margin: 5px;
         height: 35px;

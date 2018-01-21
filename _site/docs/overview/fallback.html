@@ -6,14 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Good Intentions Assistant Chatbot Framework</title>
+  <title>Fallbacks</title>
   <meta name="description" content="Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/overview/fallback.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -24,7 +24,7 @@
 </head>
 
 
-  <body class="front">
+  <body class="docs">
 
     <header class="site-header">
 
@@ -50,30 +50,157 @@
 </header>
 
 
+    <div class="sub-header bar bar-primary">
+        <div class="wrapper sub">
+          <h2>Docs</h2>
+        </div>
+    </div>
+
     <div class="page-content">
-      
-<div class="bar bar-light bar-hero">
-  <div class="wrapper">
-    <h2>Good Intentions</h2>
-    <h4>Open Source Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.</h4>
+      <div class="wrapper">
+        <div class="side-nav">
+          
+<nav>
 
-    <p><a href="javascript: Site.converse_send('hello', false);" class="button button-ghost">Say Hello!</a>
-  <a href="/docs" onclick="Site.converse_send('go to docs', false); return false;" class="button button-primary">Read the Documentation</a></p>
+  <ul>
+    <li><a href="/docs/">Getting Started</a></li>
+
+    <li>Overview
+      <ul>
+        <li><a href="/docs/overview/skills">Skills</a></li>
+        <li><a href="/docs/overview/clients">Clients</a></li>
+        <li><a href="/docs/overview/training">Training</a></li>
+        <li><a href="/docs/overview/parameters">Parameters</a></li>
+        <li><a href="/docs/overview/result">Returning result</a></li>
+        <li><a href="/docs/overview/entities">Entities</a></li>
+        <li><a href="/docs/overview/attachments">Attachments</a></li>
+        <li><a href="/docs/overview/expects">Expects</a></li>
+        <li><a href="/docs/overview/auth">User &amp; Session</a></li>
+        <li><a href="/docs/overview/scheduler">Scheduler</a></li>
+        <li><a href="/docs/overview/redirect">Redirecting</a></li>
+        <li><a href="/docs/overview/fallback">Fallbacks</a></li>
+        <li><a href="/docs/overview/callback">Callbacks</a></li>
+        <li><a href="/docs/overview/events">Events</a></li>
+      </ul>
+    </li>
+
+
+    <!--<li><a href="/docs/clients/">Clients</a>
+      <ul style="display:none;">
+        <li><a href="/docs/clients/authorizing">Authorizing</a></li>
+        <li><a href="/docs/clients/request">Request</a></li>
+        <li><a href="/docs/clients/response">Response</a></li>
+        <li><a href="/docs/clients/sdk">Client SDK</a></li>
+      </ul>
+    </li>
+
+    <li><a href="/docs/app/">App</a>
+      <ul style="display:none;">
+        <li><a href="/docs/app/errors">Errors</a></li>
+        <li style="display:none;">Server</li>
+        <li style="display:none;">Clients</li>
+        <li style="display:none;">Identifier</li>
+        <li style="display:none;">Training</li>
+        <li style="display:none;"><a href="/docs/app/queue">Queue + flood protection</a></li>
+        <li style="display:none;"><a href="/docs/app/requests">Requests</a></li>
+        <li style="display:none;">Data</li>
+        <li style="display:none;">Logging</li>
+        <li style="display:none;">Caching</li>
+        <li style="display:none;">Storage</li>
+        <li style="display:none;">Scrubber</li>
+      </ul>
+    </li>
+
+    <li><span>Conventions</span>
+      <ul style="display:none;">
+        <li>Code formatting</li>
+        <li>Code documentation</li>
+        <li>Unit tests</li>
+      </ul>
+    </li>-->
+
+  </ul>
+
+</nav>
+
+        </div>
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Fallbacks</h1>
+  </header>
+
+  <div class="post-content">
+    <p>Fallback intents are triggered when user input is not matched by any other intents already trained with GI.</p>
+
+<p>For a more genuine assistant and less annoying one fall backs can be used to give the user direction to using the assistant.</p>
+
+<p>GI has some system fallbacks you can use, make sure they are enabled in your <code class="highlighter-rouge">config.js</code> file.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">skills</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s1">'App.Fallback'</span>
+<span class="p">];</span>
+</code></pre>
+</div>
+
+<p>These system fallbacks can be turned off and you could enhance them with your own skill to return random replies.</p>
+
+<p>Example of the system <code class="highlighter-rouge">why</code> intent.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">WhyIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'why'</span><span class="p">],</span> <span class="p">{</span>
+      <span class="na">collection</span><span class="p">:</span> <span class="s1">'fallback'</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+
+  <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'Everyone asks why'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>how so?</span></div>
+  <div class="bot"><span>How does anything happen?</span></div>
+
+  <div class="user"><span>what are you</span></div>
+  <div class="bot"><span>Not sure, Google might know</span></div>
+
+  <div class="user"><span>when is my birthday</span></div>
+  <div class="bot"><span>I am not sure when</span></div>
+
+  <div class="user"><span>where are my keys</span></div>
+  <div class="bot"><span>Could be anywhere. I have no idea</span></div>
+
+  <div class="user"><span>who ate my cake</span></div>
+  <div class="bot"><span>No idea who!</span></div>
+
+  <div class="user"><span>why do rainbows exist?</span></div>
+  <div class="bot"><span>Everyone asks why</span></div>
+</div>
+
   </div>
-</div>
 
-<div class="wrapper">
-  <p>GI is a rule based chatbot framework for Node.js using simple design patterns. Our goal is to provide a structured framework that enables developers to rapidly develop robust and reliable chatbots with full flexibility and a scalable architecture.</p>
+</article>
 
-  <p>It is very much experimental and in its infancy. We’re looking for the community to build, improve and provide feedback on the framework. This documentation is not fully complete so it is only recommended to use this framework if you’re prepared to dive into the code.</p>
-
-  <p>The framework comes with a collection of examples.</p>
-
-  <p>The bot server cannot just be run by itself, it requires clients to act as middleware.</p>
-
-  <p>The system has inspirations from Api.ai so some of their documentation found at <a href="https://docs.api.ai/">https://docs.api.ai/</a> can also be used to get an overview of some key components of this system.</p>
-</div>
-
+        <div class="contents-nav" style="display:none;">
+          <nav>
+            <ul>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href="">sdf sdfsdf e</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
     </div>
 
     <footer class="site-footer">

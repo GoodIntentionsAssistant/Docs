@@ -4,7 +4,7 @@ var Site = {
   load: function() {
     this.converse = null;
 
-    this.nav_load();
+    //this.nav_load();
     this.contents();
 
     this.scrolling();
@@ -15,6 +15,10 @@ var Site = {
 
 
   scrolling: function() {
+    if($('.side-nav').length == 0) {
+      return;
+    }
+
     var scrollingDiv   = $('.side-nav');
     var contentsDiv    = $('.contents-nav');
 
@@ -116,13 +120,15 @@ var Site = {
   },
 
 
-  converse_send: function(text) {
+  converse_send: function(text, hint = true) {
     this.converse.open();
     this.converse.send(text);
 
     //Close the hint
-    $('.chat-hint').hide();
-    store.set('hint', 'hide');
+    if(hint) {
+      $('.chat-hint').fadeOut();
+      store.set('hint', 'hide');
+    }
   },
 
 
@@ -146,7 +152,7 @@ var Site = {
 
     //
     let pos  = obj.position();
-    let left = obj.position().left + 20;
+    let left = obj.position().left - (hintWidth / 2) + 40;
     let top  = obj.position().top - hintHeight;
 
     let hint = $('<div></div>');

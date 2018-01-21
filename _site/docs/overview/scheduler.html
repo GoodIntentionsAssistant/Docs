@@ -6,14 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Client Request</title>
+  <title>Scheduler</title>
   <meta name="description" content="Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/clients/request.html">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/overview/scheduler.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -127,21 +127,27 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Client Request</h1>
+    <h1 class="post-title">Scheduler</h1>
   </header>
 
   <div class="post-content">
-    <p>After the client has identified requests can be sent to the app. Certain fields must be passed along with the input.</p>
+    <p>The scheduler component enables you to schedule emitting an event using the event component.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">input</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">client</span><span class="p">:</span> <span class="s1">'facebook'</span><span class="p">,</span>
-  <span class="na">session_token</span><span class="p">:</span> <span class="s1">'m626NfP8jFYPAKNw'</span><span class="p">,</span>
-  <span class="na">user</span><span class="p">:</span> <span class="s1">'bob'</span><span class="p">,</span>
-  <span class="na">text</span><span class="p">:</span> <span class="s1">'hello to my new app!'</span>
-<span class="p">};</span>
-<span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'request'</span><span class="p">,</span><span class="nx">input</span><span class="p">);</span>
+<p>This can be useful for reminders, notifications, alarms and calendar events. They can be any time in the future.</p>
+
+<h2 id="creating-a-schedule">Creating a schedule</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Scheduler</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'wakeup'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">when</span><span class="p">:</span> <span class="nx">moment</span><span class="p">().</span><span class="nx">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'seconds'</span><span class="p">),</span>
+  <span class="na">request</span><span class="p">:</span> <span class="nx">request</span><span class="p">,</span>
+  <span class="na">text</span><span class="p">:</span> <span class="s1">'Wake up (5 seconds)'</span>
+<span class="p">});</span>
 </code></pre>
 </div>
+
+<p>The first argument is the namespace for the emitting. In this example <code class="highlighter-rouge">scheduler.trigger.wakeup</code> will be the name space called. The name space will always start with <code class="highlighter-rouge">scheduler.trigger</code>.</p>
+
+<p>Any other data passed in the second argument is passed to the listener.</p>
 
 <table>
   <thead>
@@ -153,70 +159,107 @@
   </thead>
   <tbody>
     <tr>
-      <td>client</td>
-      <td>yes</td>
-      <td>Whitelisted client name. Each client should have a unique name. This must be provided for every request.</td>
+      <td>when</td>
+      <td>Yes</td>
+      <td>When the event should emitted. It has to be in the future and a momentjs object passed</td>
     </tr>
     <tr>
-      <td>session_token</td>
-      <td>yes</td>
-      <td>Session token key provided by the app that must be used on all requests. The session_token is provided when the client identifies with the server after connection.</td>
+      <td>request</td>
+      <td>No</td>
+      <td>The current intent request. This is required if no session_id or client_id is passed</td>
     </tr>
     <tr>
-      <td>user</td>
-      <td>yes</td>
-      <td>Unique name or identifer for the user interfacing with the app. For example this could be their facebook graph user id. For testing any value can be used.</td>
+      <td>client_id</td>
+      <td>No</td>
+      <td>Client id the user is interfacing with. Required if request is not passed</td>
     </tr>
     <tr>
-      <td>text</td>
-      <td>yes</td>
-      <td>Raw text input from the user, e.g. “Good Morning”</td>
-    </tr>
-    <tr>
-      <td>fast</td>
-      <td>no</td>
-      <td>Response from the app has delays to simulate typing to make the bot experience more human-like. By default fast is false, changing it to true will stop the simulated delays. It’s advisable to enable fast when debugging.</td>
+      <td>session_id</td>
+      <td>No</td>
+      <td>Session id of the user. Required if request is not passed</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="speeding-up-the-request">Speeding up the request</h2>
+<h2 id="listening-to-a-schedule">Listening to a schedule</h2>
 
-<p>When the request is passed to GI it will have a delay to simulate the bot typing. There are three methods to remove this delay.</p>
+<p>Listening to a schedule can be added in any file loaded at run time. This includes skills, entities and intents. It’s recommended to put your listeners into your intent at setup.</p>
 
-<h3 id="fast-parameter">Fast Parameter</h3>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">WakeupIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">input</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">client</span><span class="p">:</span> <span class="s1">'facebook'</span><span class="p">,</span>
-  <span class="na">session_token</span><span class="p">:</span> <span class="s1">'m626NfP8jFYPAKNw'</span><span class="p">,</span>
-  <span class="na">user</span><span class="p">:</span> <span class="s1">'bob'</span><span class="p">,</span>
-  <span class="na">text</span><span class="p">:</span> <span class="s1">'hello to my new app!'</span><span class="p">,</span>
-  <span class="na">fast</span><span class="p">:</span> <span class="kc">true</span>
-<span class="p">};</span>
-<span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'request'</span><span class="p">,</span><span class="nx">input</span><span class="p">);</span>
-</code></pre>
-</div>
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
 
-<h3 id="response-simulated-typing">Response Simulated Typing</h3>
+    <span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'scheduler.trigger.wakeup'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="c1">//Do something</span>
+      <span class="c1">//data.text = "Wake up (5 seconds)"</span>
+    <span class="p">});</span>
 
-<p>In the <code class="highlighter-rouge">config.js</code> file change the <code class="highlighter-rouge">response</code> settings to <code class="highlighter-rouge">0</code>;</p>
+  <span class="p">}</span>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">response</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">min_reply_time</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="na">letter_speed</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="na">max_response</span><span class="p">:</span> <span class="mi">0</span>
-<span class="p">};</span>
-</code></pre>
-</div>
-
-<h3 id="queue-speed">Queue Speed</h3>
-
-<p>In the <code class="highlighter-rouge">config.js</code> file change the loop speed. By default we recommend this value to be 500ms.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">app</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">loop_speed</span><span class="p">:</span> <span class="mi">10</span>
 <span class="p">}</span>
 </code></pre>
+</div>
+
+<h2 id="example">Example</h2>
+
+<p>This intent will train the strict collection “wake up”. It will then create two scheduler events with the same name space. Setup will be listening for that event and make a new app request back to the same user using the same client.</p>
+
+<p>The app request includes arguments for <code class="highlighter-rouge">fast</code> so there is no typing simulation delays and <code class="highlighter-rouge">skip_queue</code> which sends the request immediately ignoring <code class="highlighter-rouge">max_consecutive</code> configuration option.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">moment</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'moment'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">WakeupIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'wake up'</span><span class="p">],</span> <span class="p">{</span>
+      <span class="na">collection</span><span class="p">:</span> <span class="s1">'strict'</span>
+    <span class="p">});</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'scheduler.trigger.wakeup'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
+        <span class="na">client_id</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">schedule</span><span class="p">.</span><span class="nx">client_id</span><span class="p">,</span>
+        <span class="na">session_id</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">schedule</span><span class="p">.</span><span class="nx">session_id</span><span class="p">,</span>
+        <span class="na">intent</span><span class="p">:</span> <span class="s1">'App.Example.Intent.WakeUp'</span><span class="p">,</span>
+        <span class="na">action</span><span class="p">:</span> <span class="s1">'wakeup'</span><span class="p">,</span>
+        <span class="na">schedule_data</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">schedule</span><span class="p">,</span>
+        <span class="na">skip_queue</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">fast</span><span class="p">:</span> <span class="kc">true</span>
+      <span class="p">});</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Scheduler</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'wakeup'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">when</span><span class="p">:</span> <span class="nx">moment</span><span class="p">().</span><span class="nx">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'seconds'</span><span class="p">),</span>
+      <span class="na">request</span><span class="p">:</span> <span class="nx">request</span><span class="p">,</span>
+      <span class="na">text</span><span class="p">:</span> <span class="s1">'Wake up (5 seconds)'</span>
+    <span class="p">});</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Scheduler</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'wakeup'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">when</span><span class="p">:</span> <span class="nx">moment</span><span class="p">().</span><span class="nx">add</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">'seconds'</span><span class="p">),</span>
+      <span class="na">request</span><span class="p">:</span> <span class="nx">request</span><span class="p">,</span>
+      <span class="na">text</span><span class="p">:</span> <span class="s1">'Wake up (10 seconds)'</span>
+    <span class="p">});</span>
+
+    <span class="k">return</span> <span class="s1">'In 5 and 10 seconds I\'ll remind you to wake up using the scheduler'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">wakeup</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">request</span><span class="p">.</span><span class="nx">input</span><span class="p">.</span><span class="nx">schedule_data</span><span class="p">.</span><span class="nx">text</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>Wake up</span></div>
+  <div class="bot"><span>In 5 and 10 seconds I'll remind you to wake up using the scheduler
+</span></div>
+  <div class="info"><span>5 seconds later</span></div>
+  <div class="bot"><span>Wake up (5 seconds)</span></div>
+  <div class="info"><span>5 seconds later</span></div>
+  <div class="bot"><span>Wake up (10 seconds)</span></div>
 </div>
 
   </div>

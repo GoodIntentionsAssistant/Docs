@@ -2,7 +2,7 @@
 /**
  * Navigation
  */
-.page-content > .wrapper {
+.docs .page-content > .wrapper {
   display: flex;
   align-items: flex-start;
 }
@@ -49,6 +49,10 @@
 
         &:last-child {
           margin-bottom:0;
+        }
+
+        &:first-child {
+          a { font-weight:bold;  }
         }
       }
     }

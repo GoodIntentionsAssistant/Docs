@@ -291,6 +291,9 @@ $converse-primary-color2: #1952c6;
 					display:flex;
 				}
 				button {
+					flex-grow:1;
+					flex-basis: 0;
+
 					cursor:pointer;
 					margin:5px;
 					height:35px;

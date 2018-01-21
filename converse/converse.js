@@ -22,6 +22,9 @@ class Converse {
 		this.socket = null;
 		this.ident = null;
 
+		//GI will provide the user a session id to use for all requests
+		this.session_id = null;
+
 		//Main template
 		this.template();
 
@@ -61,7 +64,7 @@ class Converse {
 
 		this.socket.on('connect', () => {
 			this.connected();
-			this.identify();
+			this.handshake();
 		});
 
   	this.socket.on('disconnect', () => {
@@ -70,6 +73,10 @@ class Converse {
 
   	this.socket.on('response', (data) => {
 			this.response(data);
+		});
+
+  	this.socket.on('handshake', (data) => {
+			this.session_id = data.session_id;
 		});
 	}
 
@@ -204,15 +211,15 @@ class Converse {
 		this.state_set('last_message_sent', text);
 	}
 
-	identify() {
-		this.socket.emit('identify', {
-			ident: this.ident
+	handshake() {
+		this.socket.emit('handshake', {
+			token: this.ident
 		});
 	}
 
 	emit(text) {
 		this.socket.emit('request', {
-			ident: this.ident,
+			session_id: this.session_id,
 			text: text
 		});
 	}
@@ -248,6 +255,10 @@ class Converse {
 
 			if(data.attachments.navigation) {
 				document.location.href = data.attachments.navigation.url;
+			}
+
+			if(data.attachments.display) {
+				this.open();
 			}
 		}
 	}

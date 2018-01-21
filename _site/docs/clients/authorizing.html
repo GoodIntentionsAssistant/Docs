@@ -11,9 +11,13 @@
 ">
 
   <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/mermaid.css">
+
   <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/clients/authorizing.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
+
+  <link rel="icon"  type="image/png" href="/img/good-intentions-chatbot-logo.png">
 
   <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
 
@@ -61,41 +65,32 @@
   <ul>
     <li><a href="/docs/">Getting Started</a></li>
 
-    <li><a href="/docs/intents/">Intents</a>
-      <ul style="display:none;">
-        <li><a href="/docs/intents/training">Training</a></li>
-        <li><a href="/docs/intents/parameters">Parameters</a></li>
-        <li><a href="/docs/intents/result">Returning result</a></li>
-        <li><a href="/docs/intents/attachments">Attachments</a></li>
-        <li><a href="/docs/intents/expects">Expects</a></li>
-        <li><a href="/docs/intents/redirect">Redirecting</a></li>
-        <li><a href="/docs/intents/fallback">Fallbacks</a></li>
-        <li><a href="/docs/intents/callback">Callbacks</a></li>
+    <li>Overview
+      <ul>
+        <li><a href="/docs/overview/skills">Skills</a></li>
+        <li><a href="/docs/overview/clients">Clients</a></li>
+        <li><a href="/docs/overview/training">Training</a></li>
+        <li><a href="/docs/overview/parameters">Parameters</a></li>
+        <li><a href="/docs/overview/result">Returning result</a></li>
+        <li><a href="/docs/overview/entities">Entities</a></li>
+        <li><a href="/docs/overview/attachments">Attachments</a></li>
+        <li><a href="/docs/overview/expects">Expects</a></li>
+        <li><a href="/docs/overview/auth">User &amp; Session</a></li>
+        <li><a href="/docs/overview/scheduler">Scheduler</a></li>
+        <li><a href="/docs/overview/redirect">Redirecting</a></li>
+        <li><a href="/docs/overview/fallback">Fallbacks</a></li>
+        <li><a href="/docs/overview/callback">Callbacks</a></li>
+        <li><a href="/docs/overview/events">Events</a></li>
       </ul>
     </li>
 
-    <li><a href="/docs/entities/">Entities</a>
-      <ul style="display:none;">
-        <li><a href="/docs/entities/data">Entity data</a></li>
-        <li><a href="/docs/entities/entity_object">Fetch entity object</a></li>
-        <li><a href="/docs/entities/callbacks">Callbacks</a></li>
-        <li>Parsing for parameters</li>
-      </ul>
-    </li>
 
-    <li><a href="/docs/clients/">Clients</a>
+    <!--<li><a href="/docs/clients/">Clients</a>
       <ul style="display:none;">
         <li><a href="/docs/clients/authorizing">Authorizing</a></li>
         <li><a href="/docs/clients/request">Request</a></li>
         <li><a href="/docs/clients/response">Response</a></li>
         <li><a href="/docs/clients/sdk">Client SDK</a></li>
-      </ul>
-    </li>
-
-    <li><a href="/docs/skills/">Skills</a>
-      <ul style="display:none;">
-        <li><a href="/docs/skills/create">Creating a skill</a></li>
-        <li><a href="/docs/skills/events">Events</a></li>
       </ul>
     </li>
 
@@ -122,7 +117,8 @@
         <li>Code documentation</li>
         <li>Unit tests</li>
       </ul>
-    </li>
+    </li>-->
+
   </ul>
 
 </nav>
@@ -135,13 +131,57 @@
   </header>
 
   <div class="post-content">
-    <h2 id="white-listing-a-new-client">White listing a new client</h2>
+    <h2 id="authorization-flow">Authorization flow</h2>
 
-<p>Only clients that have been white listed can connect and send input to the framework. In your <code class="highlighter-rouge">app/Config/config.json</code> file are settings to define the name and the client token. If you create a new client you must add the key and token to the configuration file first.</p>
+<div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;toolbar&quot;:&quot;zoom layers lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;url&quot;:&quot;https://drive.google.com/a/firecreek.co.uk/uc?id=1j1T3xepxoa42ivY008Xbg-ARCKhNKAPc&amp;export=download&quot;}"></div>
+<script type="text/javascript" src="https://www.draw.io/embed2.js?&amp;fetch=https%3A%2F%2Fdrive.google.com%2Fa%2Ffirecreek.co.uk%2Fuc%3Fid%3D1j1T3xepxoa42ivY008Xbg-ARCKhNKAPc%26export%3Ddownload"></script>
+
+<h2 id="glossary">Glossary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Set by</th>
+      <th>Used by</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Secret</td>
+      <td>Client secret enabling client to talk to GI</td>
+      <td>GI</td>
+      <td>Client</td>
+    </tr>
+    <tr>
+      <td>Auth token</td>
+      <td>Client uses the secret token after identifying with GI, the secret is no longer required</td>
+      <td>GI</td>
+      <td>Client</td>
+    </tr>
+    <tr>
+      <td>Token</td>
+      <td>End users unique identifier, e.g. their ip address</td>
+      <td>User</td>
+      <td>GI</td>
+    </tr>
+    <tr>
+      <td>Session id</td>
+      <td>End users session id to make requests</td>
+      <td>User</td>
+      <td>GI</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="white-listing-a-new-client">White listing a new client</h2>
+
+<p>Only clients that have been white listed can connect and send input to the framework. In your <code class="highlighter-rouge">app/Config/config.json</code> file are settings to define the name and the client token. If you create a new client you must add the key and secret to the configuration file first.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">clients</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s1">'facebook'</span><span class="p">:</span> <span class="p">{</span> 
-    <span class="s1">'token'</span><span class="p">:</span> <span class="s1">'this-is-my-secret-token'</span>
+    <span class="s1">'secret'</span><span class="p">:</span> <span class="s1">'this-is-my-secret'</span>
   <span class="p">}</span>
 <span class="p">};</span>
 </code></pre>
@@ -149,28 +189,28 @@
 
 <h2 id="client-authorizing-and-identifying">Client authorizing and identifying</h2>
 
-<p>On connecting the client must identify itself using its client name and <code class="highlighter-rouge">token</code> found in your config.js file.</p>
+<p>On connecting the client must identify itself using its client name and <code class="highlighter-rouge">secret</code> found in your config.js file.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'identify'</span><span class="p">,{</span>
   <span class="na">client</span><span class="p">:</span> <span class="s1">'facebook'</span><span class="p">,</span>
-  <span class="na">token</span><span class="p">:</span> <span class="s1">'this-is-my-secret-token'</span>
+  <span class="na">secret</span><span class="p">:</span> <span class="s1">'this-is-my-secret'</span>
 <span class="p">});</span>
 </code></pre>
 </div>
 
-<p>An event will be returned with the success and a <code class="highlighter-rouge">session_token</code>.</p>
+<p>An event will be returned with the success and a <code class="highlighter-rouge">auth_token</code>.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Successfully identified"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"session_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"m626NfP8jFYPAKNw"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"auth_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"m626NfP8jFYPAKNw"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"ident"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZNWXHXYT"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"identify"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 </div>
 
-<p>This token must be made on all future requests. The client token is no longer needed.</p>
+<p>The auth token must be made on all future requests. The secret is no longer needed and will be rejected if sent for further requests.</p>
 
   </div>
 

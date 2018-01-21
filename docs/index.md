@@ -12,6 +12,8 @@ This documentation has live examples and it's preferable to browse this site on 
   <div class="bot"><span>50 GBP is 68.65 USD</span></div>
   <div class="user"><span>Weather in Bangkok</span></div>
   <div class="bot"><span>Currently 26c, Mostly Cloudy in Asia, Bangkok</span></div>
+  <div class="user"><span>Go to training</span></div>
+  <div class="bot"><span>Taking you to Intent training</span></div>
 </div>
 
 

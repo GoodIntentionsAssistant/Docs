@@ -6,14 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Client Request</title>
+  <title>Intent callbacks</title>
   <meta name="description" content="Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/clients/request.html">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/overview/callback.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -127,96 +127,107 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Client Request</h1>
+    <h1 class="post-title">Intent callbacks</h1>
   </header>
 
   <div class="post-content">
-    <p>After the client has identified requests can be sent to the app. Certain fields must be passed along with the input.</p>
+    <p>There are two call backs that can be used within intents.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">input</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">client</span><span class="p">:</span> <span class="s1">'facebook'</span><span class="p">,</span>
-  <span class="na">session_token</span><span class="p">:</span> <span class="s1">'m626NfP8jFYPAKNw'</span><span class="p">,</span>
-  <span class="na">user</span><span class="p">:</span> <span class="s1">'bob'</span><span class="p">,</span>
-  <span class="na">text</span><span class="p">:</span> <span class="s1">'hello to my new app!'</span>
-<span class="p">};</span>
-<span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'request'</span><span class="p">,</span><span class="nx">input</span><span class="p">);</span>
-</code></pre>
-</div>
+<p>Both callbacks are synchronous, do not use Promises in these methods.</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Key</th>
-      <th>Required</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>client</td>
-      <td>yes</td>
-      <td>Whitelisted client name. Each client should have a unique name. This must be provided for every request.</td>
-    </tr>
-    <tr>
-      <td>session_token</td>
-      <td>yes</td>
-      <td>Session token key provided by the app that must be used on all requests. The session_token is provided when the client identifies with the server after connection.</td>
-    </tr>
-    <tr>
-      <td>user</td>
-      <td>yes</td>
-      <td>Unique name or identifer for the user interfacing with the app. For example this could be their facebook graph user id. For testing any value can be used.</td>
-    </tr>
-    <tr>
-      <td>text</td>
-      <td>yes</td>
-      <td>Raw text input from the user, e.g. “Good Morning”</td>
-    </tr>
-    <tr>
-      <td>fast</td>
-      <td>no</td>
-      <td>Response from the app has delays to simulate typing to make the bot experience more human-like. By default fast is false, changing it to true will stop the simulated delays. It’s advisable to enable fast when debugging.</td>
-    </tr>
-  </tbody>
-</table>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">GuessNumberIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
-<h2 id="speeding-up-the-request">Speeding up the request</h2>
+  <span class="nx">before_request</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">}</span>
 
-<p>When the request is passed to GI it will have a delay to simulate the bot typing. There are three methods to remove this delay.</p>
+  <span class="nx">after_request</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">}</span>
 
-<h3 id="fast-parameter">Fast Parameter</h3>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">input</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">client</span><span class="p">:</span> <span class="s1">'facebook'</span><span class="p">,</span>
-  <span class="na">session_token</span><span class="p">:</span> <span class="s1">'m626NfP8jFYPAKNw'</span><span class="p">,</span>
-  <span class="na">user</span><span class="p">:</span> <span class="s1">'bob'</span><span class="p">,</span>
-  <span class="na">text</span><span class="p">:</span> <span class="s1">'hello to my new app!'</span><span class="p">,</span>
-  <span class="na">fast</span><span class="p">:</span> <span class="kc">true</span>
-<span class="p">};</span>
-<span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'request'</span><span class="p">,</span><span class="nx">input</span><span class="p">);</span>
-</code></pre>
-</div>
-
-<h3 id="response-simulated-typing">Response Simulated Typing</h3>
-
-<p>In the <code class="highlighter-rouge">config.js</code> file change the <code class="highlighter-rouge">response</code> settings to <code class="highlighter-rouge">0</code>;</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">response</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">min_reply_time</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="na">letter_speed</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="na">max_response</span><span class="p">:</span> <span class="mi">0</span>
-<span class="p">};</span>
-</code></pre>
-</div>
-
-<h3 id="queue-speed">Queue Speed</h3>
-
-<p>In the <code class="highlighter-rouge">config.js</code> file change the loop speed. By default we recommend this value to be 500ms.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">app</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">loop_speed</span><span class="p">:</span> <span class="mi">10</span>
 <span class="p">}</span>
 </code></pre>
+</div>
+
+<h2 id="after-request-trap-example">After request trap example</h2>
+
+<p>This method can be useful to “trap” a user within an intent.</p>
+
+<p>You can exit the trap by using a cancel keyword like <code class="highlighter-rouge">stop</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">GuessNumberIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'guess number game'</span>
+    <span class="p">]);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'guess'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="s2">"Number"</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="s2">"App.Common.Entity.Number"</span><span class="p">,</span>
+      <span class="na">required</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="na">action</span><span class="p">:</span> <span class="s1">'guess'</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">after_request</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//Dont set expecting if the number has been reset</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">request</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="s1">'guess_number'</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="s1">'App.Common.Entity.Number'</span><span class="p">,</span>
+      <span class="na">fail</span><span class="p">:</span> <span class="s1">'invalid'</span><span class="p">,</span>
+      <span class="na">force</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">number</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'guess_number'</span><span class="p">,</span> <span class="nx">number</span><span class="p">);</span>
+    <span class="k">return</span> <span class="s1">'Ok, I am thinking of a number between 1 and 100. Guess my number!'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">invalid</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'You must type in a number between 1 and 100'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">guess</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">number</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'guess_number'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">guess</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'guess'</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">guess</span> <span class="o">==</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">request</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'guess_number'</span><span class="p">);</span>
+      <span class="k">return</span> <span class="s1">'Well done, my number was '</span><span class="o">+</span><span class="nx">number</span><span class="o">+</span><span class="s1">'!'</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">guess</span> <span class="o">&lt;</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s1">'Higher!'</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">guess</span> <span class="o">&gt;</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s1">'Lower!'</span>
+    <span class="p">}</span>
+
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>guess number game</span></div>
+  <div class="bot"><span>Ok, I am thinking of a number between 1 and 100. Guess my number!</span></div>
+
+  <div class="user"><span>banana</span></div>
+  <div class="bot"><span>You must type in a number between 1 and 100</span></div>
+
+  <div class="user"><span>10</span></div>
+  <div class="bot"><span>Higher!</span></div>
+
+  <div class="user"><span>32</span></div>
+  <div class="bot"><span>Lower!</span></div>
+
+  <div class="user"><span>28</span></div>
+  <div class="bot"><span>Well done, my number was 34!</span></div>
 </div>
 
   </div>
