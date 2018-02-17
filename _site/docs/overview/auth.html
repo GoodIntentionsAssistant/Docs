@@ -158,6 +158,62 @@
 </code></pre>
 </div>
 
+<div class="chat">
+  <div class="user"><span>Where am I?</span></div>
+  <div class="bot"><span>I don't know, what city are you from?</span></div>
+
+  <div class="user"><span>I'm from London</span></div>
+  <div class="bot"><span>I've heard London is nice</span></div>
+
+  <div class="user"><span>Where am I?</span></div>
+  <div class="bot"><span>You told me you was in London</span></div>
+
+  <div class="user"><span>What's the weather?</span></div>
+  <div class="bot"><span>Currently 5c, Clear in London</span></div>
+
+  <div class="user"><span>What's the time?</span></div>
+  <div class="bot"><span>8:29 am, Sunday 11th (GMT+00:00) in London</span></div>
+</div>
+
+<h2 id="example">Example</h2>
+
+<p>Example using <code class="highlighter-rouge">has</code>, <code class="highlighter-rouge">set</code> and <code class="highlighter-rouge">get</code>. The result will be stored to the user session which can be used for <code class="highlighter-rouge">WeatherIntent</code> and <code class="highlighter-rouge">TimezoneIntent</code> parameter slotfilling.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">UserFromIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'where am I?'</span>
+    <span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="s1">'city'</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s1">'You told me you was in '</span><span class="o">+</span><span class="nx">request</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'city'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span>
+      <span class="na">action</span><span class="p">:</span> <span class="s1">'reply'</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="s1">'App.Common.Entity.City'</span><span class="p">,</span>
+      <span class="na">force</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+
+    <span class="k">return</span> <span class="s1">'I don\'t know, what city are you from?'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">reply</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">city</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'expects'</span><span class="p">);</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'city'</span><span class="p">,</span> <span class="nx">city</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="s1">'I\'ve heard '</span><span class="o">+</span><span class="nx">city</span><span class="o">+</span><span class="s1">' is nice'</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+</code></pre>
+</div>
+
   </div>
 
 </article>

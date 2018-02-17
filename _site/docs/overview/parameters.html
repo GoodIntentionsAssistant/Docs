@@ -219,9 +219,14 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
       <td>If the parameter is found the action will be changed from ‘response’ to this value</td>
     </tr>
     <tr>
+      <td>keep</td>
+      <td>No</td>
+      <td>Automatically store the key of the parameter to user session</td>
+    </tr>
+    <tr>
       <td>slotfill</td>
       <td>No</td>
-      <td>Attempt to load the data from previously saved parameter information</td>
+      <td>Attempt to load the data from previously saved parameter information. If enabled <code class="highlighter-rouge">keep</code> will be set to true.</td>
     </tr>
   </tbody>
 </table>
@@ -393,7 +398,40 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 
 <h2 id="slot-filling">Slot Filling</h2>
 
-<p>To be documented</p>
+<p>Slot filling is useful for populating parameters if the user has provided information previously and the next intent needs to use that information in an intent.</p>
+
+<p>A user may ask “What is the weather in Bangkok?”. “Bangkok” will be stored in their user session with the parameter key <code class="highlighter-rouge">city</code>. This can be read manually in with <code class="highlighter-rouge">request.user.get('city');</code> or automatically populated the next time the weather is asked. The user can just ask “What is the weather” and “Bangkok” will be automatically used.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'city'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">name</span><span class="p">:</span> <span class="s2">"City"</span><span class="p">,</span>
+  <span class="na">entity</span><span class="p">:</span> <span class="s2">"App.Common.Entity.City"</span><span class="p">,</span>
+  <span class="na">slotfill</span><span class="p">:</span> <span class="kc">true</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>In the above example <code class="highlighter-rouge">slotfill</code> is enabled and the parameter key is <code class="highlighter-rouge">city</code>, so <code class="highlighter-rouge">request.user.get('city')</code> will be checked.</p>
+
+<p>It’s also possible to check multiple session data. In the example below three keys will be checked in order “location”, “city”, and “country”.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'location'</span><span class="p">,{</span>
+  <span class="na">name</span><span class="p">:</span> <span class="s1">'Location'</span><span class="p">,</span>
+  <span class="na">entity</span><span class="p">:</span> <span class="p">[</span><span class="s1">'App.Common.Entity.Country'</span><span class="p">,</span><span class="s1">'App.Common.Entity.City'</span><span class="p">],</span>
+  <span class="na">slotfill</span><span class="p">:</span> <span class="p">[</span><span class="s1">'city'</span><span class="p">,</span><span class="s1">'country'</span><span class="p">]</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>What is the weather?</span></div>
+  <div class="bot"><span>For the weather please specify the city</span></div>
+  <div class="user"><span>What is the weather in Bangkok?</span></div>
+  <div class="bot"><span>Currently 32c, Mostly Cloudy in Bangkok</span></div>
+  <div class="user"><span>What is the weather?</span></div>
+  <div class="bot"><span>Currently 32c, Mostly Cloudy in Bangkok</span></div>
+  <div class="user"><span>What is the time?</span></div>
+  <div class="bot"><span>3:43 pm, Sunday 11th (+07+07:00) in Bangkok</span></div>
+</div>
 
   </div>
 

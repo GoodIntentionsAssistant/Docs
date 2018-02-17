@@ -61,7 +61,8 @@ data | No | You cannot use 'entity' and 'data' fields together. Data is a hash o
 required | No | Default is false. If the intent has been found the paramters are checked one by one before calling the action. But if a parameter is required and it's not found the intent will be set to Errors/ParametersFailed e.g. Currency conversion requires a number, currency from and currency to. If all three of these are not found in the users input then the intent cannot be called.
 default | No | If no value was found in the users input the `value` of the data will be set to `default`. This is useful when you want user confirmation and you want the default to be no.
 action | No | If the parameter is found the action will be changed from 'response' to this value
-slotfill | No | Attempt to load the data from previously saved parameter information
+keep | No | Automatically store the key of the parameter to user session
+slotfill | No | Attempt to load the data from previously saved parameter information. If enabled `keep` will be set to true.
 
 
 ## Parameters from an Entity
@@ -235,6 +236,43 @@ module.exports = class FlipCoinIntent extends Intent {
 </div>
 
 
+
+
+
 ## Slot Filling
 
-To be documented
+Slot filling is useful for populating parameters if the user has provided information previously and the next intent needs to use that information in an intent.
+
+A user may ask "What is the weather in Bangkok?". "Bangkok" will be stored in their user session with the parameter key `city`. This can be read manually in with `request.user.get('city');` or automatically populated the next time the weather is asked. The user can just ask "What is the weather" and "Bangkok" will be automatically used.
+
+~~~javascript
+this.parameter('city', {
+  name: "City",
+  entity: "App.Common.Entity.City",
+  slotfill: true
+});
+~~~
+
+In the above example `slotfill` is enabled and the parameter key is `city`, so `request.user.get('city')` will be checked.
+
+It's also possible to check multiple session data. In the example below three keys will be checked in order "location", "city", and "country".
+
+~~~javascript
+this.parameter('location',{
+  name: 'Location',
+  entity: ['App.Common.Entity.Country','App.Common.Entity.City'],
+  slotfill: ['city','country']
+});
+~~~
+
+
+<div class="chat" markdown="0">
+  <div class="user"><span>What is the weather?</span></div>
+  <div class="bot"><span>For the weather please specify the city</span></div>
+  <div class="user"><span>What is the weather in Bangkok?</span></div>
+  <div class="bot"><span>Currently 32c, Mostly Cloudy in Bangkok</span></div>
+  <div class="user"><span>What is the weather?</span></div>
+  <div class="bot"><span>Currently 32c, Mostly Cloudy in Bangkok</span></div>
+  <div class="user"><span>What is the time?</span></div>
+  <div class="bot"><span>3:43 pm, Sunday 11th (+07+07:00) in Bangkok</span></div>
+</div>

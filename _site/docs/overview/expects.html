@@ -309,6 +309,7 @@
 
   <span class="nx">after_request</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">stop</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">stop</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
       <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
     <span class="p">}</span>
 
