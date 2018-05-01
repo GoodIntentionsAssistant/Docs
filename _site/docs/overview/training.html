@@ -75,6 +75,7 @@
         <li><a href="/docs/overview/entities">Entities</a></li>
         <li><a href="/docs/overview/attachments">Attachments</a></li>
         <li><a href="/docs/overview/expects">Expects</a></li>
+        <li><a href="/docs/overview/utterance">Utterance</a></li>
         <li><a href="/docs/overview/auth">User &amp; Session</a></li>
         <li><a href="/docs/overview/scheduler">Scheduler</a></li>
         <li><a href="/docs/overview/redirect">Redirecting</a></li>
@@ -308,6 +309,55 @@
 
   <div class="user"><span>6d2</span></div>
   <div class="bot"><span>Rolled 8</span></div>
+</div>
+
+<h2 id="must-and-reject">Must and Reject</h2>
+
+<p>To manually tweak the finding engine you can use the methods <code class="highlighter-rouge">reject</code> and <code class="highlighter-rouge">must</code> in your intent along side <code class="highlighter-rouge">train</code>. This can be used similar to the <code class="highlighter-rouge">train</code> method and you can use regular expressions. Must and Reject currently does not support using entity data.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">UtilityIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'utility'</span>
+    <span class="p">]);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">must</span><span class="p">([</span>
+      <span class="s1">'reading'</span><span class="p">,</span>
+      <span class="s1">'value'</span>
+    <span class="p">]);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">reject</span><span class="p">([</span>
+      <span class="s1">'add'</span><span class="p">,</span>
+      <span class="s1">'remove'</span><span class="p">,</span>
+      <span class="s1">'update'</span>
+    <span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'Utility reading is 10'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>utility</span></div>
+  <div class="bot"><span>Sorry, I don't understand what you mean</span></div>
+
+  <div class="user"><span>add utility</span></div>
+  <div class="bot"><span>Sorry, I don't understand what you mean</span></div>
+
+  <div class="user"><span>utility reading</span></div>
+  <div class="bot"><span>Utility reading is 10</span></div>
+
+  <div class="user"><span>utility value</span></div>
+  <div class="bot"><span>Utility reading is 10</span></div>
+
+  <div class="user"><span>utility add reading</span></div>
+  <div class="bot"><span>Sorry, I don't understand what you mean</span></div>
 </div>
 
 <h2 id="fallback-classifier">Fallback classifier</h2>

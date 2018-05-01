@@ -193,6 +193,65 @@ this.train([
 </div>
 
 
+
+
+
+
+
+## Must and Reject
+
+To manually tweak the finding engine you can use the methods `reject` and `must` in your intent along side `train`. This can be used similar to the `train` method and you can use regular expressions. Must and Reject currently does not support using entity data.
+
+~~~javascript
+module.exports = class UtilityIntent extends Intent {
+
+  setup() {
+    this.train([
+      'utility'
+    ]);
+
+    this.must([
+      'reading',
+      'value'
+    ]);
+
+    this.reject([
+      'add',
+      'remove',
+      'update'
+    ]);
+  }
+
+  response(request) {
+    return 'Utility reading is 10';
+  }
+
+}
+
+~~~
+
+
+<div class="chat" markdown="0">
+  <div class="user"><span>utility</span></div>
+  <div class="bot"><span>Sorry, I don't understand what you mean</span></div>
+
+  <div class="user"><span>add utility</span></div>
+  <div class="bot"><span>Sorry, I don't understand what you mean</span></div>
+
+  <div class="user"><span>utility reading</span></div>
+  <div class="bot"><span>Utility reading is 10</span></div>
+
+  <div class="user"><span>utility value</span></div>
+  <div class="bot"><span>Utility reading is 10</span></div>
+
+  <div class="user"><span>utility add reading</span></div>
+  <div class="bot"><span>Sorry, I don't understand what you mean</span></div>
+</div>
+
+
+
+
+
 ## Fallback classifier
 
 It's always nice to have fallback intents if the classifiers with trained data did not get a match.

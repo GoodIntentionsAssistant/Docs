@@ -6,14 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Documentation</title>
+  <title>Utterance</title>
   <meta name="description" content="Node.js Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/">
+  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/overview/utterance.html">
   <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
@@ -128,158 +128,98 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Documentation</h1>
+    <h1 class="post-title">Utterance</h1>
   </header>
 
   <div class="post-content">
-    <p>This documentation has live examples and it’s preferable to browse this site on a desktop browser.</p>
+    <p>Utterance is the text entered by the user that can be used in your intents.</p>
 
 <div class="chat">
-  <div class="user"><span>50 GBP to USD</span></div>
-  <div class="bot"><span>50 GBP is 68.65 USD</span></div>
-  <div class="user"><span>Weather in Bangkok</span></div>
-  <div class="bot"><span>Currently 26c, Mostly Cloudy in Asia, Bangkok</span></div>
-  <div class="user"><span>Go to training</span></div>
-  <div class="bot"><span>Taking you to Intent training</span></div>
+  <div class="user"><span>Sentiment I love you</span></div>
+  <div class="bot"><span>Sentiment is positive!</span></div>
+  <div class="user"><span>Sentiment I hate you</span></div>
+  <div class="bot"><span>Sentiment is negative :(</span></div>
+  <div class="user"><span>Sentiment Smell my cheese</span></div>
+  <div class="bot"><span>Sentiment is neutral</span></div>
 </div>
 
-<h2 id="installation">Installation</h2>
+<h2 id="text-and-scrubbed">Text and Scrubbed</h2>
 
-<p>GI uses NodeJS 8.x and the code has only been tested on Linux Mint. Install node.js from https://nodejs.org. It is also recommended to use nvm (node version manager) to manage your node.js versions.</p>
-
-<p>It is recommended that GI is downloaded as a package directly from Github and not via NPM for now. Once GI is stable it will be available to download as a standard node package with setup scripts and a different installation guide.</p>
-
-<h3 id="configuration">Configuration</h3>
-
-<p>Copy the file <code class="highlighter-rouge">app/Config/config.example.js</code> to <code class="highlighter-rouge">app/Config/config.js</code>.</p>
-
-<p>The file contains many options for configuring your instance of GI including server ports, queue speeds, access tokens and which skills the app should load.</p>
-
-<h3 id="how-to-run">How to Run</h3>
-
-<p>Run the server which will listen to a port specified in your config file. This will then be ready for client connections. You cannot interact with the server directly but it will verbose information.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>npm install
-node server.js
-</code></pre>
-</div>
-
-<p>After the server has successfully loaded run the CLI test script in a different terminal console. The client will connect to the server and give you an interface to interact to the app. Never use the terminal client for production, it should only be used for debugging.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>cd clients
-node cli.js
-</code></pre>
-</div>
-
-<h3 id="test-cli-client">Test CLI Client</h3>
-
-<p>The test CLI client is located in the <code class="highlighter-rouge">clients/</code> directory. This test client is not designed for production and must only be used for locally testing the server.</p>
-
-<p>If the CLI client returns errors about invalid tokens check the client configuration settings in <code class="highlighter-rouge">app/Config/config.js</code> match up with the configuration settings in <code class="highlighter-rouge">clients/cli.js</code> file.</p>
-
-<h2 id="development-tips">Development Tips</h2>
-
-<p>Using nodemon with both the server and test cli client.</p>
-
-<p>When any code is updated the server and / or client will be restarted.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>nodemon server.js
-</code></pre>
-</div>
-
-<h2 id="key-components">Key Components</h2>
-
-<h5 id="skill">Skill</h5>
-<p>A set of entities, intents and data sets</p>
-
-<h5 id="entity">Entity</h5>
-<p>Data source for training the system and parsing parameters from user input</p>
-
-<h5 id="intent">Intent</h5>
-<p>Business logic for the users input</p>
-
-<h5 id="client">Client</h5>
-<p>The interface between GI and the end-point, e.g. Facebook Messenger</p>
-
-<h5 id="parameter">Parameter</h5>
-<p>Parsed user input with entity data</p>
-
-<h5 id="understand">Understand</h5>
-<p>Matching user input to an intent using trained data</p>
-
-<h5 id="train">Train</h5>
-<p>Intents train classifier collections for Understand</p>
-
-<h5 id="request">Request</h5>
-<p>Handles the user input, finding which intent to use and calling the intent</p>
-
-<h5 id="attachment">Attachment</h5>
-<p>Additional meta information send to the client such as buttons and cards</p>
-
-<h5 id="event">Event</h5>
-<p>An event that happens within GI core and can be listened to</p>
-
-<h2 id="contributing">Contributing</h2>
-
-<p>We welcome contributions from developers to fix bugs, enhance existing features and creating new features for the chat bot. If you’re just getting started check out the project <a href="https://github.com/darrenmoore/GoodIntentionsChatBot/issues">Github Issues</a> for a list of improvements, bugs and wild ideas!</p>
-
-<h3 id="areas-of-interest">Areas of interest</h3>
+<p>When the user sends a message to GI the original text they entered and their text is scrubbed / cleaned using the <code class="highlighter-rouge">Scrubber</code> utility.</p>
 
 <ul>
-  <li>Clients</li>
-  <li>Example intents</li>
-  <li>Skills</li>
-  <li>Entities and data</li>
-  <li>NLP improvements</li>
-  <li>Database layer / ORM improvements</li>
-  <li>Documentation</li>
-  <li>Reporting issues</li>
+  <li>String is converted into lower case. HELLO -&gt; hello</li>
+  <li>Contractions standardised. What’s -&gt; what is</li>
+  <li>Grammar is removed. Great! -&gt; great</li>
+  <li>Stop words are removed. The cat -&gt; Cat</li>
 </ul>
 
-<h3 id="how-to-contribute">How to Contribute</h3>
+<p>This is to help the system understand their intent and reduces the chances of calling the wrong intent.</p>
 
-<ol>
-  <li>Fork the code from master</li>
-  <li>Create a branch (git checkout -b my-branch)</li>
-  <li>Commit your changes (git commit -m “My fix or feature”)</li>
-  <li>Push to the origin branch (git push origin my-branch)</li>
-  <li>Create a new Pull Request</li>
-</ol>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//Users original text entered</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">text</span><span class="p">();</span>
 
-<h3 id="reporting-issues">Reporting Issues</h3>
+<span class="c1">//Scrubbed text</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">scrubbed</span><span class="p">();</span>
 
-<p>Github Issues is used for managing bugs, improvements and future ideas.</p>
+<span class="c1">//Scrubbed text with stopwords removed</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">scrubbed</span><span class="p">(</span><span class="s1">'stopwords'</span><span class="p">);</span>
 
-<p>For all improvements and feature requests that the following format is adheared to as often as possible for the description.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>WHO
-Optional
-Who the issue is affecting or the target audience for the issue
-
-WHY
-Not required if it's a bug
-Why the issue is required or why the target audience needs it
-
-WHAT
-Detailed information about the issue.
-User stories and example dialog.
 </code></pre>
 </div>
 
-<p>An example for creating a “Ping” Skill.</p>
+<div class="chat">
+  <div class="user"><span>The cat, is in the hat!</span></div>
+  <div class="bot"><span>Original: The cat, is in the hat!</span></div>
+  <div class="bot"><span>Scrubbed: the cat is in the hat</span></div>
+  <div class="bot"><span>Stop words: cat hat</span></div>
+</div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>WHO
-Onboarding new developers to the framework
+<h2 id="sentiment-analysis">Sentiment analysis</h2>
 
-WHY
-There is a learning curve for GI so providing a simple example skill with an intent is useful
+<p>Sentiment analysis is to understand if the users input is positive, negative or neutral.</p>
 
-WHAT
-As a new developer who downloads GI I want to learn how to build my first skill.
-As a reference I go into my app skills directory and can see the "Ping" skill.
-I then copy this directory, rename the skill, filenames and can make my own skill with an intent quickly
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">SentimentIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^analyze/</span><span class="p">,</span><span class="s1">'i'</span><span class="p">)</span>
+    <span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="p">[];</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is_positive</span><span class="p">())</span> <span class="p">{</span>
+      <span class="nx">output</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">'Sentiment is positive!'</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is_negative</span><span class="p">())</span> <span class="p">{</span>
+      <span class="nx">output</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">'Sentiment is negative :('</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">output</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">'Sentiment is neutral'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">output</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
 </code></pre>
 </div>
+<div class="chat">
+  <div class="user"><span>Sentiment I feel good</span></div>
+  <div class="bot"><span>Sentiment is positive!</span></div>
+  <div class="user"><span>Sentiment I feel bad</span></div>
+  <div class="bot"><span>Sentiment is negative :(</span></div>
+  <div class="user"><span>Sentiment I feel ok</span></div>
+  <div class="bot"><span>Sentiment is neutral</span></div>
+</div>
+
+<h2 id="speech-tagger">Speech tagger</h2>
+
+<p>The speech tagger uses <code class="highlighter-rouge">pos</code> speech tagger. It’s still experimental and is not fully implemented yet.</p>
+
 
   </div>
 
