@@ -39,9 +39,8 @@
 
     <nav class="main-nav">
       <ul>
-        <li><span><a href="/">Overview</a></span></li>
         <li><span><a href="/docs">Documentation</a></span></li>
-        <li><span><a href="https://github.com/GoodIntentionsAssistant">Download</a></span></li>
+        <li><span><a href="https://github.com/GoodIntentionsAssistant" target="_blank">Download</a></span></li>
       </ul>
     </li>
 
@@ -69,6 +68,7 @@
       <ul>
         <li><a href="/docs/overview/skills">Skills</a></li>
         <li><a href="/docs/overview/clients">Clients</a></li>
+        <li><a href="/docs/overview/intents">Intents</a></li>
         <li><a href="/docs/overview/training">Training</a></li>
         <li><a href="/docs/overview/parameters">Parameters</a></li>
         <li><a href="/docs/overview/result">Returning result</a></li>
@@ -82,6 +82,7 @@
         <li><a href="/docs/overview/fallback">Fallbacks</a></li>
         <li><a href="/docs/overview/callback">Callbacks</a></li>
         <li><a href="/docs/overview/events">Events</a></li>
+        <li><a href="/docs/overview/load_unload">Load &amp; Unload</a></li>
       </ul>
     </li>
 
@@ -147,35 +148,42 @@
 
 <p>GI uses NodeJS 8.x and the code has only been tested on Linux Mint. Install node.js from https://nodejs.org. It is also recommended to use nvm (node version manager) to manage your node.js versions.</p>
 
-<p>It is recommended that GI is downloaded as a package directly from Github and not via NPM for now. Once GI is stable it will be available to download as a standard node package with setup scripts and a different installation guide.</p>
+<h3 id="step-one">Step one</h3>
 
-<h3 id="configuration">Configuration</h3>
+<p>Create a directory on your computer and clone the git repository.</p>
 
-<p>Copy the file <code class="highlighter-rouge">app/Config/config.example.js</code> to <code class="highlighter-rouge">app/Config/config.js</code>.</p>
-
-<p>The file contains many options for configuring your instance of GI including server ports, queue speeds, access tokens and which skills the app should load.</p>
-
-<h3 id="how-to-run">How to Run</h3>
-
-<p>Run the server which will listen to a port specified in your config file. This will then be ready for client connections. You cannot interact with the server directly but it will verbose information.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>npm install
+<div class="highlighter-rouge"><pre class="highlight"><code>cd ~
+mkdir gi
+cd gi
+git clone git@github.com:GoodIntentionsAssistant/gi.git server
+cd server
+npm install
+cp app/Config/config.example.js app/Config/config.js
 node server.js
 </code></pre>
 </div>
 
-<p>After the server has successfully loaded run the CLI test script in a different terminal console. The client will connect to the server and give you an interface to interact to the app. Never use the terminal client for production, it should only be used for debugging.</p>
+<p>The server should now be running with default settings. It’s recommended to change the access keys in the configuration file.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cd clients
-node cli.js
+<h3 id="step-two">Step two</h3>
+
+<p>Once the server is running open another terminal window go back to your gi directory created in step one.</p>
+
+<p>Make sure you are not in the server directory!</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd ~/gi
+git clone git@github.com:GoodIntentionsAssistant/gi-client-cli.git cli
+cd cli
+npm install
+cp config.example.js config.js
 </code></pre>
 </div>
 
-<h3 id="test-cli-client">Test CLI Client</h3>
+<h3 id="step-three">Step three</h3>
 
-<p>The test CLI client is located in the <code class="highlighter-rouge">clients/</code> directory. This test client is not designed for production and must only be used for locally testing the server.</p>
+<p>Say something in the cli you just ran!</p>
 
-<p>If the CLI client returns errors about invalid tokens check the client configuration settings in <code class="highlighter-rouge">app/Config/config.js</code> match up with the configuration settings in <code class="highlighter-rouge">clients/cli.js</code> file.</p>
+<p>You should now be talking directly to the GI server.</p>
 
 <h2 id="development-tips">Development Tips</h2>
 

@@ -65,6 +65,7 @@ action | No | response | Action to use when the expected input has been matched
 force | No | false | If set to true what ever user input after will be directed to the same intent
 fail | No | false | If forced is true and the input is not matched the action is changed to the value of fail
 save_answer | No | false | If set to true the users input will be stored to their user record and can be used for slotfilling
+expire | No | 60 | Seconds for the expects to expire
 entity | No | false | User input will be parsed to get entity data. The result if matched will be set to a parameter key called `expects`. If entity is not set then data must be passed.
 data | No | null | If instead of using entity data it's possible to manually set the data to be checked
 
@@ -268,6 +269,42 @@ module.exports = class FootballQuestionIntent extends Intent {
   <div class="user"><span>Do you like football?</span></div>
   <div class="bot"><span>Yes I do and I know you don't enjoy it already</span></div>
 </div>
+
+
+
+
+## Expiring expects
+
+By default when setting an expects it will expire in 60 seconds, or what is in your `config.js` file.
+
+You can define the expiry seconds in the request.
+
+~~~javascript
+//Expired in 10 seconds
+request.expect({ expire: 10 });
+
+//Expired in 1 hour
+request.expect({ expire: 3600 });
+~~~
+
+
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Short memory</span></div>
+  <div class="bot"><span>Do you like bananas?</span></div>
+  <div class="user"><span>Yes</span></div>
+  <div class="bot"><span>I like bananas</span></div>
+
+  <div class="empty"><span></span></div>
+
+  <div class="user"><span>Short memory</span></div>
+  <div class="bot"><span>Do you like bananas?</span></div>
+  <div class="info"><span>5 seconds later</span></div>
+  <div class="user"><span>Yes</span></div>
+  <div class="bot"><span>Not sure what you are saying yes to.</span></div>
+</div>
+
+
 
 
 

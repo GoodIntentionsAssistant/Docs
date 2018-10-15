@@ -11,7 +11,7 @@ Using `this.train()` function you can train the bot to understand the intent.
 module.exports = class PingIntent extends Intent {
 
   setup() {
-    this.train(['ping','pong']);
+    this.train('ping');
   }
 
   response() {
@@ -248,6 +248,83 @@ module.exports = class UtilityIntent extends Intent {
   <div class="bot"><span>Sorry, I don't understand what you mean</span></div>
 </div>
 
+
+If you find existing intents are conflicting you can define must and reject training for other intents.
+
+~~~javascript
+//If the keyword 'bmi' is found GI won't direct the intent to the Unit intent.
+this.app.Explicit.train('reject', 'App.Unit.Intent.Unit', 'bmi');
+~~~
+
+
+
+
+
+
+
+## Labels and Sentiment
+
+The utterance of the users input is labelled with various keywords including sentiments including `positive`, `negative` and `neutral` and it's possible to match an intent with a users input.
+
+This can be used to fine tune your intents if they are firing incorrectly.
+
+Multiple labels can be specified and will be defined as an OR. If you set `this.must(['who', 'where'])` it will accept any intent what where the user input uses a `who` *or* `where`.
+
+In this example the intent will only get called if it has a `positive` label.
+
+~~~javascript
+module.exports = class MustBePositiveIntent extends Intent {
+
+  setup() {
+    this.train('must be');
+    this.must('#positive');
+  }
+
+  response() {
+    return 'Positive all the time!';
+  }
+
+}
+~~~
+
+
+<div class="chat" markdown="0">
+  <div class="user"><span>must be happy</span></div>
+  <div class="bot"><span>Positive all the time!</span></div>
+
+  <div class="user"><span>must be down</span></div>
+  <div class="bot"><span>I'm a bit confused what you mean</span></div>
+</div>
+
+
+
+### System labels currently supported
+
+How, who, what, which, where, why, are, question, positive, negative, neutral.
+
+
+~~~javascript
+module.exports = class DarrenIntent extends Intent {
+
+  setup() {
+    this.train('darren');
+    this.must('who')
+  }
+
+  response(request) {
+    return 'The creator!';
+  }
+
+}
+~~~
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Darren</span></div>
+  <div class="bot"><span>I'm afraid I don't understand</span></div>
+
+  <div class="user"><span>Who is Darren</span></div>
+  <div class="bot"><span>The creator!</span></div>
+</div>
 
 
 

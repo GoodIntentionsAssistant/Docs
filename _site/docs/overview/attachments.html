@@ -39,9 +39,8 @@
 
     <nav class="main-nav">
       <ul>
-        <li><span><a href="/">Overview</a></span></li>
         <li><span><a href="/docs">Documentation</a></span></li>
-        <li><span><a href="https://github.com/GoodIntentionsAssistant">Download</a></span></li>
+        <li><span><a href="https://github.com/GoodIntentionsAssistant" target="_blank">Download</a></span></li>
       </ul>
     </li>
 
@@ -69,6 +68,7 @@
       <ul>
         <li><a href="/docs/overview/skills">Skills</a></li>
         <li><a href="/docs/overview/clients">Clients</a></li>
+        <li><a href="/docs/overview/intents">Intents</a></li>
         <li><a href="/docs/overview/training">Training</a></li>
         <li><a href="/docs/overview/parameters">Parameters</a></li>
         <li><a href="/docs/overview/result">Returning result</a></li>
@@ -82,6 +82,7 @@
         <li><a href="/docs/overview/fallback">Fallbacks</a></li>
         <li><a href="/docs/overview/callback">Callbacks</a></li>
         <li><a href="/docs/overview/events">Events</a></li>
+        <li><a href="/docs/overview/load_unload">Load &amp; Unload</a></li>
       </ul>
     </li>
 
@@ -156,6 +157,8 @@
   <li><code class="highlighter-rouge">action</code> - Button options to show the user</li>
   <li><code class="highlighter-rouge">image</code> - Send image URL’s to be displayed</li>
   <li><code class="highlighter-rouge">field</code> - Additional small information, e.g. citation</li>
+  <li><code class="highlighter-rouge">reply</code> - Expecting a reply</li>
+  <li><code class="highlighter-rouge">voice</code> - Alternative for voice instead of using standard message text</li>
 </ul>
 
 <h2 id="enabling-attachments">Enabling attachments</h2>
@@ -201,6 +204,41 @@
 <p>After one of these buttons is pressed it will send the text back to the GI client, for example “yes”.</p>
 
 <p>But without using <code class="highlighter-rouge">expect</code> and a <code class="highlighter-rouge">parameter</code> the next input of “yes” or “no” won’t be recognised.</p>
+
+<h2 id="images">Images</h2>
+
+<p>Used for showing buttons to a user.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'image'</span><span class="p">,</span><span class="s1">'https://picsum.photos/300/300/?random'</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>Random picture</span></div>
+  <div class="bot"><span><img src="https://picsum.photos/300/300/?random" /></span></div>
+</div>
+
+<h2 id="voice">Voice</h2>
+
+<p>If you want the client to handle a voice message differently you can use the voice attachment.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">RandomPictureIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'random picture'</span>
+    <span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'image'</span><span class="p">,</span><span class="s1">'https://picsum.photos/300/300/?random'</span><span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'voice'</span><span class="p">,</span><span class="s1">'I can\'t show you a picture'</span><span class="p">);</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
 
 <h2 id="trapping-example">Trapping example</h2>
 
@@ -261,19 +299,6 @@
   </div>
   <div class="user"><span>No</span></div>
   <div class="bot"><span>OK that is enough</span></div>
-</div>
-
-<h2 id="images">Images</h2>
-
-<p>Used for showing buttons to a user.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'image'</span><span class="p">,</span><span class="s1">'https://picsum.photos/300/300/?random'</span><span class="p">);</span>
-</code></pre>
-</div>
-
-<div class="chat">
-  <div class="user"><span>Random picture</span></div>
-  <div class="bot"><span><img src="https://picsum.photos/300/300/?random" /></span></div>
 </div>
 
 <h2 id="creating-an-attachment">Creating an attachment</h2>

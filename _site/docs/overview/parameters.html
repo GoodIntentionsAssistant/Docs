@@ -39,9 +39,8 @@
 
     <nav class="main-nav">
       <ul>
-        <li><span><a href="/">Overview</a></span></li>
         <li><span><a href="/docs">Documentation</a></span></li>
-        <li><span><a href="https://github.com/GoodIntentionsAssistant">Download</a></span></li>
+        <li><span><a href="https://github.com/GoodIntentionsAssistant" target="_blank">Download</a></span></li>
       </ul>
     </li>
 
@@ -69,6 +68,7 @@
       <ul>
         <li><a href="/docs/overview/skills">Skills</a></li>
         <li><a href="/docs/overview/clients">Clients</a></li>
+        <li><a href="/docs/overview/intents">Intents</a></li>
         <li><a href="/docs/overview/training">Training</a></li>
         <li><a href="/docs/overview/parameters">Parameters</a></li>
         <li><a href="/docs/overview/result">Returning result</a></li>
@@ -82,6 +82,7 @@
         <li><a href="/docs/overview/fallback">Fallbacks</a></li>
         <li><a href="/docs/overview/callback">Callbacks</a></li>
         <li><a href="/docs/overview/events">Events</a></li>
+        <li><a href="/docs/overview/load_unload">Load &amp; Unload</a></li>
       </ul>
     </li>
 
@@ -150,11 +151,11 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 
     <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">,</span> <span class="p">{</span>
       <span class="na">name</span><span class="p">:</span> <span class="s2">"Choice"</span><span class="p">,</span>
-      <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"pizza"</span><span class="p">:</span> <span class="p">{},</span>
-        <span class="s2">"burger"</span><span class="p">:</span> <span class="p">{},</span>
-        <span class="s2">"fries"</span><span class="p">:</span> <span class="p">{}</span>
-      <span class="p">}</span>
+      <span class="na">data</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"pizza"</span><span class="p">,</span>
+        <span class="s2">"burger"</span><span class="p">,</span>
+        <span class="s2">"fries"</span>
+      <span class="p">]</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
@@ -202,7 +203,7 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
     <tr>
       <td>data</td>
       <td>No</td>
-      <td>You cannot use ‘entity’ and ‘data’ fields together. Data is a hash of data that is used for extracting parameters when you don’t want to create an entity. All parameter extracting use entities, so when Parameter is trying to extract data from the user input and ‘data’ is set it will create Entity/Dummy and copy the data to the module. The data format is exactly the same as the data settings in entities.</td>
+      <td>You cannot use ‘entity’ and ‘data’ fields together. Data is a hash or an array of data that is used for extracting parameters when you don’t want to create an entity. All parameter extracting use entities, so when Parameter is trying to extract data from the user input and ‘data’ is set it will create Entity/Dummy and copy the data to the module. The data format is exactly the same as the data settings in entities.</td>
     </tr>
     <tr>
       <td>required</td>
@@ -286,7 +287,7 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
   <div class="bot"><span>The random number is 75</span></div>
   <div class="user"><span>Random number up to 20</span></div>
   <div class="bot"><span>The random number is 11</span></div>
-  <div class="user"><span>Random number between 5 and 10</span></div>
+  <div class="user"><span>Random number between five and 10</span></div>
   <div class="bot"><span>The random number is 6</span></div>
 </div>
 
@@ -302,11 +303,8 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
     <span class="p">]);</span>
 
     <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">,</span> <span class="p">{</span>
-      <span class="na">name</span><span class="p">:</span> <span class="s2">"Choice"</span><span class="p">,</span>
-      <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"yes"</span><span class="p">:</span> <span class="p">{},</span>
-        <span class="s2">"no"</span><span class="p">:</span> <span class="p">{}</span>
-      <span class="p">},</span>
+      <span class="na">name</span><span class="p">:</span> <span class="s1">'Choice'</span><span class="p">,</span>
+      <span class="na">data</span><span class="p">:</span> <span class="p">[</span><span class="s1">'yes'</span><span class="p">,</span><span class="s1">'no'</span><span class="p">],</span>
       <span class="na">action</span><span class="p">:</span> <span class="s1">'answered'</span>
     <span class="p">});</span>
   <span class="p">}</span>
@@ -337,6 +335,37 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
   <div class="bot"><span>Do you want sugar in your tea?</span></div>
   <div class="user"><span>No</span></div>
   <div class="bot"><span>Healthy option</span></div>
+</div>
+
+<h2 id="parameters-with-synonyms">Parameters with synonyms</h2>
+
+<p>Synonyms can also be used when you are defining the data without using an entity. This is the same format as putting synonyms in entities.</p>
+
+<p>Using the code below will set the parameter value to the parent key, either ‘yes’ or ‘no’.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">'yes'</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nl">synonyms</span><span class="p">:</span> <span class="p">[</span><span class="s1">'yup'</span><span class="p">,</span><span class="s1">'yeah'</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s1">'no'</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nl">synonyms</span><span class="p">:</span> <span class="p">[</span><span class="s1">'nope'</span><span class="p">,</span><span class="s1">'nah'</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="p">...</span>
+
+<span class="c1">//Value of choice will be either 'yes' or 'no'</span>
+<span class="kd">let</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>I want a scone</span></div>
+  <div class="bot"><span>Do you want jam on your scone?</span></div>
+  <div class="user"><span>Yup</span></div>
+  <div class="bot"><span>A scone with jam coming up!</span></div>
 </div>
 
 <h2 id="default-parameter-value">Default parameter value</h2>
@@ -397,6 +426,20 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
   <div class="bot"><span>Heads, Tails, Heads, Tails, Tails</span></div>
 </div>
 
+<h2 id="fetching-entity-data">Fetching Entity Data</h2>
+
+<p>The <code class="highlighter-rouge">.value()</code> will return the final value of the parameter but there can be additional meta data.</p>
+
+<p>With <code class="highlighter-rouge">.get()</code> it’s possible to get all the meta data including the matched entity data.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//Get all parameters set</span>
+<span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
+
+<span class="c1">//Get all parameter information about flips</span>
+<span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'flips'</span><span class="p">);</span>
+</code></pre>
+</div>
+
 <h2 id="slot-filling">Slot Filling</h2>
 
 <p>Slot filling is useful for populating parameters if the user has provided information previously and the next intent needs to use that information in an intent.</p>
@@ -432,6 +475,45 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
   <div class="bot"><span>Currently 32c, Mostly Cloudy in Bangkok</span></div>
   <div class="user"><span>What is the time?</span></div>
   <div class="bot"><span>3:43 pm, Sunday 11th (+07+07:00) in Bangkok</span></div>
+</div>
+
+<h2 id="light-example">Light Example</h2>
+
+<p>The light example in GI (in Example skill directory) could easily interact with your IoT light devices.</p>
+
+<p>The light intent uses multiple parameters…</p>
+
+<ul>
+  <li>State - If the user wants to turn the light on or off</li>
+  <li>Colour - Red, green, blue or white</li>
+  <li>Brightness - Dim, brighten, up or down</li>
+  <li>Brightness Percentage - Percentage number for setting the brightness</li>
+</ul>
+
+<p>The intent can also return the state of the light by checking if the utterance is a question.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is_question</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>Turn the light on at 70% and make it green</span></div>
+  <div class="bot"><span>Turned lights on, Changed colour to green, Brightness set to 70%</span></div>
+
+  <div class="user"><span>Change the light to red</span></div>
+  <div class="bot"><span>Changed colour to red</span></div>
+  
+  <div class="user"><span>Dim the light and make it white</span></div>
+  <div class="bot"><span>Changed colour to white, Brightness set to 20%</span></div>
+  
+  <div class="user"><span>Is the light on?</span></div>
+  <div class="bot"><span>Yes, the light is on</span></div>
+  
+  <div class="user"><span>Is the light red?</span></div>
+  <div class="bot"><span>No, the light colour is white</span></div>
+  
+  <div class="user"><span>Turn off the lights</span></div>
+  <div class="bot"><span>Turned lights off</span></div>
 </div>
 
   </div>

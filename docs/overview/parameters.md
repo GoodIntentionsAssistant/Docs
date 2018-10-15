@@ -23,11 +23,11 @@ module.exports = class OrderIntent extends Intent {
 
     this.parameter('choice', {
       name: "Choice",
-      data: {
-        "pizza": {},
-        "burger": {},
-        "fries": {}
-      }
+      data: [
+        "pizza",
+        "burger",
+        "fries"
+      ]
     });
   }
 
@@ -57,7 +57,7 @@ Key | Required | Description
 --- | --- | ---
 name | Yes | Nice friendly name for the parameter. This name is used if the parameter is required and not provided
 entity | No | Parameters need to be extracted and they need something to match aganist. If you are matching a number set the entity to be number and Entity/Number will be used. If you want to detect a date then you can use the Entity/Date module. Sometimes you don't want to create a full entity to handle a small amount of data so you can use the 'data' attribute below. See the Entity section for more information.
-data | No | You cannot use 'entity' and 'data' fields together. Data is a hash of data that is used for extracting parameters when you don't want to create an entity. All parameter extracting use entities, so when Parameter is trying to extract data from the user input and 'data' is set it will create Entity/Dummy and copy the data to the module. The data format is exactly the same as the data settings in entities.
+data | No | You cannot use 'entity' and 'data' fields together. Data is a hash or an array of data that is used for extracting parameters when you don't want to create an entity. All parameter extracting use entities, so when Parameter is trying to extract data from the user input and 'data' is set it will create Entity/Dummy and copy the data to the module. The data format is exactly the same as the data settings in entities.
 required | No | Default is false. If the intent has been found the paramters are checked one by one before calling the action. But if a parameter is required and it's not found the intent will be set to Errors/ParametersFailed e.g. Currency conversion requires a number, currency from and currency to. If all three of these are not found in the users input then the intent cannot be called.
 default | No | If no value was found in the users input the `value` of the data will be set to `default`. This is useful when you want user confirmation and you want the default to be no.
 action | No | If the parameter is found the action will be changed from 'response' to this value
@@ -119,7 +119,7 @@ module.exports = class RandomNumberIntent extends Intent {
   <div class="bot"><span>The random number is 75</span></div>
   <div class="user"><span>Random number up to 20</span></div>
   <div class="bot"><span>The random number is 11</span></div>
-  <div class="user"><span>Random number between 5 and 10</span></div>
+  <div class="user"><span>Random number between five and 10</span></div>
   <div class="bot"><span>The random number is 6</span></div>
 </div>
 
@@ -138,11 +138,8 @@ module.exports = class TeaIntent extends Intent {
     ]);
 
     this.parameter('choice', {
-      name: "Choice",
-      data: {
-        "yes": {},
-        "no": {}
-      },
+      name: 'Choice',
+      data: ['yes','no'],
       action: 'answered'
     });
   }
@@ -173,6 +170,41 @@ module.exports = class TeaIntent extends Intent {
   <div class="user"><span>No</span></div>
   <div class="bot"><span>Healthy option</span></div>
 </div>
+
+
+
+
+## Parameters with synonyms
+
+Synonyms can also be used when you are defining the data without using an entity. This is the same format as putting synonyms in entities.
+
+Using the code below will set the parameter value to the parent key, either 'yes' or 'no'.
+
+~~~javascript
+this.parameter('choice', {
+  data: {
+    'yes': {
+      synonyms: ['yup','yeah']
+    },
+    'no': {
+      synonyms: ['nope','nah']
+    }
+  }
+});
+
+...
+
+//Value of choice will be either 'yes' or 'no'
+let choice = request.parameters.value('choice');
+~~~
+
+<div class="chat" markdown="0">
+  <div class="user"><span>I want a scone</span></div>
+  <div class="bot"><span>Do you want jam on your scone?</span></div>
+  <div class="user"><span>Yup</span></div>
+  <div class="bot"><span>A scone with jam coming up!</span></div>
+</div>
+
 
 
 
@@ -239,6 +271,26 @@ module.exports = class FlipCoinIntent extends Intent {
 
 
 
+
+## Fetching Entity Data
+
+The `.value()` will return the final value of the parameter but there can be additional meta data.
+
+With `.get()` it's possible to get all the meta data including the matched entity data.
+
+~~~javascript
+//Get all parameters set
+let result = request.parameters.get();
+
+//Get all parameter information about flips
+let result = request.parameters.get('flips');
+~~~
+
+
+
+
+
+
 ## Slot Filling
 
 Slot filling is useful for populating parameters if the user has provided information previously and the next intent needs to use that information in an intent.
@@ -275,4 +327,44 @@ this.parameter('location',{
   <div class="bot"><span>Currently 32c, Mostly Cloudy in Bangkok</span></div>
   <div class="user"><span>What is the time?</span></div>
   <div class="bot"><span>3:43 pm, Sunday 11th (+07+07:00) in Bangkok</span></div>
+</div>
+
+
+
+## Light Example
+
+The light example in GI (in Example skill directory) could easily interact with your IoT light devices.
+
+The light intent uses multiple parameters...
+
+* State - If the user wants to turn the light on or off
+* Colour - Red, green, blue or white
+* Brightness - Dim, brighten, up or down
+* Brightness Percentage - Percentage number for setting the brightness
+
+The intent can also return the state of the light by checking if the utterance is a question.
+
+~~~javascript
+request.utterance.is_question()
+~~~
+
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Turn the light on at 70% and make it green</span></div>
+  <div class="bot"><span>Turned lights on, Changed colour to green, Brightness set to 70%</span></div>
+
+  <div class="user"><span>Change the light to red</span></div>
+  <div class="bot"><span>Changed colour to red</span></div>
+  
+  <div class="user"><span>Dim the light and make it white</span></div>
+  <div class="bot"><span>Changed colour to white, Brightness set to 20%</span></div>
+  
+  <div class="user"><span>Is the light on?</span></div>
+  <div class="bot"><span>Yes, the light is on</span></div>
+  
+  <div class="user"><span>Is the light red?</span></div>
+  <div class="bot"><span>No, the light colour is white</span></div>
+  
+  <div class="user"><span>Turn off the lights</span></div>
+  <div class="bot"><span>Turned lights off</span></div>
 </div>

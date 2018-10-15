@@ -76,7 +76,10 @@ class Converse {
 		});
 
   	this.socket.on('handshake', (data) => {
+  		//Ready to send data
 			this.session_id = data.session_id;
+
+			this.send_page_event();
 		});
 	}
 
@@ -104,6 +107,17 @@ class Converse {
 	partial(key, data) {
 		let template = this._partials[key];
 		return template(data);
+	}
+
+
+	send_page_event() {
+		this.emit('', {
+			type:'event',
+			data: {
+				event: 'page-visit',
+				url: document.location.href
+			}
+		});
 	}
 
 
@@ -217,16 +231,24 @@ class Converse {
 		});
 	}
 
-	emit(text) {
+	emit(text, options = {}) {
+		if(!options.type) {
+			options.type = 'message';
+		}
+
+		if(!options.data) {
+			options.data = null;
+		}
+
 		this.socket.emit('request', {
 			session_id: this.session_id,
-			text: text
+			text: text,
+			type: options.type,
+			data: options.data
 		});
 	}
 
 	response(data) {
-		console.log(data);
-
 		if(data.type == 'message') {
 			for(var ii=0; ii<data.messages.length; ii++) {
 				let msg = data.messages[ii];
@@ -240,14 +262,14 @@ class Converse {
 
 		//Attachments
 		if(data.attachments) {
-			if(data.attachments.actions) {
-				this.show_input('actions', data.attachments.actions);
+			if(data.attachments.action) {
+				this.show_input('actions', data.attachments.action);
 			}
 
-			if(data.attachments.images) {
-				for(var ii=0; ii<data.attachments.images.length; ii++) {
+			if(data.attachments.image) {
+				for(var ii=0; ii<data.attachments.image.length; ii++) {
 					let html = this.partial('message-in',{
-						img: data.attachments.images[ii].url
+						img: data.attachments.image[ii].url
 					});
 					this.history_add(html);
 				}

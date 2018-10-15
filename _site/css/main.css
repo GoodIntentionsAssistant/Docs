@@ -653,6 +653,19 @@ div.chat {
         border-bottom: 0;
         margin-top: -15px;
         margin-left: -10px; }
+  div.chat .empty {
+    position: relative; }
+    div.chat .empty:before {
+      border-top: 2px dotted #f7f7f7;
+      content: "";
+      margin: 0 auto;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 95%;
+      z-index: -1; }
   div.chat .info {
     text-align: center;
     position: relative;

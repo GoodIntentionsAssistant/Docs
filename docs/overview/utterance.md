@@ -25,20 +25,20 @@ When the user sends a message to GI the original text they entered and their tex
 * Contractions standardised. What's -> what is
 * Grammar is removed. Great! -> great
 * Stop words are removed. The cat -> Cat
+* Octals are standardised. One, two, three -> 1, 2, 3
 
 This is to help the system understand their intent and reduces the chances of calling the wrong intent.
 
 
 ~~~javascript
 //Users original text entered
-request.utterance.text();
+request.utterance.original();
 
 //Scrubbed text
-request.utterance.scrubbed();
+request.utterance.text();
 
 //Scrubbed text with stopwords removed
 request.utterance.scrubbed('stopwords');
-
 ~~~
 
 <div class="chat" markdown="0">
@@ -49,6 +49,21 @@ request.utterance.scrubbed('stopwords');
 </div>
 
 
+
+## Tagging words
+
+The utterance is checked for various sentiments and intentions including if the users input is negative, positive a question and what type of question, such as "who" and "why".
+
+~~~javascript
+//If the input is a question
+request.utterance.is('question');
+
+//If the sentiment is positive
+request.utterance.is('positive');
+
+//If the sentiment is negative
+request.utterance.is('negative');
+~~~
 
 
 
@@ -62,17 +77,17 @@ module.exports = class SentimentIntent extends Intent {
 
   setup() {
     this.train([
-      new RegExp(/^analyze/,'i')
+      new RegExp(/^sentiment/,'i')
     ]);
   }
 
   response(request) {
     let output = [];
 
-    if(request.utterance.is_positive()) {
+    if(request.utterance.is('positive')) {
       output.push('Sentiment is positive!');
     }
-    else if(request.utterance.is_negative()) {
+    else if(request.utterance.is('negative')) {
       output.push('Sentiment is negative :(');
     }
     else {
@@ -96,7 +111,7 @@ module.exports = class SentimentIntent extends Intent {
 
 
 
-## Speech tagger
+## Parts of speech
 
 The speech tagger uses `pos` speech tagger. It's still experimental and is not fully implemented yet.
 

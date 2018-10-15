@@ -39,9 +39,8 @@
 
     <nav class="main-nav">
       <ul>
-        <li><span><a href="/">Overview</a></span></li>
         <li><span><a href="/docs">Documentation</a></span></li>
-        <li><span><a href="https://github.com/GoodIntentionsAssistant">Download</a></span></li>
+        <li><span><a href="https://github.com/GoodIntentionsAssistant" target="_blank">Download</a></span></li>
       </ul>
     </li>
 
@@ -69,6 +68,7 @@
       <ul>
         <li><a href="/docs/overview/skills">Skills</a></li>
         <li><a href="/docs/overview/clients">Clients</a></li>
+        <li><a href="/docs/overview/intents">Intents</a></li>
         <li><a href="/docs/overview/training">Training</a></li>
         <li><a href="/docs/overview/parameters">Parameters</a></li>
         <li><a href="/docs/overview/result">Returning result</a></li>
@@ -82,6 +82,7 @@
         <li><a href="/docs/overview/fallback">Fallbacks</a></li>
         <li><a href="/docs/overview/callback">Callbacks</a></li>
         <li><a href="/docs/overview/events">Events</a></li>
+        <li><a href="/docs/overview/load_unload">Load &amp; Unload</a></li>
       </ul>
     </li>
 
@@ -222,6 +223,12 @@
       <td>No</td>
       <td>false</td>
       <td>If set to true the users input will be stored to their user record and can be used for slotfilling</td>
+    </tr>
+    <tr>
+      <td>expire</td>
+      <td>No</td>
+      <td>60</td>
+      <td>Seconds for the expects to expire</td>
     </tr>
     <tr>
       <td>entity</td>
@@ -426,6 +433,35 @@
   <div class="bot"><span>We will go to a game together soon!</span></div>
   <div class="user"><span>Do you like football?</span></div>
   <div class="bot"><span>Yes I do and I know you don't enjoy it already</span></div>
+</div>
+
+<h2 id="expiring-expects">Expiring expects</h2>
+
+<p>By default when setting an expects it will expire in 60 seconds, or what is in your <code class="highlighter-rouge">config.js</code> file.</p>
+
+<p>You can define the expiry seconds in the request.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//Expired in 10 seconds</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span> <span class="na">expire</span><span class="p">:</span> <span class="mi">10</span> <span class="p">});</span>
+
+<span class="c1">//Expired in 1 hour</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span> <span class="na">expire</span><span class="p">:</span> <span class="mi">3600</span> <span class="p">});</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>Short memory</span></div>
+  <div class="bot"><span>Do you like bananas?</span></div>
+  <div class="user"><span>Yes</span></div>
+  <div class="bot"><span>I like bananas</span></div>
+
+  <div class="empty"><span></span></div>
+
+  <div class="user"><span>Short memory</span></div>
+  <div class="bot"><span>Do you like bananas?</span></div>
+  <div class="info"><span>5 seconds later</span></div>
+  <div class="user"><span>Yes</span></div>
+  <div class="bot"><span>Not sure what you are saying yes to.</span></div>
 </div>
 
 <h2 id="cancelling-expects">Cancelling expects</h2>

@@ -29,6 +29,8 @@ Supported attachment types are currently:
 * `action` - Button options to show the user
 * `image` - Send image URL's to be displayed
 * `field` - Additional small information, e.g. citation
+* `reply` - Expecting a reply
+* `voice` - Alternative for voice instead of using standard message text
 
 
 ## Enabling attachments
@@ -82,6 +84,50 @@ request.attachment('action', 'Scissors');
 After one of these buttons is pressed it will send the text back to the GI client, for example "yes".
 
 But without using `expect` and a `parameter` the next input of "yes" or "no" won't be recognised.
+
+
+
+
+
+## Images
+
+Used for showing buttons to a user.
+
+~~~javascript
+request.attachment('image','https://picsum.photos/300/300/?random');
+~~~
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Random picture</span></div>
+  <div class="bot"><span><img src="https://picsum.photos/300/300/?random"></span></div>
+</div>
+
+
+
+
+
+## Voice
+
+If you want the client to handle a voice message differently you can use the voice attachment.
+
+
+~~~javascript
+module.exports = class RandomPictureIntent extends Intent {
+
+  setup() {
+    this.train([
+      'random picture'
+    ]);
+  }
+
+  response(request) {
+    request.attachment('image','https://picsum.photos/300/300/?random');
+    request.attachment('voice','I can\'t show you a picture');
+    return true;
+  }
+
+}
+~~~
 
 
 
@@ -149,19 +195,6 @@ module.exports = class AskMeAgainIntent extends Intent {
   <div class="bot"><span>OK that is enough</span></div>
 </div>
 
-
-## Images
-
-Used for showing buttons to a user.
-
-~~~javascript
-request.attachment('image','https://picsum.photos/300/300/?random');
-~~~
-
-<div class="chat" markdown="0">
-  <div class="user"><span>Random picture</span></div>
-  <div class="bot"><span><img src="https://picsum.photos/300/300/?random"></span></div>
-</div>
 
 
 

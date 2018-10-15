@@ -39,9 +39,8 @@
 
     <nav class="main-nav">
       <ul>
-        <li><span><a href="/">Overview</a></span></li>
         <li><span><a href="/docs">Documentation</a></span></li>
-        <li><span><a href="https://github.com/GoodIntentionsAssistant">Download</a></span></li>
+        <li><span><a href="https://github.com/GoodIntentionsAssistant" target="_blank">Download</a></span></li>
       </ul>
     </li>
 
@@ -69,6 +68,7 @@
       <ul>
         <li><a href="/docs/overview/skills">Skills</a></li>
         <li><a href="/docs/overview/clients">Clients</a></li>
+        <li><a href="/docs/overview/intents">Intents</a></li>
         <li><a href="/docs/overview/training">Training</a></li>
         <li><a href="/docs/overview/parameters">Parameters</a></li>
         <li><a href="/docs/overview/result">Returning result</a></li>
@@ -82,6 +82,7 @@
         <li><a href="/docs/overview/fallback">Fallbacks</a></li>
         <li><a href="/docs/overview/callback">Callbacks</a></li>
         <li><a href="/docs/overview/events">Events</a></li>
+        <li><a href="/docs/overview/load_unload">Load &amp; Unload</a></li>
       </ul>
     </li>
 
@@ -139,7 +140,7 @@
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">PingIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'ping'</span><span class="p">,</span><span class="s1">'pong'</span><span class="p">]);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'ping'</span><span class="p">);</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
@@ -358,6 +359,73 @@
 
   <div class="user"><span>utility add reading</span></div>
   <div class="bot"><span>Sorry, I don't understand what you mean</span></div>
+</div>
+
+<p>If you find existing intents are conflicting you can define must and reject training for other intents.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//If the keyword 'bmi' is found GI won't direct the intent to the Unit intent.</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Explicit</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'reject'</span><span class="p">,</span> <span class="s1">'App.Unit.Intent.Unit'</span><span class="p">,</span> <span class="s1">'bmi'</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<h2 id="labels-and-sentiment">Labels and Sentiment</h2>
+
+<p>The utterance of the users input is labelled with various keywords including sentiments including <code class="highlighter-rouge">positive</code>, <code class="highlighter-rouge">negative</code> and <code class="highlighter-rouge">neutral</code> and it’s possible to match an intent with a users input.</p>
+
+<p>This can be used to fine tune your intents if they are firing incorrectly.</p>
+
+<p>Multiple labels can be specified and will be defined as an OR. If you set <code class="highlighter-rouge">this.must(['who', 'where'])</code> it will accept any intent what where the user input uses a <code class="highlighter-rouge">who</code> <em>or</em> <code class="highlighter-rouge">where</code>.</p>
+
+<p>In this example the intent will only get called if it has a <code class="highlighter-rouge">positive</code> label.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">MustBePositiveIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'must be'</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">must</span><span class="p">(</span><span class="s1">'#positive'</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'Positive all the time!'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>must be happy</span></div>
+  <div class="bot"><span>Positive all the time!</span></div>
+
+  <div class="user"><span>must be down</span></div>
+  <div class="bot"><span>I'm a bit confused what you mean</span></div>
+</div>
+
+<h3 id="system-labels-currently-supported">System labels currently supported</h3>
+
+<p>How, who, what, which, where, why, are, question, positive, negative, neutral.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">DarrenIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'darren'</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">must</span><span class="p">(</span><span class="s1">'who'</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'The creator!'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<div class="chat">
+  <div class="user"><span>Darren</span></div>
+  <div class="bot"><span>I'm afraid I don't understand</span></div>
+
+  <div class="user"><span>Who is Darren</span></div>
+  <div class="bot"><span>The creator!</span></div>
 </div>
 
 <h2 id="fallback-classifier">Fallback classifier</h2>
