@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/overview/utterance.html">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="canonical" href="http://localhost:4000/docs/overview/utterance.html">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="http://localhost:4000/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <link rel="icon"  type="image/png" href="/img/good-intentions-chatbot-logo.png">
@@ -155,16 +155,15 @@
 
 <p>This is to help the system understand their intent and reduces the chances of calling the wrong intent.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//Users original text entered</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Users original text entered</span>
 <span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">original</span><span class="p">();</span>
 
 <span class="c1">//Scrubbed text</span>
 <span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">text</span><span class="p">();</span>
 
 <span class="c1">//Scrubbed text with stopwords removed</span>
-<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">scrubbed</span><span class="p">(</span><span class="s1">'stopwords'</span><span class="p">);</span>
-</code></pre>
-</div>
+<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">scrubbed</span><span class="p">(</span><span class="dl">'</span><span class="s1">stopwords</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>The cat, is in the hat!</span></div>
@@ -177,40 +176,39 @@
 
 <p>The utterance is checked for various sentiments and intentions including if the users input is negative, positive a question and what type of question, such as “who” and “why”.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//If the input is a question</span>
-<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s1">'question'</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//If the input is a question</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="dl">'</span><span class="s1">question</span><span class="dl">'</span><span class="p">);</span>
 
 <span class="c1">//If the sentiment is positive</span>
-<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s1">'positive'</span><span class="p">);</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="dl">'</span><span class="s1">positive</span><span class="dl">'</span><span class="p">);</span>
 
 <span class="c1">//If the sentiment is negative</span>
-<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s1">'negative'</span><span class="p">);</span>
-</code></pre>
-</div>
+<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="dl">'</span><span class="s1">negative</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
 
 <h2 id="sentiment-analysis">Sentiment analysis</h2>
 
 <p>Sentiment analysis is to understand if the users input is positive, negative or neutral.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">SentimentIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">SentimentIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^sentiment/</span><span class="p">,</span><span class="s1">'i'</span><span class="p">)</span>
+      <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^sentiment/</span><span class="p">,</span><span class="dl">'</span><span class="s1">i</span><span class="dl">'</span><span class="p">)</span>
     <span class="p">]);</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="p">[];</span>
 
-    <span class="k">if</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s1">'positive'</span><span class="p">))</span> <span class="p">{</span>
-      <span class="nx">output</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">'Sentiment is positive!'</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="dl">'</span><span class="s1">positive</span><span class="dl">'</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nx">output</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="dl">'</span><span class="s1">Sentiment is positive!</span><span class="dl">'</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s1">'negative'</span><span class="p">))</span> <span class="p">{</span>
-      <span class="nx">output</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">'Sentiment is negative :('</span><span class="p">);</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="dl">'</span><span class="s1">negative</span><span class="dl">'</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nx">output</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="dl">'</span><span class="s1">Sentiment is negative :(</span><span class="dl">'</span><span class="p">);</span>
     <span class="p">}</span>
     <span class="k">else</span> <span class="p">{</span>
-      <span class="nx">output</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">'Sentiment is neutral'</span><span class="p">);</span>
+      <span class="nx">output</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="dl">'</span><span class="s1">Sentiment is neutral</span><span class="dl">'</span><span class="p">);</span>
     <span class="p">}</span>
 
     <span class="k">return</span> <span class="nx">output</span><span class="p">;</span>
@@ -218,8 +216,7 @@
 
 <span class="p">}</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 <div class="chat">
   <div class="user"><span>Sentiment I feel good</span></div>
   <div class="bot"><span>Sentiment is positive!</span></div>

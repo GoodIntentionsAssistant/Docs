@@ -1,0 +1,10 @@
+I"<h2 id="fatal-errors">Fatal Errors</h2>
+
+<p>Throwing a fatal error via the main App will stop the NodeJS process.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">App</span><span class="p">.</span><span class="nb">Error</span><span class="p">.</span><span class="nx">fatal</span><span class="p">(</span><span class="dl">'</span><span class="s1">Intent data file not found</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="nx">App</span><span class="p">.</span><span class="nb">Error</span><span class="p">.</span><span class="nx">fatal</span><span class="p">([</span><span class="dl">'</span><span class="s1">Entity missing the following attributes</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Name</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Data</span><span class="dl">'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+:ET

@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/overview/events.html">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="canonical" href="http://localhost:4000/docs/overview/events.html">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="http://localhost:4000/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <link rel="icon"  type="image/png" href="/img/good-intentions-chatbot-logo.png">
@@ -190,43 +190,41 @@ For example a user could visit a page on web site, the web site will trigger the
 
 <p>A request is made with the intent specified. This is then added to the queue and the <code class="highlighter-rouge">WelcomeIntent</code> will greet the user.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">WelcomeSkill</span> <span class="kr">extends</span> <span class="nx">Skill</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">WelcomeSkill</span> <span class="kd">extends</span> <span class="nx">Skill</span> <span class="p">{</span>
 
-  <span class="nx">constructor</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kr">super</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
 
-    <span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'auth.new'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">auth.new</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
       <span class="nx">app</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
         <span class="na">client_id</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">client</span><span class="p">.</span><span class="nx">ident</span><span class="p">,</span>
         <span class="na">session</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">session</span><span class="p">,</span>
-        <span class="na">intent</span><span class="p">:</span> <span class="s1">'App.Welcome.Intent.Welcome'</span>
+        <span class="na">intent</span><span class="p">:</span> <span class="dl">'</span><span class="s1">App.Welcome.Intent.Welcome</span><span class="dl">'</span>
       <span class="p">});</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="request-call-event-example">Request call event example</h2>
 
 <p>This example will console log output if the Boing intent is called.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">ExampleSkill</span> <span class="kr">extends</span> <span class="nx">Skill</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">ExampleSkill</span> <span class="kd">extends</span> <span class="nx">Skill</span> <span class="p">{</span>
 
-  <span class="nx">constructor</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kr">super</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
 
-    <span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'request.call'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="k">if</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">identifier</span> <span class="o">===</span> <span class="s1">'App.Example.Intent.Boing'</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Boing redirect was called!'</span><span class="p">);</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">request.call</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">identifier</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">App.Example.Intent.Boing</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Boing redirect was called!</span><span class="dl">'</span><span class="p">);</span>
       <span class="p">}</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="custom-events">Custom events</h2>
 
@@ -238,69 +236,65 @@ For example a user could visit a page on web site, the web site will trigger the
 
 <p>Setting the request type to <code class="highlighter-rouge">event</code> and defining the event in the <code class="highlighter-rouge">data</code> attribute will let you listen for the event. In this example the custom event will be ‘page-visit’ and the data passed will be the URL.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'request'</span><span class="p">,{</span>
-  <span class="na">client</span><span class="p">:</span> <span class="s1">'web'</span><span class="p">,</span>
-  <span class="na">session_token</span><span class="p">:</span> <span class="s1">'m626NfP8jFYPAKNw'</span><span class="p">,</span>
-  <span class="na">user</span><span class="p">:</span> <span class="s1">'bob'</span><span class="p">,</span>
-  <span class="na">type</span><span class="p">:</span> <span class="s1">'event'</span><span class="p">,</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="dl">'</span><span class="s1">request</span><span class="dl">'</span><span class="p">,{</span>
+  <span class="na">client</span><span class="p">:</span> <span class="dl">'</span><span class="s1">web</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">session_token</span><span class="p">:</span> <span class="dl">'</span><span class="s1">m626NfP8jFYPAKNw</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">user</span><span class="p">:</span> <span class="dl">'</span><span class="s1">bob</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">event</span><span class="dl">'</span><span class="p">,</span>
   <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">event</span><span class="p">:</span> <span class="s1">'page-visit'</span><span class="p">,</span>
-    <span class="na">url</span><span class="p">:</span> <span class="s1">'/overview/events'</span>
+    <span class="na">event</span><span class="p">:</span> <span class="dl">'</span><span class="s1">page-visit</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/overview/events</span><span class="dl">'</span>
   <span class="p">}</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In our Skill we can then listen for the event and make a request to an intent. You don’t need to make a custom request but for this example we use a custom request to call an intent so the NLP engine is skipped.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">ExampleSkill</span> <span class="kr">extends</span> <span class="nx">Skill</span> <span class="p">{</span>
-  <span class="nx">constructor</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kr">super</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">ExampleSkill</span> <span class="kd">extends</span> <span class="nx">Skill</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
 
-    <span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'custom.page-visit'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">custom.page-visit</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
       <span class="nx">app</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
         <span class="na">client_id</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">client</span><span class="p">.</span><span class="nx">client_id</span><span class="p">,</span>
         <span class="na">session_id</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">session_id</span><span class="p">,</span>
-        <span class="na">intent</span><span class="p">:</span> <span class="s1">'App.Example.Intent.CustomEventPageVisit'</span><span class="p">,</span>
+        <span class="na">intent</span><span class="p">:</span> <span class="dl">'</span><span class="s1">App.Example.Intent.CustomEventPageVisit</span><span class="dl">'</span><span class="p">,</span>
         <span class="na">data</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">data</span>
       <span class="p">});</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The listening event will then call an intent.</p>
 
 <p>Anything passed in the data attribute is set as a parameter that can be read in from the intent.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">CustomEventPageVisitIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">CustomEventPageVisitIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">let</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'url'</span><span class="p">);</span>
-    <span class="k">if</span><span class="p">(</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">'/overview/events'</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="dl">'</span><span class="s1">url</span><span class="dl">'</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="dl">'</span><span class="s1">/overview/events</span><span class="dl">'</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="s1">'You are now on the event page. This is a custom event!'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">You are now on the event page. This is a custom event!</span><span class="dl">'</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="creating-events-in-the-app">Creating events in the app</h2>
 
 <p>You can create your own events within a skill or intent as long as you have access to the <code class="highlighter-rouge">app</code> scope.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Event</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'middleware.lights'</span><span class="p">,{</span>
-  <span class="na">action</span><span class="p">:</span> <span class="s1">'on'</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Event</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="dl">'</span><span class="s1">middleware.lights</span><span class="dl">'</span><span class="p">,{</span>
+  <span class="na">action</span><span class="p">:</span> <span class="dl">'</span><span class="s1">on</span><span class="dl">'</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
   </div>
 

@@ -1,0 +1,273 @@
+I"t`<p>Entities hold data to train intents and extracts user input to match intent parameters.</p>
+
+<p>They can be shared across different intents, and it’s also possible to use them as a model for other types of data usage.</p>
+
+<h2 id="basic-storage">Basic storage</h2>
+
+<p>An entity can store the data inside the entity file, from a JSON or CSV file or you can load the data manually.
+Loading the data manually can be fetched asynchronously from a remote source.</p>
+
+<p>If the data becomes large it’s best to load the data from JSON or CSV.</p>
+
+<p>This is an example of storing the data within the entity.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">ColourEntity</span> <span class="kd">extends</span> <span class="nx">Entity</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="dl">'</span><span class="s1">red</span><span class="dl">'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="dl">'</span><span class="s1">blue</span><span class="dl">'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="dl">'</span><span class="s1">green</span><span class="dl">'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">:</span> <span class="p">{}</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+  
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="synonyms">Synonyms</h2>
+
+<p>The json data can also include synonyms for similar words. This is an example from the <code class="highlighter-rouge">EmotionEntity</code>.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="dl">"</span><span class="s2">happy</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">synonyms</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">great</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">delighted</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">overjoyed</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">thankful</span><span class="dl">"</span><span class="p">]</span>
+  <span class="p">},</span>
+  <span class="dl">"</span><span class="s2">good</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">synonyms</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">calm</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">peaceful</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">comfortable</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">pleased</span><span class="dl">"</span><span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h2 id="meta-data">Meta data</h2>
+
+<p>Additional keys to the entity data which can be used for parameters to handle the data correctly.</p>
+
+<p>This example is from <code class="highlighter-rouge">UnitEntity</code>.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="dl">"</span><span class="s2">cm</span><span class="dl">"</span><span class="p">:{</span>
+    <span class="dl">"</span><span class="s2">label</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Centimeters</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">measure</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">length</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">synonyms</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="dl">"</span><span class="s2">Centimeters</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">Centimeter</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">cm</span><span class="dl">"</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>If you used <code class="highlighter-rouge">parameter('unit',{});</code> to your intent you could fetch <code class="highlighter-rouge">label</code> and <code class="highlighter-rouge">measure</code> with the <code class="highlighter-rouge">parameters.get()</code> method.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Label will be 'Centimeters'</span>
+<span class="kd">let</span> <span class="nx">label</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">unit.data.label</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">//Measure will be 'length'</span>
+<span class="kd">let</span> <span class="nx">measure</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">unit.data.measure</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">//Normal key value will be 'cm'</span>
+<span class="kd">let</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="dl">'</span><span class="s1">unit</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="chat">
+  <div class="user"><span>10 meters to in</span></div>
+  <div class="bot"><span>10 Meters is 393.70 Inches</span></div>
+</div>
+
+<h2 id="get-entity-object">Get entity object</h2>
+
+<p>The parting intent fetches the <code class="highlighter-rouge">App.Basics.Entity.Parting</code> entity data and takes a random sample / record for a response.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Intent/intent</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">PartingIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="dl">'</span><span class="s1">@App.Basics.Entity.Parting</span><span class="dl">'</span>
+    <span class="p">],</span> <span class="p">{</span>
+      <span class="na">classifier</span><span class="p">:</span> <span class="dl">'</span><span class="s1">strict</span><span class="dl">'</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">entity</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">EntityRegistry</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">App.Basics.Entity.Parting</span><span class="dl">'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">entity</span><span class="p">.</span><span class="nx">get_data</span><span class="p">();</span>
+
+    <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">sample</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="nx">output</span><span class="p">].</span><span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">output</span> <span class="o">=</span> <span class="nx">data</span><span class="p">[</span><span class="nx">output</span><span class="p">].</span><span class="nx">reply</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">output</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="chat">
+  <div class="user"><span>Good bye</span></div>
+  <div class="bot"><span>Au revoir</span></div>
+  <div class="user"><span>Good bye</span></div>
+  <div class="bot"><span>So long</span></div>
+  <div class="user"><span>Ciao</span></div>
+  <div class="bot"><span>Good bye</span></div>
+</div>
+
+<h2 id="callbacks">Callbacks</h2>
+
+<p>Both callbacks are synchronous, do not use Promises in these methods.</p>
+
+<p><code class="highlighter-rouge">after_load</code> can be useful to check if an entity has loaded in the data or to manipulate the data after its loaded.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Entity</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Entity/entity</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">CityEntity</span> <span class="kd">extends</span> <span class="nx">Entity</span> <span class="p">{</span>
+
+  <span class="nx">before_load</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//Data will be empty</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">after_load</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//Data should be populated</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="loading-from-json">Loading from JSON</h2>
+
+<p>Entity data can be stored in a <code class="highlighter-rouge">.json</code> file and loaded into the entity.</p>
+
+<p>In this example the file is created, <code class="highlighter-rouge">app/Skill/Examples/Data/animals.json</code>.</p>
+
+<p>The file contents formatting should match exactly the same as if the data was defined within the exports.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"entries"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"dog"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+    </span><span class="nl">"cat"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The entity can load this and other json compatible files using <code class="highlighter-rouge">this.import</code> and defining <code class="highlighter-rouge">file</code> and <code class="highlighter-rouge">type</code>.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Entity</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Entity/entity</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">AnimalEntity</span> <span class="kd">extends</span> <span class="nx">Entity</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="k">import</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="na">file</span><span class="p">:</span> <span class="dl">"</span><span class="s2">App.Examples.Data.animals</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">type</span><span class="p">:</span> <span class="dl">"</span><span class="s2">json</span><span class="dl">"</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This example uses the <code class="highlighter-rouge">AnimalExample</code> intent.</p>
+
+<h2 id="loading-from-csv">Loading from CSV</h2>
+
+<p>Entity data stored in a <code class="highlighter-rouge">.csv</code> format can be useful if you have a large dataset which you don’t want to convert to JSON.</p>
+
+<p>The first value is the key and all columns after will be used as synonyms.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"EUR","Euro"
+"FJD","Fijian Dollar"
+"FKP","Falkland Islands Pound"
+"GBP","British Pound Sterling","Sterling"
+</code></pre></div></div>
+
+<p>If you was going to convert this data to a standard GI json file it would look like…</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"entries"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"EUR"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"synonyms"</span><span class="p">:[</span><span class="s2">"Euro"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"FJD"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"synonyms"</span><span class="p">:[</span><span class="s2">"Fijian Dollar"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"FKP"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"synonyms"</span><span class="p">:[</span><span class="s2">"Falkland Islands Pound"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"GBP"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"synonyms"</span><span class="p">:[</span><span class="s2">"British Pound Sterling"</span><span class="p">,</span><span class="s2">"Sterling"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Using <code class="highlighter-rouge">this.import</code> and defining <code class="highlighter-rouge">file</code> and <code class="highlighter-rouge">type</code> the CSV file can be imports to the entity.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Entity</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Entity/entity</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">CurrencyEntity</span> <span class="kd">extends</span> <span class="nx">Entity</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="k">import</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="na">file</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Data.Currency.currencies</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">type</span><span class="p">:</span> <span class="dl">"</span><span class="s2">csv</span><span class="dl">"</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This example uses the <code class="highlighter-rouge">CurrencyIntent</code> intent.</p>
+
+<h2 id="loading-custom-data">Loading custom data</h2>
+
+<p>Loading data into an entity using a custom method is useful for processing unformatted JSON and CSV data, data manipulation, fetching data from a database or a remote source.</p>
+
+<p>The <code class="highlighter-rouge">Drink</code> Entity and Intent will load data from a .txt file into the entity data.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Entity</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Entity/entity</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">Config</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Config/config</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">DrinkEntity</span> <span class="kd">extends</span> <span class="nx">Entity</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="k">import</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">custom</span><span class="dl">'</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+
+
+  <span class="nx">load_data</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">filename</span> <span class="o">=</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">path</span><span class="p">(</span><span class="dl">'</span><span class="s1">skills.app</span><span class="dl">'</span><span class="p">)</span> <span class="o">+</span> <span class="dl">'</span><span class="s1">/Examples/Data/drinks.txt</span><span class="dl">'</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="p">{};</span>
+
+    <span class="kd">let</span> <span class="nx">promise</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">throw</span> <span class="nx">err</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">lines</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/</span><span class="se">\r?\n</span><span class="sr">/</span><span class="p">);</span>
+        <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">ii</span><span class="o">&lt;</span><span class="nx">lines</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">ii</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">lines</span><span class="p">[</span><span class="nx">ii</span><span class="p">])</span> <span class="p">{</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+          <span class="nx">output</span><span class="p">[</span><span class="nx">lines</span><span class="p">[</span><span class="nx">ii</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{};</span>
+        <span class="p">}</span>
+        <span class="nx">resolve</span><span class="p">(</span><span class="nx">output</span><span class="p">);</span>
+      <span class="p">});</span>
+    <span class="p">});</span>
+
+    <span class="k">return</span> <span class="nx">promise</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The data stored in <code class="highlighter-rouge">drinks.txt</code> is simply a new line list of different drinks.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>water
+sprite
+7up
+coke
+pepsi
+coffee
+tea
+beer
+lager
+</code></pre></div></div>
+
+:ET

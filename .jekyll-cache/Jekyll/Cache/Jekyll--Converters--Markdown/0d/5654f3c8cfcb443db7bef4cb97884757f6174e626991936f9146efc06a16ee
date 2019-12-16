@@ -1,0 +1,44 @@
+I"0	<p>Fallback intents are triggered when user input is not matched by any other intents already trained with GI.</p>
+
+<p>For a more genuine assistant and less annoying one, fall back intents can be used to give the user direction to using the assistant.</p>
+
+<p>GI has some example fallbacks you can use, check the packages list.</p>
+
+<p>Example of the system <code class="highlighter-rouge">why</code> intent.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">WhyIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="dl">'</span><span class="s1">why</span><span class="dl">'</span><span class="p">],</span> <span class="p">{</span>
+      <span class="na">collection</span><span class="p">:</span> <span class="dl">'</span><span class="s1">fallback</span><span class="dl">'</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+
+  <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Everyone asks why</span><span class="dl">'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="chat">
+  <div class="user"><span>how so?</span></div>
+  <div class="bot"><span>How does anything happen?</span></div>
+
+  <div class="user"><span>what are you</span></div>
+  <div class="bot"><span>Not sure, Google might know</span></div>
+
+  <div class="user"><span>when is my birthday</span></div>
+  <div class="bot"><span>I am not sure when</span></div>
+
+  <div class="user"><span>where are my keys</span></div>
+  <div class="bot"><span>Could be anywhere. I have no idea</span></div>
+
+  <div class="user"><span>who ate my cake</span></div>
+  <div class="bot"><span>No idea who!</span></div>
+
+  <div class="user"><span>why do rainbows exist?</span></div>
+  <div class="bot"><span>Everyone asks why</span></div>
+</div>
+:ET

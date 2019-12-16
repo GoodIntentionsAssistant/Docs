@@ -1,0 +1,59 @@
+I"1<p>The client SDK is under development but is used for the “CLI” test client.</p>
+
+<p>The Node.js SDK will provide a quick route to building your own clients and will handle identification handshakes.</p>
+
+<h3 id="example-client">Example Client</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Very Simple GI Client Test
+ * 
+ * This is a test client for Good Intentions using Node.js
+ * It is not designed to be used in production.
+ */</span>
+<span class="kd">const</span> <span class="nx">GiClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./sdk/index.js</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">//Configuration</span>
+<span class="kd">let</span> <span class="nx">name</span>  <span class="o">=</span> <span class="dl">'</span><span class="s1">test</span><span class="dl">'</span><span class="p">;</span>                       <span class="c1">// Must be a client name matched in app/Config/config.js</span>
+<span class="kd">let</span> <span class="nx">token</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">TrCgyKqVtY</span><span class="dl">'</span><span class="p">;</span>                 <span class="c1">// The client token found in your config.js file</span>
+<span class="kd">let</span> <span class="nx">host</span>  <span class="o">=</span> <span class="dl">'</span><span class="s1">http://localhost:3000</span><span class="dl">'</span><span class="p">;</span>      <span class="c1">// Host name of the server, the GI server must be running to get a connection</span>
+
+<span class="c1">//Start the SDK</span>
+<span class="nx">GiApp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GiClient</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">token</span><span class="p">,</span> <span class="nx">host</span><span class="p">);</span>
+<span class="nx">GiApp</span><span class="p">.</span><span class="nx">connect</span><span class="p">();</span>
+
+<span class="nx">GiApp</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">connect</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Connected to server</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">GiApp</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">disconnect</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Disconnected</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">GiApp</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">identified</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Identified</span><span class="dl">'</span><span class="p">);</span>
+  <span class="nx">GiApp</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">hello</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">GiApp</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">error</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Error: </span><span class="dl">'</span><span class="o">+</span><span class="nx">data</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+  <span class="nx">prompt</span><span class="p">.</span><span class="nx">resume</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nx">GiApp</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">message</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">ii</span><span class="o">&lt;</span><span class="nx">data</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">ii</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="nx">ii</span><span class="p">]);</span>
+  <span class="p">}</span>
+  <span class="nx">GiApp</span><span class="p">.</span><span class="nx">disconnect</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>After running the script you will get a similar output to this.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; /GI/App/clients $ node simple.js
+Connected to server
+Identified
+Hi! I'm the Good Intentions bot!
+I'm all about productivity and getting things done!
+Disconnected
+</code></pre></div></div>
+:ET

@@ -1,0 +1,25 @@
+I"	<p>Redirecting from one intent to another is called by the <code class="highlighter-rouge">intent.redirect()</code> method.</p>
+
+<p>The redirect must be returned within the intent method.</p>
+
+<h2 id="redirection-example">Redirection example</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">BoingIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="dl">'</span><span class="s1">boing</span><span class="dl">'</span><span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">request</span><span class="p">.</span><span class="nx">redirect</span><span class="p">(</span><span class="dl">'</span><span class="s1">App.Examples.Intent.Ping</span><span class="dl">'</span><span class="p">);</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="chat">
+  <div class="user"><span>Boing</span></div>
+  <div class="bot"><span>Pong</span></div>
+</div>
+
+:ET

@@ -1,0 +1,103 @@
+I"Y<p>This documentation has live examples and it’s preferable to browse this site on a desktop browser.</p>
+
+<div class="chat">
+  <div class="user"><span>50 GBP to USD</span></div>
+  <div class="bot"><span>50 GBP is 68.65 USD</span></div>
+  <div class="user"><span>Weather in Bangkok</span></div>
+  <div class="bot"><span>Currently 26c, Mostly Cloudy in Asia, Bangkok</span></div>
+  <div class="user"><span>Go to training</span></div>
+  <div class="bot"><span>Taking you to Intent training</span></div>
+</div>
+
+<h2 id="key-components">Key Components</h2>
+
+<h5 id="skill">Skill</h5>
+<p>A set of entities, intents and data sets</p>
+
+<h5 id="entity">Entity</h5>
+<p>Data source for training the system and parsing parameters from user input</p>
+
+<h5 id="intent">Intent</h5>
+<p>Business logic for the users input</p>
+
+<h5 id="client">Client</h5>
+<p>The interface between GI and the end-point, e.g. Facebook Messenger</p>
+
+<h5 id="parameter">Parameter</h5>
+<p>Parsed user input with entity data</p>
+
+<h5 id="understand">Understand</h5>
+<p>Matching user input to an intent using trained data</p>
+
+<h5 id="train">Train</h5>
+<p>Intents train classifier collections for Understand</p>
+
+<h5 id="request">Request</h5>
+<p>Handles the user input, finding which intent to use and calling the intent</p>
+
+<h5 id="attachment">Attachment</h5>
+<p>Additional meta information send to the client such as buttons and cards</p>
+
+<h5 id="event">Event</h5>
+<p>An event that happens within GI core and can be listened to</p>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>We welcome contributions from developers to fix bugs, enhance existing features and creating new features for the chat bot. If you’re just getting started check out the project <a href="https://github.com/darrenmoore/GoodIntentionsChatBot/issues">Github Issues</a> for a list of improvements, bugs and wild ideas!</p>
+
+<h3 id="areas-of-interest">Areas of interest</h3>
+
+<ul>
+  <li>Clients</li>
+  <li>Example intents</li>
+  <li>Skills</li>
+  <li>Entities and data</li>
+  <li>NLP improvements</li>
+  <li>Database layer / ORM improvements</li>
+  <li>Documentation</li>
+  <li>Reporting issues</li>
+</ul>
+
+<h3 id="how-to-contribute">How to Contribute</h3>
+
+<ol>
+  <li>Fork the code from master</li>
+  <li>Create a branch (git checkout -b my-branch)</li>
+  <li>Commit your changes (git commit -m “My fix or feature”)</li>
+  <li>Push to the origin branch (git push origin my-branch)</li>
+  <li>Create a new Pull Request</li>
+</ol>
+
+<h3 id="reporting-issues">Reporting Issues</h3>
+
+<p>Github Issues is used for managing bugs, improvements and future ideas.</p>
+
+<p>For all improvements and feature requests that the following format is adheared to as often as possible for the description.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>WHO
+Optional
+Who the issue is affecting or the target audience for the issue
+
+WHY
+Not required if it's a bug
+Why the issue is required or why the target audience needs it
+
+WHAT
+Detailed information about the issue.
+User stories and example dialog.
+</code></pre></div></div>
+
+<p>An example for creating a “Ping” Skill.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>WHO
+Onboarding new developers to the framework
+
+WHY
+There is a learning curve for GI so providing a simple example skill with an intent is useful
+
+WHAT
+As a new developer who downloads GI I want to learn how to build my first skill.
+As a reference I go into my app skills directory and can see the "Ping" skill.
+I then copy this directory, rename the skill, filenames and can make my own skill with an intent quickly
+</code></pre></div></div>
+:ET

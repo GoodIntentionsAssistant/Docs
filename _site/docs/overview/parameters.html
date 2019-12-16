@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/overview/parameters.html">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="canonical" href="http://localhost:4000/docs/overview/parameters.html">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="http://localhost:4000/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <link rel="icon"  type="image/png" href="/img/good-intentions-chatbot-logo.png">
@@ -138,38 +138,37 @@ If your key was ‘date’ in your intent you can call, <code class="highlighter
 <p>If a parameter is required and is not specified by the users input request.js will change the
 intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> and an error message is displayed. This saves putting additional code into your intent to handle validation and exceptions.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">OrderIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">OrderIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="s1">'order'</span><span class="p">,</span>
-      <span class="s1">'order food'</span>
+      <span class="dl">'</span><span class="s1">order</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">order food</span><span class="dl">'</span>
     <span class="p">]);</span>
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">,</span> <span class="p">{</span>
-      <span class="na">name</span><span class="p">:</span> <span class="s2">"Choice"</span><span class="p">,</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="dl">'</span><span class="s1">choice</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Choice</span><span class="dl">"</span><span class="p">,</span>
       <span class="na">data</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">"pizza"</span><span class="p">,</span>
-        <span class="s2">"burger"</span><span class="p">,</span>
-        <span class="s2">"fries"</span>
+        <span class="dl">"</span><span class="s2">pizza</span><span class="dl">"</span><span class="p">,</span>
+        <span class="dl">"</span><span class="s2">burger</span><span class="dl">"</span><span class="p">,</span>
+        <span class="dl">"</span><span class="s2">fries</span><span class="dl">"</span>
       <span class="p">]</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">let</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="dl">'</span><span class="s1">choice</span><span class="dl">'</span><span class="p">);</span>
 
     <span class="k">if</span><span class="p">(</span><span class="nx">choice</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="s1">'You chose '</span><span class="o">+</span><span class="nx">choice</span><span class="p">;</span>
+      <span class="k">return</span> <span class="dl">'</span><span class="s1">You chose </span><span class="dl">'</span><span class="o">+</span><span class="nx">choice</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="k">else</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="s1">'Pizza, burger or fries?'</span><span class="p">;</span>
+      <span class="k">return</span> <span class="dl">'</span><span class="s1">Pizza, burger or fries?</span><span class="dl">'</span><span class="p">;</span>
     <span class="p">}</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Order food</span></div>
@@ -236,30 +235,30 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 
 <p>Please read the guide on creating entities before using entities inside intents.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">RandomNumberIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">RandomNumberIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="s1">'random number'</span>
+      <span class="dl">'</span><span class="s1">random number</span><span class="dl">'</span>
     <span class="p">]);</span>
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'number'</span><span class="p">,</span> <span class="p">{</span>
-      <span class="na">name</span><span class="p">:</span> <span class="s2">"Number"</span><span class="p">,</span>
-      <span class="na">entity</span><span class="p">:</span> <span class="s2">"App.Basics.Entity.Number"</span><span class="p">,</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="dl">'</span><span class="s1">number</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Number</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="dl">"</span><span class="s2">App.Basics.Entity.Number</span><span class="dl">"</span><span class="p">,</span>
       <span class="na">required</span><span class="p">:</span> <span class="kc">false</span>
     <span class="p">});</span>
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'number_to'</span><span class="p">,</span> <span class="p">{</span>
-      <span class="na">name</span><span class="p">:</span> <span class="s2">"Number To"</span><span class="p">,</span>
-      <span class="na">entity</span><span class="p">:</span> <span class="s2">"App.Basics.Entity.Number"</span><span class="p">,</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="dl">'</span><span class="s1">number_to</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Number To</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="dl">"</span><span class="s2">App.Basics.Entity.Number</span><span class="dl">"</span><span class="p">,</span>
       <span class="na">required</span><span class="p">:</span> <span class="kc">false</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">let</span> <span class="nx">number</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'number'</span><span class="p">);</span>
-    <span class="kd">let</span> <span class="nx">number_to</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'number_to'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">number</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="dl">'</span><span class="s1">number</span><span class="dl">'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">number_to</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="dl">'</span><span class="s1">number_to</span><span class="dl">'</span><span class="p">);</span>
     <span class="kd">let</span> <span class="nx">result</span><span class="p">;</span>
     
     <span class="k">if</span><span class="p">(</span><span class="nx">number</span> <span class="o">&amp;&amp;</span> <span class="nx">number_to</span><span class="p">)</span> <span class="p">{</span>
@@ -272,12 +271,11 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
       <span class="nx">result</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
     <span class="p">}</span>
 
-    <span class="k">return</span> <span class="s1">'The random number is '</span><span class="o">+</span><span class="nx">result</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">The random number is </span><span class="dl">'</span><span class="o">+</span><span class="nx">result</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Random number</span></div>
@@ -292,17 +290,17 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 
 <p>If a parameter has been filled the <code class="highlighter-rouge">action</code> key will set the method that the intent will call instead of the default response method.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">TeaIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">TeaIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="s1">'tea'</span>
+      <span class="dl">'</span><span class="s1">tea</span><span class="dl">'</span>
     <span class="p">]);</span>
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">,</span> <span class="p">{</span>
-      <span class="na">name</span><span class="p">:</span> <span class="s1">'Choice'</span><span class="p">,</span>
-      <span class="na">data</span><span class="p">:</span> <span class="p">[</span><span class="s1">'yes'</span><span class="p">,</span><span class="s1">'no'</span><span class="p">],</span>
-      <span class="na">action</span><span class="p">:</span> <span class="s1">'answered'</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="dl">'</span><span class="s1">choice</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Choice</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">data</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">yes</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">no</span><span class="dl">'</span><span class="p">],</span>
+      <span class="na">action</span><span class="p">:</span> <span class="dl">'</span><span class="s1">answered</span><span class="dl">'</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
@@ -310,18 +308,17 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
     <span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span>
       <span class="na">force</span><span class="p">:</span> <span class="kc">true</span>
     <span class="p">});</span>
-    <span class="k">return</span> <span class="s1">'Do you want sugar in your tea?'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Do you want sugar in your tea?</span><span class="dl">'</span><span class="p">;</span>
   <span class="p">}</span>
 
   <span class="nx">answered</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">let</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">choice</span> <span class="o">==</span> <span class="s1">'yes'</span> <span class="p">?</span> <span class="s1">'Sweet tooth'</span> <span class="p">:</span> <span class="s1">'Healthy option'</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="dl">'</span><span class="s1">choice</span><span class="dl">'</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">choice</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">yes</span><span class="dl">'</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">Sweet tooth</span><span class="dl">'</span> <span class="p">:</span> <span class="dl">'</span><span class="s1">Healthy option</span><span class="dl">'</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Can I have tea?</span></div>
@@ -340,13 +337,13 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 
 <p>Using the code below will set the parameter value to the parent key, either ‘yes’ or ‘no’.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">,</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="dl">'</span><span class="s1">choice</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s1">'yes'</span><span class="p">:</span> <span class="p">{</span>
-      <span class="nl">synonyms</span><span class="p">:</span> <span class="p">[</span><span class="s1">'yup'</span><span class="p">,</span><span class="s1">'yeah'</span><span class="p">]</span>
+    <span class="dl">'</span><span class="s1">yes</span><span class="dl">'</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">synonyms</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">yup</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">yeah</span><span class="dl">'</span><span class="p">]</span>
     <span class="p">},</span>
-    <span class="s1">'no'</span><span class="p">:</span> <span class="p">{</span>
-      <span class="nl">synonyms</span><span class="p">:</span> <span class="p">[</span><span class="s1">'nope'</span><span class="p">,</span><span class="s1">'nah'</span><span class="p">]</span>
+    <span class="dl">'</span><span class="s1">no</span><span class="dl">'</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">synonyms</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">nope</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">nah</span><span class="dl">'</span><span class="p">]</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">});</span>
@@ -354,9 +351,8 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 <span class="p">...</span>
 
 <span class="c1">//Value of choice will be either 'yes' or 'no'</span>
-<span class="kd">let</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'choice'</span><span class="p">);</span>
-</code></pre>
-</div>
+<span class="kd">let</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="dl">'</span><span class="s1">choice</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>I want a scone</span></div>
@@ -369,21 +365,21 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 
 <p>If a parameter wasn’t found in the text instead of setting the value of the parameter to <code class="highlighter-rouge">null</code> it will be set to the <code class="highlighter-rouge">default</code> value in the parameter option.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">FlipCoinIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">FlipCoinIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="s1">'flip coin'</span><span class="p">,</span>
-      <span class="s1">'toss coin'</span><span class="p">,</span>
-      <span class="s1">'coin toss'</span><span class="p">,</span>
-      <span class="s1">'flip penny'</span><span class="p">,</span>
-      <span class="s1">'flip pennies'</span><span class="p">,</span>
-      <span class="s1">'throw coin'</span>
+      <span class="dl">'</span><span class="s1">flip coin</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">toss coin</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">coin toss</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">flip penny</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">flip pennies</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">throw coin</span><span class="dl">'</span>
     <span class="p">]);</span>
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'flips'</span><span class="p">,</span> <span class="p">{</span>
-      <span class="na">name</span><span class="p">:</span> <span class="s2">"Flips"</span><span class="p">,</span>
-      <span class="na">entity</span><span class="p">:</span> <span class="s1">'App.Basics.Entity.Number'</span><span class="p">,</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="dl">'</span><span class="s1">flips</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Flips</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="dl">'</span><span class="s1">App.Basics.Entity.Number</span><span class="dl">'</span><span class="p">,</span>
       <span class="na">required</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
       <span class="na">default</span><span class="p">:</span> <span class="mi">1</span>
     <span class="p">});</span>
@@ -391,7 +387,7 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">let</span> <span class="nx">results</span> <span class="o">=</span> <span class="p">[];</span>
-    <span class="kd">let</span> <span class="nx">flips</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'flips'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">flips</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="dl">'</span><span class="s1">flips</span><span class="dl">'</span><span class="p">);</span>
 
     <span class="k">if</span><span class="p">(</span><span class="nx">flips</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
       <span class="nx">flips</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
@@ -400,21 +396,20 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
     <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">ii</span> <span class="o">&lt;</span> <span class="nx">flips</span><span class="p">;</span> <span class="nx">ii</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">let</span> <span class="nx">flip</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
       <span class="k">if</span><span class="p">(</span><span class="nx">flip</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">'Heads'</span><span class="p">);</span>
+        <span class="nx">results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="dl">'</span><span class="s1">Heads</span><span class="dl">'</span><span class="p">);</span>
       <span class="p">}</span>
       <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">flip</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">'Tails'</span><span class="p">);</span>
+        <span class="nx">results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="dl">'</span><span class="s1">Tails</span><span class="dl">'</span><span class="p">);</span>
       <span class="p">}</span>
     <span class="p">}</span>
 
-    <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="nx">results</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">', '</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="nx">results</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="dl">'</span><span class="s1">, </span><span class="dl">'</span><span class="p">);</span>
 
     <span class="k">return</span> <span class="nx">output</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Flip a coin</span></div>
@@ -429,13 +424,12 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 
 <p>With <code class="highlighter-rouge">.get()</code> it’s possible to get all the meta data including the matched entity data.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//Get all parameters set</span>
-<span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Get all parameters set</span>
+<span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="kd">get</span><span class="p">();</span>
 
 <span class="c1">//Get all parameter information about flips</span>
-<span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'flips'</span><span class="p">);</span>
-</code></pre>
-</div>
+<span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">flips</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
 
 <h2 id="slot-filling">Slot Filling</h2>
 
@@ -443,25 +437,23 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 
 <p>A user may ask “What is the weather in Bangkok?”. “Bangkok” will be stored in their user session with the parameter key <code class="highlighter-rouge">city</code>. This can be read manually in with <code class="highlighter-rouge">request.user.get('city');</code> or automatically populated the next time the weather is asked. The user can just ask “What is the weather” and “Bangkok” will be automatically used.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'city'</span><span class="p">,</span> <span class="p">{</span>
-  <span class="na">name</span><span class="p">:</span> <span class="s2">"City"</span><span class="p">,</span>
-  <span class="na">entity</span><span class="p">:</span> <span class="s2">"App.Basics.Entity.City"</span><span class="p">,</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="dl">'</span><span class="s1">city</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">City</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">entity</span><span class="p">:</span> <span class="dl">"</span><span class="s2">App.Basics.Entity.City</span><span class="dl">"</span><span class="p">,</span>
   <span class="na">slotfill</span><span class="p">:</span> <span class="kc">true</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In the above example <code class="highlighter-rouge">slotfill</code> is enabled and the parameter key is <code class="highlighter-rouge">city</code>, so <code class="highlighter-rouge">request.user.get('city')</code> will be checked.</p>
 
 <p>It’s also possible to check multiple session data. In the example below three keys will be checked in order “location”, “city”, and “country”.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'location'</span><span class="p">,{</span>
-  <span class="na">name</span><span class="p">:</span> <span class="s1">'Location'</span><span class="p">,</span>
-  <span class="na">entity</span><span class="p">:</span> <span class="p">[</span><span class="s1">'App.Basics.Entity.Country'</span><span class="p">,</span><span class="s1">'App.Basics.Entity.City'</span><span class="p">],</span>
-  <span class="na">slotfill</span><span class="p">:</span> <span class="p">[</span><span class="s1">'city'</span><span class="p">,</span><span class="s1">'country'</span><span class="p">]</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="dl">'</span><span class="s1">location</span><span class="dl">'</span><span class="p">,{</span>
+  <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Location</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">entity</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">App.Basics.Entity.Country</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">App.Basics.Entity.City</span><span class="dl">'</span><span class="p">],</span>
+  <span class="na">slotfill</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">city</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">country</span><span class="dl">'</span><span class="p">]</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>What is the weather?</span></div>
@@ -489,9 +481,8 @@ intent to be <code class="highlighter-rouge">App.Errors.ParametersFailed</code> 
 
 <p>The intent can also return the state of the light by checking if the utterance is a question.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is_question</span><span class="p">()</span>
-</code></pre>
-</div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is_question</span><span class="p">()</span>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Turn the light on at 70% and make it green</span></div>

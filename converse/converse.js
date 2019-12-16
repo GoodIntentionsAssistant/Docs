@@ -249,19 +249,18 @@ class Converse {
 	}
 
 	response(data) {
-		if(data.type == 'message') {
-			for(var ii=0; ii<data.messages.length; ii++) {
-				let msg = data.messages[ii];
-				let html = this.partial('message-in',{
-					text: msg
-				});
-				this.speak(msg);
-				this.history_add(html);
-			}
-		}
-
 		//Attachments
 		if(data.attachments) {
+
+			if(data.attachments.message) {
+				for(var ii=0; ii<data.attachments.message.length; ii++) {
+					let html = this.partial('message-in',{
+						text: data.attachments.message[ii].text
+					});
+					this.history_add(html);
+				}
+			}
+
 			if(data.attachments.action) {
 				this.show_input('actions', data.attachments.action);
 			}

@@ -1,0 +1,84 @@
+I"a<p>After the client has identified requests can be sent to the app. Certain fields must be passed along with the input.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">input</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">client</span><span class="p">:</span> <span class="dl">'</span><span class="s1">facebook</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">session_token</span><span class="p">:</span> <span class="dl">'</span><span class="s1">m626NfP8jFYPAKNw</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">user</span><span class="p">:</span> <span class="dl">'</span><span class="s1">bob</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">text</span><span class="p">:</span> <span class="dl">'</span><span class="s1">hello to my new app!</span><span class="dl">'</span>
+<span class="p">};</span>
+<span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="dl">'</span><span class="s1">request</span><span class="dl">'</span><span class="p">,</span><span class="nx">input</span><span class="p">);</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>client</td>
+      <td>yes</td>
+      <td>Whitelisted client name. Each client should have a unique name. This must be provided for every request.</td>
+    </tr>
+    <tr>
+      <td>session_token</td>
+      <td>yes</td>
+      <td>Session token key provided by the app that must be used on all requests. The session_token is provided when the client identifies with the server after connection.</td>
+    </tr>
+    <tr>
+      <td>user</td>
+      <td>yes</td>
+      <td>Unique name or identifer for the user interfacing with the app. For example this could be their facebook graph user id. For testing any value can be used.</td>
+    </tr>
+    <tr>
+      <td>text</td>
+      <td>yes</td>
+      <td>Raw text input from the user, e.g. “Good Morning”</td>
+    </tr>
+    <tr>
+      <td>fast</td>
+      <td>no</td>
+      <td>Response from the app has delays to simulate typing to make the bot experience more human-like. By default fast is false, changing it to true will stop the simulated delays. It’s advisable to enable fast when debugging.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="speeding-up-the-request">Speeding up the request</h2>
+
+<p>When the request is passed to GI it will have a delay to simulate the bot typing. There are three methods to remove this delay.</p>
+
+<h3 id="fast-parameter">Fast Parameter</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">input</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">client</span><span class="p">:</span> <span class="dl">'</span><span class="s1">facebook</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">session_token</span><span class="p">:</span> <span class="dl">'</span><span class="s1">m626NfP8jFYPAKNw</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">user</span><span class="p">:</span> <span class="dl">'</span><span class="s1">bob</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">text</span><span class="p">:</span> <span class="dl">'</span><span class="s1">hello to my new app!</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">fast</span><span class="p">:</span> <span class="kc">true</span>
+<span class="p">};</span>
+<span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="dl">'</span><span class="s1">request</span><span class="dl">'</span><span class="p">,</span><span class="nx">input</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="response-simulated-typing">Response Simulated Typing</h3>
+
+<p>In the <code class="highlighter-rouge">config.js</code> file change the <code class="highlighter-rouge">response</code> settings to <code class="highlighter-rouge">0</code>;</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">response</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">min_reply_time</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="na">letter_speed</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="na">max_response</span><span class="p">:</span> <span class="mi">0</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="queue-speed">Queue Speed</h3>
+
+<p>In the <code class="highlighter-rouge">config.js</code> file change the loop speed. By default we recommend this value to be 500ms.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">app</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">loop_speed</span><span class="p">:</span> <span class="mi">10</span>
+<span class="p">}</span>
+</code></pre></div></div>
+:ET

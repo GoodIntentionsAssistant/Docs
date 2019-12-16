@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/overview/attachments.html">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="canonical" href="http://localhost:4000/docs/overview/attachments.html">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="http://localhost:4000/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <link rel="icon"  type="image/png" href="/img/good-intentions-chatbot-logo.png">
@@ -134,10 +134,9 @@
 
 <p>An intent can return two action attachments “Yes” and “No” which could be passed to Facebook to show two buttons with the message.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'action'</span><span class="p">,</span> <span class="s1">'Yes'</span><span class="p">);</span>
-<span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'action'</span><span class="p">,</span> <span class="s1">'No'</span><span class="p">);</span>
-</code></pre>
-</div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="dl">'</span><span class="s1">action</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Yes</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="dl">'</span><span class="s1">action</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">No</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Cheese</span></div>
@@ -164,13 +163,12 @@
 
 <p>For an attachment to work they must be enabled in your <code class="highlighter-rouge">config.js</code> file and the server must be restarted.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">attachments</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="s1">'Sys.Attachment.Image'</span><span class="p">,</span>
-  <span class="s1">'Sys.Attachment.Action'</span><span class="p">,</span>
-  <span class="s1">'Sys.Attachment.Field'</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">attachments</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="dl">'</span><span class="s1">Sys.Attachment.Image</span><span class="dl">'</span><span class="p">,</span>
+  <span class="dl">'</span><span class="s1">Sys.Attachment.Action</span><span class="dl">'</span><span class="p">,</span>
+  <span class="dl">'</span><span class="s1">Sys.Attachment.Field</span><span class="dl">'</span>
 <span class="p">];</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="client-support">Client support</h2>
 
@@ -182,11 +180,10 @@
 
 <p>Show option buttons to the user.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'action'</span><span class="p">,</span> <span class="s1">'Rock'</span><span class="p">);</span>
-<span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'action'</span><span class="p">,</span> <span class="s1">'Paper'</span><span class="p">);</span>
-<span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'action'</span><span class="p">,</span> <span class="s1">'Scissors'</span><span class="p">);</span>
-</code></pre>
-</div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="dl">'</span><span class="s1">action</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Rock</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="dl">'</span><span class="s1">action</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Paper</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="dl">'</span><span class="s1">action</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Scissors</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Play rock paper scissors</span></div>
@@ -206,9 +203,8 @@
 
 <p>Used for showing buttons to a user.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'image'</span><span class="p">,</span><span class="s1">'https://picsum.photos/300/300/?random'</span><span class="p">);</span>
-</code></pre>
-</div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="dl">'</span><span class="s1">image</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">https://picsum.photos/300/300/?random</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Random picture</span></div>
@@ -219,23 +215,22 @@
 
 <p>If you want the client to handle a voice message differently you can use the voice attachment.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">RandomPictureIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">RandomPictureIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="s1">'random picture'</span>
+      <span class="dl">'</span><span class="s1">random picture</span><span class="dl">'</span>
     <span class="p">]);</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'image'</span><span class="p">,</span><span class="s1">'https://picsum.photos/300/300/?random'</span><span class="p">);</span>
-    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'voice'</span><span class="p">,</span><span class="s1">'I can\'t show you a picture'</span><span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="dl">'</span><span class="s1">image</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">https://picsum.photos/300/300/?random</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="dl">'</span><span class="s1">voice</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">I can</span><span class="se">\'</span><span class="s1">t show you a picture</span><span class="dl">'</span><span class="p">);</span>
     <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="trapping-example">Trapping example</h2>
 
@@ -243,40 +238,39 @@
 
 <p>The Apptem Confirm entity has a small dictionary of common confirmations for yes and no.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">AskMeAgainIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">AskMeAgainIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'ask me again'</span><span class="p">],</span> <span class="p">{</span> <span class="na">classifier</span><span class="p">:</span><span class="s1">'strict'</span> <span class="p">});</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="dl">'</span><span class="s1">ask me again</span><span class="dl">'</span><span class="p">],</span> <span class="p">{</span> <span class="na">classifier</span><span class="p">:</span><span class="dl">'</span><span class="s1">strict</span><span class="dl">'</span> <span class="p">});</span>
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'ask_again'</span><span class="p">,</span> <span class="p">{</span>
-      <span class="na">name</span><span class="p">:</span> <span class="s1">'Ask again'</span><span class="p">,</span>
-      <span class="na">entity</span><span class="p">:</span> <span class="s1">'App.Common.Entity.Confirm'</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="dl">'</span><span class="s1">ask_again</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Ask again</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="dl">'</span><span class="s1">App.Common.Entity.Confirm</span><span class="dl">'</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'action'</span><span class="p">,</span><span class="s1">'Yes'</span><span class="p">);</span>
-    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'action'</span><span class="p">,</span><span class="s1">'No'</span><span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="dl">'</span><span class="s1">action</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">Yes</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="dl">'</span><span class="s1">action</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">No</span><span class="dl">'</span><span class="p">);</span>
 
     <span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span>
-      <span class="na">action</span><span class="p">:</span> <span class="s1">'chosen'</span><span class="p">,</span>
+      <span class="na">action</span><span class="p">:</span> <span class="dl">'</span><span class="s1">chosen</span><span class="dl">'</span><span class="p">,</span>
       <span class="na">force</span><span class="p">:</span> <span class="kc">true</span>
     <span class="p">});</span>
 
-    <span class="k">return</span> <span class="s1">'Ask me again?'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Ask me again?</span><span class="dl">'</span><span class="p">;</span>
   <span class="p">}</span>
 
   <span class="nx">chosen</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'ask_again'</span><span class="p">);</span>
-    <span class="k">if</span><span class="p">(</span><span class="nx">choice</span> <span class="o">==</span> <span class="s1">'yes'</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">request</span><span class="p">.</span><span class="nx">redirect</span><span class="p">(</span><span class="s1">'App.Example.Intent.AskMeAgain'</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">choice</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="dl">'</span><span class="s1">ask_again</span><span class="dl">'</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">choice</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">yes</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">request</span><span class="p">.</span><span class="nx">redirect</span><span class="p">(</span><span class="dl">'</span><span class="s1">App.Example.Intent.AskMeAgain</span><span class="dl">'</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="s1">'OK that is enough'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">OK that is enough</span><span class="dl">'</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Ask me again</span></div>
@@ -304,10 +298,10 @@
 
 <p>This following example is stored in <code class="highlighter-rouge">app/Skill/Example/Attachment/navigation.js</code>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">NavigationAttachment</span> <span class="kr">extends</span> <span class="nx">Attachment</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">NavigationAttachment</span> <span class="kd">extends</span> <span class="nx">Attachment</span> <span class="p">{</span>
 
-  <span class="nx">constructor</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kr">super</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
 
     <span class="c1">//Can't have more than one of these attachments</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">multiple</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
@@ -321,65 +315,61 @@
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Enable the new attachment in your app config using the identifier name.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">attachments</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="s1">'App.Example.Attachment.Navigation'</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">attachments</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="dl">'</span><span class="s1">App.Example.Attachment.Navigation</span><span class="dl">'</span>
 <span class="p">];</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then your intents from any skill can use this attachment.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">DocumentationIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">DocumentationIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="s1">'@App.Example.Entity.Documentation'</span><span class="p">,</span>
-      <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^go to/</span><span class="p">,</span><span class="s1">'g'</span><span class="p">)</span>
+      <span class="dl">'</span><span class="s1">@App.Example.Entity.Documentation</span><span class="dl">'</span><span class="p">,</span>
+      <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^go to/</span><span class="p">,</span><span class="dl">'</span><span class="s1">g</span><span class="dl">'</span><span class="p">)</span>
     <span class="p">]);</span>
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'page'</span><span class="p">,</span> <span class="p">{</span>
-      <span class="na">name</span><span class="p">:</span> <span class="s2">"Page"</span><span class="p">,</span>
-      <span class="na">entity</span><span class="p">:</span> <span class="s2">"App.Example.Entity.Documentation"</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="dl">'</span><span class="s1">page</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Page</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="dl">"</span><span class="s2">App.Example.Entity.Documentation</span><span class="dl">"</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="s1">'page'</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="s1">'I\'m not sure of that page in the documentation'</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="dl">'</span><span class="s1">page</span><span class="dl">'</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="dl">'</span><span class="s1">I</span><span class="se">\'</span><span class="s1">m not sure of that page in the documentation</span><span class="dl">'</span><span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="kd">let</span> <span class="nx">label</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'page.data.label'</span><span class="p">);</span>
-    <span class="kd">let</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'page.data.url'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">label</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">page.data.label</span><span class="dl">'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">page.data.url</span><span class="dl">'</span><span class="p">);</span>
 
-    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="s1">'navigation'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">attachment</span><span class="p">(</span><span class="dl">'</span><span class="s1">navigation</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
       <span class="na">name</span><span class="p">:</span> <span class="nx">label</span><span class="p">,</span>
       <span class="na">url</span><span class="p">:</span> <span class="nx">url</span>
     <span class="p">});</span>
 
-    <span class="k">return</span> <span class="s1">'Taking you to '</span><span class="o">+</span><span class="nx">label</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Taking you to </span><span class="dl">'</span><span class="o">+</span><span class="nx">label</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This attachment will then be included in the response that your client can handle.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span>
-  <span class="s2">"attachments"</span><span class="err">:</span> <span class="p">{</span>
-    <span class="s2">"navigation"</span><span class="err">:</span> <span class="p">{</span>
-      <span class="s2">"name"</span><span class="err">:</span> <span class="s2">"Intent attachments"</span><span class="p">,</span>
-      <span class="s2">"url"</span><span class="err">:</span> <span class="s2">"/docs/intents/attachments"</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+  <span class="dl">"</span><span class="s2">attachments</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">navigation</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Intent attachments</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">url</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">/docs/intents/attachments</span><span class="dl">"</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>go to attachments</span></div>

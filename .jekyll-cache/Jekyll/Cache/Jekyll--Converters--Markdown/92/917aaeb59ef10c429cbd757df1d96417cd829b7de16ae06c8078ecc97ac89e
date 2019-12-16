@@ -1,0 +1,28 @@
+I"º<h2 id="prepare-the-package">Prepare the Package</h2>
+
+<p>First start with creating a skill. Once you have done this you need to prepare the package.</p>
+
+<p>Name the package such as <code class="highlighter-rouge">gi-skill-&lt;package-name&gt;</code>.</p>
+
+<p>The directory structure should be as followsâ€¦</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/gi-skill-count-up/
+  README.md
+  package.json
+  /Skill
+    /CountUp
+      /Intent
+      /Entity
+      /Data
+      count_up_skill.js
+</code></pre></div></div>
+
+<h2 id="publishing-the-package">Publishing the Package</h2>
+
+<p>Create a public git repository and publish the module to npm.</p>
+
+<p>Make changes to the <a href="https://github.com/GoodIntentionsAssistant/gi-packages/blob/master/gi-packages.json">gi-packages.json</a> file and create a pull request.</p>
+
+<p>Once the pull request has been approved the package is then available to everyone.</p>
+
+:ET

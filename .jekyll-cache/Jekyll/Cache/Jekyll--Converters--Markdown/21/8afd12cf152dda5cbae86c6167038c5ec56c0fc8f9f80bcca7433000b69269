@@ -1,0 +1,101 @@
+I"j<p>Utterance is the text entered by the user that can be used in your intents.</p>
+
+<div class="chat">
+  <div class="user"><span>Sentiment I love you</span></div>
+  <div class="bot"><span>Sentiment is positive!</span></div>
+  <div class="user"><span>Sentiment I hate you</span></div>
+  <div class="bot"><span>Sentiment is negative :(</span></div>
+  <div class="user"><span>Sentiment Smell my cheese</span></div>
+  <div class="bot"><span>Sentiment is neutral</span></div>
+</div>
+
+<h2 id="text-and-scrubbed">Text and Scrubbed</h2>
+
+<p>When the user sends a message to GI the original text they entered and their text is scrubbed / cleaned using the <code class="highlighter-rouge">Scrubber</code> utility.</p>
+
+<ul>
+  <li>String is converted into lower case. HELLO -&gt; hello</li>
+  <li>Contractions standardised. What’s -&gt; what is</li>
+  <li>Grammar is removed. Great! -&gt; great</li>
+  <li>Stop words are removed. The cat -&gt; Cat</li>
+  <li>Octals are standardised. One, two, three -&gt; 1, 2, 3</li>
+</ul>
+
+<p>This is to help the system understand their intent and reduces the chances of calling the wrong intent.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Users original text entered</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">original</span><span class="p">();</span>
+
+<span class="c1">//Scrubbed text</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">text</span><span class="p">();</span>
+
+<span class="c1">//Scrubbed text with stopwords removed</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">scrubbed</span><span class="p">(</span><span class="dl">'</span><span class="s1">stopwords</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="chat">
+  <div class="user"><span>The cat, is in the hat!</span></div>
+  <div class="bot"><span>Original: The cat, is in the hat!</span></div>
+  <div class="bot"><span>Scrubbed: the cat is in the hat</span></div>
+  <div class="bot"><span>Stop words: cat hat</span></div>
+</div>
+
+<h2 id="labeled-utterance">Labeled utterance</h2>
+
+<p>The utterance is checked for various sentiments and intentions including if the users input is negative, positive a question and what type of question, such as “who” and “why”.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//If the input is a question</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="dl">'</span><span class="s1">question</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">//If the sentiment is positive</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="dl">'</span><span class="s1">positive</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">//If the sentiment is negative</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="dl">'</span><span class="s1">negative</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="sentiment-analysis">Sentiment analysis</h2>
+
+<p>Sentiment analysis is to understand if the users input is positive, negative or neutral.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">SentimentIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^sentiment/</span><span class="p">,</span><span class="dl">'</span><span class="s1">i</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="p">[];</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="dl">'</span><span class="s1">positive</span><span class="dl">'</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nx">output</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="dl">'</span><span class="s1">Sentiment is positive!</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">utterance</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="dl">'</span><span class="s1">negative</span><span class="dl">'</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nx">output</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="dl">'</span><span class="s1">Sentiment is negative :(</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">output</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="dl">'</span><span class="s1">Sentiment is neutral</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">output</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+<div class="chat">
+  <div class="user"><span>Sentiment I feel good</span></div>
+  <div class="bot"><span>Sentiment is positive!</span></div>
+  <div class="user"><span>Sentiment I feel bad</span></div>
+  <div class="bot"><span>Sentiment is negative :(</span></div>
+  <div class="user"><span>Sentiment I feel ok</span></div>
+  <div class="bot"><span>Sentiment is neutral</span></div>
+</div>
+
+<h2 id="parts-of-speech">Parts of speech</h2>
+
+<p>The speech tagger uses <code class="highlighter-rouge">pos</code> speech tagger. It’s still experimental and is not fully implemented yet.</p>
+
+:ET

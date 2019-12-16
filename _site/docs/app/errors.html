@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/app/errors.html">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="canonical" href="http://localhost:4000/docs/app/errors.html">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="http://localhost:4000/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <link rel="icon"  type="image/png" href="/img/good-intentions-chatbot-logo.png">
@@ -134,11 +134,10 @@
 
 <p>Throwing a fatal error via the main App will stop the NodeJS process.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">App</span><span class="p">.</span><span class="nb">Error</span><span class="p">.</span><span class="nx">fatal</span><span class="p">(</span><span class="s1">'Intent data file not found'</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">App</span><span class="p">.</span><span class="nb">Error</span><span class="p">.</span><span class="nx">fatal</span><span class="p">(</span><span class="dl">'</span><span class="s1">Intent data file not found</span><span class="dl">'</span><span class="p">);</span>
 
-<span class="nx">App</span><span class="p">.</span><span class="nb">Error</span><span class="p">.</span><span class="nx">fatal</span><span class="p">([</span><span class="s1">'Entity missing the following attributes'</span><span class="p">,</span> <span class="s1">'Name'</span><span class="p">,</span> <span class="s1">'Data'</span><span class="p">]);</span>
-</code></pre>
-</div>
+<span class="nx">App</span><span class="p">.</span><span class="nb">Error</span><span class="p">.</span><span class="nx">fatal</span><span class="p">([</span><span class="dl">'</span><span class="s1">Entity missing the following attributes</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Name</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Data</span><span class="dl">'</span><span class="p">]);</span>
+</code></pre></div></div>
 
 
   </div>

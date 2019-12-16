@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/overview/result.html">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="canonical" href="http://localhost:4000/docs/overview/result.html">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="http://localhost:4000/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <link rel="icon"  type="image/png" href="/img/good-intentions-chatbot-logo.png">
@@ -136,30 +136,29 @@
 
 <h2 id="simple-return-example">Simple return example</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">RepeatIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">RepeatIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^repeat/</span><span class="p">,</span><span class="s1">'i'</span><span class="p">),</span>
-      <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^say/</span><span class="p">,</span><span class="s1">'i'</span><span class="p">)</span>
+      <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^repeat/</span><span class="p">,</span><span class="dl">'</span><span class="s1">i</span><span class="dl">'</span><span class="p">),</span>
+      <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^say/</span><span class="p">,</span><span class="dl">'</span><span class="s1">i</span><span class="dl">'</span><span class="p">)</span>
     <span class="p">],</span> <span class="p">{</span>
-      <span class="na">collection</span><span class="p">:</span> <span class="s1">'strict'</span>
+      <span class="na">collection</span><span class="p">:</span> <span class="dl">'</span><span class="s1">strict</span><span class="dl">'</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">input</span><span class="p">.</span><span class="nx">text</span><span class="p">;</span>
 
-    <span class="nx">result</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^repeat/i</span><span class="p">,</span><span class="s1">''</span><span class="p">).</span><span class="nx">trim</span><span class="p">();</span>
-    <span class="nx">result</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^say/i</span><span class="p">,</span><span class="s1">''</span><span class="p">).</span><span class="nx">trim</span><span class="p">();</span>
-    <span class="nx">result</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^after me/i</span><span class="p">,</span><span class="s1">''</span><span class="p">).</span><span class="nx">trim</span><span class="p">();</span>
+    <span class="nx">result</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^repeat/i</span><span class="p">,</span><span class="dl">''</span><span class="p">).</span><span class="nx">trim</span><span class="p">();</span>
+    <span class="nx">result</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^say/i</span><span class="p">,</span><span class="dl">''</span><span class="p">).</span><span class="nx">trim</span><span class="p">();</span>
+    <span class="nx">result</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^after me/i</span><span class="p">,</span><span class="dl">''</span><span class="p">).</span><span class="nx">trim</span><span class="p">();</span>
 
     <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Repeat after me I am great!</span></div>
@@ -172,26 +171,25 @@
 
 <p>The return method can also return an array which will output to the user as multiple lines of chat.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="s1">'src/Intent/intent'</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Intent/intent</span><span class="dl">'</span><span class="p">);</span>
 
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">BeerIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">BeerIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'beer'</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="dl">'</span><span class="s1">beer</span><span class="dl">'</span><span class="p">);</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span>
-      <span class="s2">"99 bottles of beer on the wall"</span><span class="p">,</span>
-      <span class="s2">"98 bottles of beer on the wall"</span><span class="p">,</span>
-      <span class="s2">"97 bottles of beer on the wall"</span><span class="p">,</span>
-      <span class="s2">"..and so on!"</span>
+      <span class="dl">"</span><span class="s2">99 bottles of beer on the wall</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">98 bottles of beer on the wall</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">97 bottles of beer on the wall</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">..and so on!</span><span class="dl">"</span>
     <span class="p">];</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Beer</span></div>
@@ -205,31 +203,30 @@
 
 <p>Your intent can use the <code class="highlighter-rouge">_.sample()</code> method from the <a href="http://underscorejs.org/">Underscore.js</a> library to return random responses.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'underscore'</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">underscore</span><span class="dl">'</span><span class="p">);</span>
 
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">DoingIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">DoingIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="s1">'doing'</span><span class="p">,</span>
-      <span class="s1">'up to'</span><span class="p">,</span>
-      <span class="s1">'going on'</span><span class="p">,</span>
-      <span class="s1">'sup'</span>
+      <span class="dl">'</span><span class="s1">doing</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">up to</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">going on</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">sup</span><span class="dl">'</span>
     <span class="p">]);</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">choices</span> <span class="o">=</span> <span class="p">[</span>
-      <span class="s2">"Helping as many people as I can and entertaining them with cat facts!"</span><span class="p">,</span>
-      <span class="s2">"Calculations, currency and checking the time in different countries"</span><span class="p">,</span>
-      <span class="s2">"Browsing tech sites and trying to figure out what I\'ll be doing in 10 years time"</span>
+      <span class="dl">"</span><span class="s2">Helping as many people as I can and entertaining them with cat facts!</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">Calculations, currency and checking the time in different countries</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">Browsing tech sites and trying to figure out what I</span><span class="se">\</span><span class="s2">'ll be doing in 10 years time</span><span class="dl">"</span>
     <span class="p">];</span>
     <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">sample</span><span class="p">(</span><span class="nx">choices</span><span class="p">);</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>What are you doing?</span></div>
@@ -253,87 +250,82 @@ different languages.</p>
 
 <p>To use dialog in your intent create a <code class="highlighter-rouge">Dialog</code> directory and dialog json files in your skill directory.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Skill/
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Skill/
   Examples/
     Dialog/
       en/
         romantic_dialog.json
       fr/
         romantic_dialog.json
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Each dialog json file should contain an array with at least one record.</p>
 
 <p>If more than one record is found a random response will be returned back to the user.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
   </span><span class="s2">"And in her smile I see something more beautiful than the stars"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"Sometimes I can’t see myself when I’m with you. I can only just see you."</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The dialog file can also contain more than one key which can be accessed using dot-notation, <code class="highlighter-rouge">request.dialog('favorite_city.question');</code>. An example of this can be found under the templating documntation.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"question"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"question"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="s2">"What is your favorite city?"</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"answer"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="nl">"answer"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="s2">"My favorite city is {{favorite_city}} too!"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"I heard {{favorite_city}} is beautiful"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"I want to visit {{favorite_city}} soon"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"{{favorite_city}} is a great place to visit!"</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>From your intent return using the dialog method the first parameter must match with the name of the json file.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">return</span> <span class="nx">request</span><span class="p">.</span><span class="nx">dialog</span><span class="p">(</span><span class="s1">'romantic_dialog'</span><span class="p">,</span> <span class="p">{</span>
-  <span class="na">lang</span><span class="p">:</span> <span class="s1">'en'</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nx">request</span><span class="p">.</span><span class="nx">dialog</span><span class="p">(</span><span class="dl">'</span><span class="s1">romantic_dialog</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">lang</span><span class="p">:</span> <span class="dl">'</span><span class="s1">en</span><span class="dl">'</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The romantic dialog example tries to fetch the language choice from a parameter.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="s1">'src/Intent/intent'</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Intent/intent</span><span class="dl">'</span><span class="p">);</span>
 
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">LanguageDialogIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">LanguageDialogIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'romantic'</span><span class="p">]);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="dl">'</span><span class="s1">romantic</span><span class="dl">'</span><span class="p">]);</span>
     
-    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'language'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="dl">'</span><span class="s1">language</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
       <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"en"</span><span class="p">:</span> <span class="p">{</span>
-          <span class="s2">"synonyms"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"english"</span><span class="p">]</span>
+        <span class="dl">"</span><span class="s2">en</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+          <span class="dl">"</span><span class="s2">synonyms</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">english</span><span class="dl">"</span><span class="p">]</span>
         <span class="p">},</span>
-        <span class="s2">"fr"</span><span class="p">:</span> <span class="p">{</span>
-          <span class="s2">"synonyms"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"french"</span><span class="p">]</span>
+        <span class="dl">"</span><span class="s2">fr</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+          <span class="dl">"</span><span class="s2">synonyms</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">french</span><span class="dl">"</span><span class="p">]</span>
         <span class="p">},</span>
-        <span class="s2">"de"</span><span class="err">:</span> <span class="p">{</span>
-          <span class="s2">"synonyms"</span><span class="err">:</span> <span class="p">[</span><span class="s2">"german"</span><span class="p">]</span>
+        <span class="dl">"</span><span class="s2">de</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+          <span class="dl">"</span><span class="s2">synonyms</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">german</span><span class="dl">"</span><span class="p">]</span>
         <span class="p">}</span>
       <span class="p">},</span>
-      <span class="s2">"default"</span><span class="err">:</span> <span class="s2">"en"</span>
+      <span class="dl">"</span><span class="s2">default</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">en</span><span class="dl">"</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">let</span> <span class="nx">language</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'language'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">language</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="dl">'</span><span class="s1">language</span><span class="dl">'</span><span class="p">);</span>
 
-    <span class="k">return</span> <span class="nx">request</span><span class="p">.</span><span class="nx">dialog</span><span class="p">(</span><span class="s1">'romantic_dialog'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">request</span><span class="p">.</span><span class="nx">dialog</span><span class="p">(</span><span class="dl">'</span><span class="s1">romantic_dialog</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
       <span class="na">lang</span><span class="p">:</span> <span class="nx">language</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="templating">Templating</h2>
 
@@ -343,18 +335,18 @@ different languages.</p>
 
 <p>To set custom templating variables use <code class="highlighter-rouge">request.set()</code>. This method can take key and value attributes or a key/value hash.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="s1">'src/Intent/intent'</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Intent/intent</span><span class="dl">'</span><span class="p">);</span>
 
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">HannahTemplateIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">HannahTemplateIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="s1">'hannah'</span>
+      <span class="dl">'</span><span class="s1">hannah</span><span class="dl">'</span>
     <span class="p">]);</span>
     
-    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'emotion'</span><span class="p">,</span> <span class="p">{</span>
-      <span class="na">entity</span><span class="p">:</span> <span class="s1">'App.Basics.Entity.Emotion'</span><span class="p">,</span>
-      <span class="na">default</span><span class="p">:</span> <span class="s1">'happy'</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="dl">'</span><span class="s1">emotion</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="dl">'</span><span class="s1">App.Basics.Entity.Emotion</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">default</span><span class="p">:</span> <span class="dl">'</span><span class="s1">happy</span><span class="dl">'</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
@@ -363,17 +355,16 @@ different languages.</p>
     <span class="kd">let</span> <span class="nx">d2</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
     <span class="kd">let</span> <span class="nx">weeks</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">((</span><span class="nx">d2</span> <span class="o">-</span> <span class="nx">d1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">7</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">));</span>
 
-    <span class="nx">request</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'weeks'</span><span class="p">,</span> <span class="nx">weeks</span><span class="p">);</span>
-    <span class="nx">request</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span>
-      <span class="na">city</span><span class="p">:</span> <span class="s1">'Bangkok'</span><span class="p">,</span>
-      <span class="na">country</span><span class="p">:</span> <span class="s1">'Thailand'</span>
+    <span class="nx">request</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">weeks</span><span class="dl">'</span><span class="p">,</span> <span class="nx">weeks</span><span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="kd">set</span><span class="p">({</span>
+      <span class="na">city</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bangkok</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">country</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Thailand</span><span class="dl">'</span>
     <span class="p">});</span>
-    <span class="k">return</span> <span class="s1">'Hello {{emotion}} baby! You are {{weeks}} weeks old and you was born in {{city}} in {{country}}!'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Hello {{emotion}} baby! You are {{weeks}} weeks old and you was born in {{city}} in {{country}}!</span><span class="dl">'</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Hannah Cheerful</span></div>
@@ -384,48 +375,46 @@ different languages.</p>
 
 <p>This example shows a dialog using a dot-notation to fetch a key from the dialog file.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="s1">'src/Intent/intent'</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Intent/intent</span><span class="dl">'</span><span class="p">);</span>
 
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">FavoriteCityIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">FavoriteCityIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'favorite'</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">must</span><span class="p">(</span><span class="s1">'city'</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="dl">'</span><span class="s1">favorite</span><span class="dl">'</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">must</span><span class="p">(</span><span class="dl">'</span><span class="s1">city</span><span class="dl">'</span><span class="p">);</span>
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="s1">'favorite_city'</span><span class="p">,</span> <span class="p">{</span>
-      <span class="na">entity</span><span class="p">:</span> <span class="s2">"App.Basics.Entity.City"</span><span class="p">,</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="dl">'</span><span class="s1">favorite_city</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="dl">"</span><span class="s2">App.Basics.Entity.City</span><span class="dl">"</span><span class="p">,</span>
       <span class="na">slotfill</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="na">action</span><span class="p">:</span> <span class="s1">'answered'</span>
+      <span class="na">action</span><span class="p">:</span> <span class="dl">'</span><span class="s1">answered</span><span class="dl">'</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">request</span><span class="p">.</span><span class="nx">dialog</span><span class="p">(</span><span class="s1">'favorite_city.question'</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">request</span><span class="p">.</span><span class="nx">dialog</span><span class="p">(</span><span class="dl">'</span><span class="s1">favorite_city.question</span><span class="dl">'</span><span class="p">);</span>
   <span class="p">}</span>
 
   <span class="nx">answered</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">request</span><span class="p">.</span><span class="nx">dialog</span><span class="p">(</span><span class="s1">'favorite_city.answer'</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">request</span><span class="p">.</span><span class="nx">dialog</span><span class="p">(</span><span class="dl">'</span><span class="s1">favorite_city.answer</span><span class="dl">'</span><span class="p">);</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The dialog file contains handlebar templating variables and an array so a random response will be returned.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"question"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"question"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="s2">"What is your favorite city?"</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"answer"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="nl">"answer"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="s2">"My favorite city is {{favorite_city}} too!"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"I heard {{favorite_city}} is beautiful"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"I want to visit {{favorite_city}} soon"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"{{favorite_city}} is a great place to visit!"</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>favorite city</span></div>
@@ -442,25 +431,24 @@ different languages.</p>
 
 <p>You can also handle finishing the request manually using <code class="highlighter-rouge">request.end()</code> which is used in the CountSixSeconds example below.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="s1">'src/Intent/intent'</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Intent/intent</span><span class="dl">'</span><span class="p">);</span>
 
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">FiveSecondsIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">FiveSecondsIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'five seconds'</span><span class="p">]);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="dl">'</span><span class="s1">five seconds</span><span class="dl">'</span><span class="p">]);</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">){</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">){</span>
       <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="nx">resolve</span><span class="p">(</span><span class="s1">'5 seconds are up'</span><span class="p">);</span>
+        <span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">5 seconds are up</span><span class="dl">'</span><span class="p">);</span>
       <span class="p">},</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Five seconds</span></div>
@@ -470,24 +458,24 @@ different languages.</p>
 
 <p>If you want to asynchronous read a file from the skill <code class="highlighter-rouge">Data</code> directory manually.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="s1">'src/Intent/intent'</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Intent/intent</span><span class="dl">'</span><span class="p">);</span>
 
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">CatfactsIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">CatfactsIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="s1">'catfact'</span><span class="p">,</span>
-      <span class="s1">'cat facts'</span><span class="p">,</span>
-      <span class="s1">'cat fact'</span>
+      <span class="dl">'</span><span class="s1">catfact</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">cat facts</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">cat fact</span><span class="dl">'</span>
     <span class="p">]);</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">let</span> <span class="nx">filename</span> <span class="o">=</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">path</span><span class="p">(</span><span class="s1">'skills.app'</span><span class="p">)</span><span class="o">+</span><span class="s1">'/CatFacts/Data/catfacts.txt'</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">filename</span> <span class="o">=</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">path</span><span class="p">(</span><span class="dl">'</span><span class="s1">skills.app</span><span class="dl">'</span><span class="p">)</span><span class="o">+</span><span class="dl">'</span><span class="s1">/CatFacts/Data/catfacts.txt</span><span class="dl">'</span><span class="p">;</span>
 
-    <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'fs'</span><span class="p">);</span>
-      <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="s1">'utf8'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">);</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
         <span class="kd">var</span> <span class="nx">lines</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/</span><span class="se">\r?\n</span><span class="sr">/</span><span class="p">);</span>
         <span class="nx">resolve</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">sample</span><span class="p">(</span><span class="nx">lines</span><span class="p">));</span>
       <span class="p">});</span>
@@ -495,8 +483,7 @@ different languages.</p>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <div class="chat">
   <div class="user"><span>Give me a fact about cats</span></div>
   <div class="bot"><span>Most cats adore sardines</span></div>
@@ -510,22 +497,22 @@ different languages.</p>
 
 <p>If the request is not ended the queue timeout will be called.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="s1">'src/Intent/intent'</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Intent/intent</span><span class="dl">'</span><span class="p">);</span>
 
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">CountSixSecondsIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">CountSixSecondsIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'count to six'</span><span class="p">]);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="dl">'</span><span class="s1">count to six</span><span class="dl">'</span><span class="p">]);</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">'1'</span><span class="p">);</span> <span class="p">},</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
-    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">'2'</span><span class="p">);</span> <span class="p">},</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
-    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">'3'</span><span class="p">);</span> <span class="p">},</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
-    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">'4'</span><span class="p">);</span> <span class="p">},</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
-    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">'5'</span><span class="p">);</span> <span class="p">},</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">1</span><span class="dl">'</span><span class="p">);</span> <span class="p">},</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">2</span><span class="dl">'</span><span class="p">);</span> <span class="p">},</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">3</span><span class="dl">'</span><span class="p">);</span> <span class="p">},</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">4</span><span class="dl">'</span><span class="p">);</span> <span class="p">},</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">5</span><span class="dl">'</span><span class="p">);</span> <span class="p">},</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
     <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">'6'</span><span class="p">);</span>
+      <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">6</span><span class="dl">'</span><span class="p">);</span>
       <span class="nx">request</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
     <span class="p">},</span> <span class="mi">6</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
 
@@ -533,8 +520,7 @@ different languages.</p>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Count to six</span></div>
@@ -624,21 +610,21 @@ different languages.</p>
 
 <p>It’s possible to create a new request for the user to call multiple intents. Defining the <code class="highlighter-rouge">intent</code> will force the user to the defined intent. Using the <code class="highlighter-rouge">fast</code> key will stop any simulated typing delays.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">MultipleIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">MultipleIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'multiple'</span><span class="p">],</span> <span class="p">{</span>
-      <span class="na">collection</span><span class="p">:</span> <span class="s1">'strict'</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="dl">'</span><span class="s1">multiple</span><span class="dl">'</span><span class="p">],</span> <span class="p">{</span>
+      <span class="na">collection</span><span class="p">:</span> <span class="dl">'</span><span class="s1">strict</span><span class="dl">'</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">response</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">'Let\'s ping!'</span><span class="p">);</span>
+    <span class="nx">response</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">Let</span><span class="se">\'</span><span class="s1">s ping!</span><span class="dl">'</span><span class="p">);</span>
 
     <span class="nx">response</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
       <span class="na">client_id</span><span class="p">:</span> <span class="nx">response</span><span class="p">.</span><span class="nx">client</span><span class="p">.</span><span class="nx">client_id</span><span class="p">,</span>
       <span class="na">session_id</span><span class="p">:</span> <span class="nx">response</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">session_id</span><span class="p">,</span>
-      <span class="na">intent</span><span class="p">:</span> <span class="s1">'App.Example.Intent.Ping'</span><span class="p">,</span>
+      <span class="na">intent</span><span class="p">:</span> <span class="dl">'</span><span class="s1">App.Example.Intent.Ping</span><span class="dl">'</span><span class="p">,</span>
       <span class="na">fast</span><span class="p">:</span> <span class="kc">true</span>
     <span class="p">});</span>
 
@@ -646,8 +632,7 @@ different languages.</p>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Multiple</span></div>

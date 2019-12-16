@@ -1,0 +1,47 @@
+I"ô<p>Itâ€™s possible to load and unload intents on-the-fly.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Unload Ping intent</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">IntentRegistry</span><span class="p">.</span><span class="nx">unload</span><span class="p">(</span><span class="dl">'</span><span class="s1">App.Examples.Intent.Ping</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">//Load Ping intent</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">IntentRegistry</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="dl">'</span><span class="s1">App.Examples.Intent.Ping</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="chat">
+  <div class="user"><span>Ping</span></div>
+  <div class="bot"><span>Pong</span></div>
+  <div class="user"><span>Unload Ping</span></div>
+  <div class="bot"><span>Ping has now been unloaded</span></div>
+  <div class="user"><span>Ping</span></div>
+  <div class="bot"><span>Sorry, I don't understand what you mean</span></div>
+  <div class="user"><span>Load Ping</span></div>
+  <div class="bot"><span>Ping loaded</span></div>
+  <div class="user"><span>Ping</span></div>
+  <div class="bot"><span>Pong</span></div>
+</div>
+
+<p>Unloading an intent will untrain all classifers and remove the intent from the <code class="highlighter-rouge">ObjectRegistry</code> so it cannot be called again.</p>
+
+<p>Entities and their data will be untouched.</p>
+
+<p>A call back called <code class="highlighter-rouge">shutdown</code> will be called before untraining and removing the intent from the registry.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Intent/intent</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">PingIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="dl">'</span><span class="s1">ping</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">pong</span><span class="dl">'</span><span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Pong</span><span class="dl">'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">shutdown</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Ping shutting down</span><span class="dl">'</span><span class="p">);</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+:ET

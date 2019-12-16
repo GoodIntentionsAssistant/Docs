@@ -1,0 +1,48 @@
+I"<p>An intent is a user’s intention. If the user types in “what is the weather for bangkok”, the intent will fetch the weather for Bangkok and return it back to the user.</p>
+
+<p>Each intent is within a Skill and a skill can have many intents. For example you may want to have a collection of small games and you could put them in a skill called <code class="highlighter-rouge">Games</code> and share that skill with its intents and entities online.</p>
+
+<h2 id="building-a-simple-intent">Building a Simple Intent</h2>
+
+<p>Firstly edit your <code class="highlighter-rouge">app/Config/config.json</code> file and in the <code class="highlighter-rouge">skills</code> array add in “App.HelloWorld”.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"skills"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"App.HelloWorld"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"App.Error"</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Go to your <code class="highlighter-rouge">/app/Skill/</code> directory and create a directory called “HelloWorld”.</p>
+
+<p>Create a skill file <code class="highlighter-rouge">/app/Skill/HelloWorld/hello_world_skill.js</code></p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Skill</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Skill/skill</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">HelloWorldSkill</span> <span class="kd">extends</span> <span class="nx">Skill</span> <span class="p">{</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Then create a directory, <code class="highlighter-rouge">/app/Skill/HelloWorld/Intent/</code></p>
+
+<p>In this directory create a new file called <code class="highlighter-rouge">hello_world_intent.js</code> and enter the following…</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Intent/intent</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">HelloWorldIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="dl">'</span><span class="s1">hello world</span><span class="dl">'</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Hello!</span><span class="dl">'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>With these basics you can now learn more about training, entities, attachments and more.</p>
+
+:ET

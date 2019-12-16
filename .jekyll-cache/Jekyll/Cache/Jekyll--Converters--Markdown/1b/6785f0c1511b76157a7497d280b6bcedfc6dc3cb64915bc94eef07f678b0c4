@@ -1,0 +1,65 @@
+I"<p>GI allows you to create a combination of intents and entities using skills. Each skill should be focused on a small set of similar intents.</p>
+
+<p>Skills don’t necessarily need to be intents or entities, they could also use the app event system to manipulate, log, add additional components or take over control of Good Intentions.</p>
+
+<p>Skills should be designed to do a single job and do that job well.</p>
+
+<p>For an ecommerce bot you could build individual skills for cart, products, onboarding, customer support, general information, small talk and fallbacks.</p>
+
+<h2 id="creating-a-skill">Creating a skill</h2>
+
+<p>Create a new directory in your <code class="highlighter-rouge">app/Skill/</code> directory using CamelCase format.</p>
+
+<p>Typical directory structure.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/app
+  /ExampleMenu
+    /Entity
+    /Data
+    /Intent
+    example_menu_skill.js
+</code></pre></div></div>
+
+<p>For the skill to load it must be added to your <code class="highlighter-rouge">config</code> file.</p>
+
+<h2 id="skill-file">Skill file</h2>
+
+<p>The skill file must match the directory name using lower case and underscore format. In this example the skill file is <code class="highlighter-rouge">example_menu_skill.js</code>.</p>
+
+<p>This file can be used to listen to events on GI.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">ExampleMenuSkill</span> <span class="kd">extends</span> <span class="nx">Skill</span> <span class="p">{</span>
+
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">intents</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="enabling-the-skill">Enabling the skill</h2>
+
+<p>In <code class="highlighter-rouge">app/Config/config.js</code> add the skill to the <code class="highlighter-rouge">config.skills</code> array then restart the GI server.</p>
+
+<p>The GI Cli will load the intents and all of the entities for the skill.</p>
+
+<h2 id="defining-skill-intents-to-load">Defining skill intents to load</h2>
+
+<p>When the skill file is loaded all intents found in the <code class="highlighter-rouge">/Intent</code> directory are loaded in.</p>
+
+<p>To control which intents are loaded change <code class="highlighter-rouge">this.intents</code> array inside the <code class="highlighter-rouge">constructor</code> method. If the array is empty all intents are loaded.</p>
+
+<p>For example if you had two intents.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/Intent
+  order1_intent.js
+  order2_intent.js
+</code></pre></div></div>
+
+<p>To just load the Order2 intent you would set the intents array to be…</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">intents</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">Order2</span><span class="dl">'</span><span class="p">];</span>
+</code></pre></div></div>
+
+:ET

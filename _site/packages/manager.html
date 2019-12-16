@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/packages/manager.html">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="canonical" href="http://localhost:4000/packages/manager.html">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="http://localhost:4000/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <link rel="icon"  type="image/png" href="/img/good-intentions-chatbot-logo.png">
@@ -89,20 +89,18 @@
 
 <p>Once the package is downloaded with <code class="highlighter-rouge">npm</code> a symbolic link is created from the <code class="highlighter-rouge">node_modules</code> directory to your <code class="highlighter-rouge">app</code> directory for each skill.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>node gi install gi-skill-basics
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node gi install gi-skill-basics
 node gi uninstall gi-skill-basics
 node gi reinstall gi-skill-basics
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="manual-install">Manual install</h2>
 
 <p>The package manager can be ignored if your package is not listed in the central <a href="https://github.com/GoodIntentionsAssistant/gi-packages/blob/master/gi-packages.json">gi-packages.json</a> file.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm install gi-skill-basics
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install gi-skill-basics
 node gi enable gi-skill-basics
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="manual-uninstall">Manual uninstall</h2>
 
@@ -110,22 +108,20 @@ node gi enable gi-skill-basics
 
 <p>If you still have a linked directory in your <code class="highlighter-rouge">app/Skills</code> directory you can manually remove it.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>node gi disable gi-skill-basics
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node gi disable gi-skill-basics
 npm remove gi-skill-basics
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="problems">Problems</h2>
 
 <p>If you are having issues with downloading packages try the following.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># Clean the NPM cache</span>
-npm cache clean --force
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Clean the NPM cache</span>
+npm cache clean <span class="nt">--force</span>
 
 <span class="c"># Update to the latest gi-packages.json file</span>
 node gi fetch
-</code></pre>
-</div>
+</code></pre></div></div>
 
   </div>
 

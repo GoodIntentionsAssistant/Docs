@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/install/">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="canonical" href="http://localhost:4000/install/">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="http://localhost:4000/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <link rel="icon"  type="image/png" href="/img/good-intentions-chatbot-logo.png">
@@ -66,59 +66,55 @@
   </header>
 
   <div class="post-content">
-    <h2 id="download">1. Download</h2>
+    <h2 id="1-download">1. Download</h2>
 
 <p>Create a directory on your computer and clone the git repository.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cd ~
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ~
 mkdir gi
 cd gi
 git clone git@github.com:GoodIntentionsAssistant/gi.git server
 cd server
 npm install
 cp app/Config/config.example.json app/Config/config.json
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The server will now run but it will require some skills</p>
 
-<h2 id="install-skills">2. Install Skills</h2>
+<h2 id="2-install-skills">2. Install Skills</h2>
 
 <p>Now we need to install some skills to get GI actually doing anything before we start talking to it.</p>
 
 <p>From the main directory.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>node gi install gi-skill-basics
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node gi install gi-skill-basics
 node gi install gi-skill-helloworld
 node gi install gi-skill-guessnumber
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h2 id="load-server">3. Load Server</h2>
+<h2 id="3-load-server">3. Load Server</h2>
 
 <p>Good intentions server is now installed with three basic skills to get you started.</p>
 
 <p>Calling <code class="highlighter-rouge">gi serve</code> will start the Good Intentions assistant which will listen to a port.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>node gi serve
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node gi serve
+</code></pre></div></div>
 
-<h2 id="install-cli-client">4. Install CLI Client</h2>
+<h2 id="4-install-cli-client">4. Install CLI Client</h2>
 
 <p>Once the server is running open another terminal window go back to your gi directory created in step one.</p>
 
 <p>Make sure you are not in the server directory!</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cd ~/gi
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ~/gi
 git clone git@github.com:GoodIntentionsAssistant/gi-client-cli.git cli
 cd cli
 npm install
 cp config.example.js config.js
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h2 id="talk-to-assistant">5. Talk to Assistant</h2>
+<h2 id="5-talk-to-assistant">5. Talk to Assistant</h2>
 
 <p>Say something in the cli you just ran!</p>
 

@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/clients/authorizing.html">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="canonical" href="http://localhost:4000/docs/clients/authorizing.html">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="http://localhost:4000/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <link rel="icon"  type="image/png" href="/img/good-intentions-chatbot-logo.png">
@@ -178,36 +178,33 @@
 
 <p>Only clients that have been white listed can connect and send input to the framework. In your <code class="highlighter-rouge">app/Config/config.json</code> file are settings to define the name and the client token. If you create a new client you must add the key and secret to the configuration file first.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">clients</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'facebook'</span><span class="p">:</span> <span class="p">{</span> 
-    <span class="s1">'secret'</span><span class="p">:</span> <span class="s1">'this-is-my-secret'</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">clients</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="dl">'</span><span class="s1">facebook</span><span class="dl">'</span><span class="p">:</span> <span class="p">{</span> 
+    <span class="dl">'</span><span class="s1">secret</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">this-is-my-secret</span><span class="dl">'</span>
   <span class="p">}</span>
 <span class="p">};</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="client-authorizing-and-identifying">Client authorizing and identifying</h2>
 
 <p>On connecting the client must identify itself using its client name and <code class="highlighter-rouge">secret</code> found in your config.js file.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'identify'</span><span class="p">,{</span>
-  <span class="na">client</span><span class="p">:</span> <span class="s1">'facebook'</span><span class="p">,</span>
-  <span class="na">secret</span><span class="p">:</span> <span class="s1">'this-is-my-secret'</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="dl">'</span><span class="s1">identify</span><span class="dl">'</span><span class="p">,{</span>
+  <span class="na">client</span><span class="p">:</span> <span class="dl">'</span><span class="s1">facebook</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">secret</span><span class="p">:</span> <span class="dl">'</span><span class="s1">this-is-my-secret</span><span class="dl">'</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>An event will be returned with the success and a <code class="highlighter-rouge">auth_token</code>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Successfully identified"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"auth_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"m626NfP8jFYPAKNw"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"ident"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZNWXHXYT"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"identify"</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Successfully identified"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"auth_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"m626NfP8jFYPAKNw"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ident"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZNWXHXYT"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"identify"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The auth token must be made on all future requests. The secret is no longer needed and will be rejected if sent for further requests.</p>
 

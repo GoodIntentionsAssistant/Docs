@@ -1,0 +1,341 @@
+I"�\<p>Expects are useful for in conversations to users to capture their next response and force it to an intent.</p>
+
+<p>For now you can only set one expects. We plan to have multiple expects in a future version.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">HowOldAreYouIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">How old are you</span><span class="dl">'</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="dl">'</span><span class="s1">how old are you</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">what is your age</span><span class="dl">'</span>
+    <span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span>
+      <span class="na">action</span><span class="p">:</span> <span class="dl">'</span><span class="s1">reply</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">force</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="p">[</span>
+      <span class="dl">'</span><span class="s1">I have no age, I am a bot!</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">How old are you?</span><span class="dl">'</span>
+    <span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="nx">reply</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">OK, you are </span><span class="dl">'</span><span class="o">+</span><span class="nx">request</span><span class="p">.</span><span class="nx">input</span><span class="p">.</span><span class="nx">text</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="chat">
+  <div class="user"><span>How old are you?</span></div>
+  <div class="bot"><span>I have no age, I am a bot!</span></div>
+  <div class="bot"><span>How old are you?</span></div>
+  <div class="user"><span>30</span></div>
+  <div class="bot"><span>OK, you are 30</span></div>
+</div>
+
+<p>The above example won’t check the user input so the following problem can happen…</p>
+
+<div class="chat">
+  <div class="user"><span>How old are you?</span></div>
+  <div class="bot"><span>I have no age, I am a bot!</span></div>
+  <div class="bot"><span>How old are you?</span></div>
+  <div class="user"><span>Apples</span></div>
+  <div class="bot"><span>OK, you are Apples</span></div>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>key</td>
+      <td>No</td>
+      <td>expects</td>
+      <td>Parameter key if set</td>
+    </tr>
+    <tr>
+      <td>action</td>
+      <td>No</td>
+      <td>response</td>
+      <td>Action to use when the expected input has been matched</td>
+    </tr>
+    <tr>
+      <td>force</td>
+      <td>No</td>
+      <td>false</td>
+      <td>If set to true what ever user input after will be directed to the same intent</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td>No</td>
+      <td>false</td>
+      <td>If forced is true and the input is not matched the action is changed to the value of fail</td>
+    </tr>
+    <tr>
+      <td>keep</td>
+      <td>No</td>
+      <td>false</td>
+      <td>If set to true the users input will be stored to their user record and can be used for slotfilling</td>
+    </tr>
+    <tr>
+      <td>expire</td>
+      <td>No</td>
+      <td>60</td>
+      <td>Seconds for the expects to expire</td>
+    </tr>
+    <tr>
+      <td>entity</td>
+      <td>No</td>
+      <td>false</td>
+      <td>User input will be parsed to get entity data. The result if matched will be set to a parameter key called <code class="highlighter-rouge">expects</code>. If entity is not set then data must be passed.</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td>No</td>
+      <td>null</td>
+      <td>If instead of using entity data it’s possible to manually set the data to be checked</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="expects-with-an-entity">Expects with an entity</h2>
+
+<p>You could handle lots of different exceptions in your <code class="highlighter-rouge">reply</code> method but you could also make an entity to parse and check for the information creating a better flow.</p>
+
+<p>In this example <code class="highlighter-rouge">key</code> has not been set so the default value of ‘expects’ will be used to get the users reply.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Intent/intent</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">FavoriteNumberIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="dl">'</span><span class="s1">what is your favorite number</span><span class="dl">'</span>
+    <span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span>
+      <span class="na">action</span><span class="p">:</span> <span class="dl">'</span><span class="s1">reply</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="dl">'</span><span class="s1">App.Common.Entity.Decimal</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">force</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="p">[</span>
+      <span class="dl">'</span><span class="s1">Not sure, what is your favorite number?</span><span class="dl">'</span>
+    <span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="nx">reply</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="dl">'</span><span class="s1">expects</span><span class="dl">'</span><span class="p">);</span>
+    <span class="k">return</span> <span class="s2">`I think </span><span class="p">${</span><span class="nx">value</span><span class="p">}</span><span class="s2"> is a lucky number too!`</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="chat">
+  <div class="user"><span>What is your favorite number?</span></div>
+  <div class="bot"><span>Not sure, what is your favorite number?</span></div>
+  <div class="user"><span>I love 60</span></div>
+  <div class="bot"><span>I think 60 is a lucky number too!</span></div>
+</div>
+
+<div class="chat">
+  <div class="user"><span>What is your favorite number?</span></div>
+  <div class="bot"><span>Not sure, what is your favorite number?</span></div>
+  <div class="user"><span>Bananas</span></div>
+  <div class="bot"><span>Not sure, what is your favorite number?</span></div>
+  <div class="user"><span>I love 3.14</span></div>
+  <div class="bot"><span>I think 3.14 is a lucky number too!</span></div>
+</div>
+
+<h2 id="force-with-fail-and-manual-data">Force with fail and manual data</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">FlowerMenuIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="dl">'</span><span class="s1">flowers</span><span class="dl">'</span>
+    <span class="p">]);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">menu</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="mi">1</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Order flowers</span><span class="dl">'</span><span class="p">,</span>
+      <span class="mi">2</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Check your status</span><span class="dl">'</span><span class="p">,</span>
+      <span class="mi">3</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Contact us</span><span class="dl">'</span><span class="p">,</span>
+      <span class="mi">4</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Exit</span><span class="dl">'</span>
+    <span class="p">};</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">stop</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">after_request</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">stop</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">stop</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+      <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span>
+      <span class="na">force</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="na">action</span><span class="p">:</span> <span class="dl">'</span><span class="s1">chosen</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">fail</span><span class="p">:</span> <span class="dl">'</span><span class="s1">incorrect</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+        <span class="dl">"</span><span class="s2">1</span><span class="dl">"</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="dl">"</span><span class="s2">2</span><span class="dl">"</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="dl">"</span><span class="s2">3</span><span class="dl">"</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="dl">"</span><span class="s2">4</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+          <span class="dl">"</span><span class="s2">synonyms</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">exit</span><span class="dl">"</span><span class="p">]</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">menu</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">output</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">key</span><span class="o">+</span><span class="dl">'</span><span class="s1">. </span><span class="dl">'</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">menu</span><span class="p">[</span><span class="nx">key</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">output</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">chosen</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">val</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="dl">'</span><span class="s1">expects</span><span class="dl">'</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">val</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">4</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">stop</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+      <span class="k">return</span> <span class="dl">'</span><span class="s1">Thanks for shopping with us!</span><span class="dl">'</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">You chose "</span><span class="dl">'</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">menu</span><span class="p">[</span><span class="nx">val</span><span class="p">]</span><span class="o">+</span><span class="dl">'</span><span class="s1">"</span><span class="dl">'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">incorrect</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Sorry, there is no menu option </span><span class="dl">'</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">input</span><span class="p">.</span><span class="nx">text</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="chat">
+  <div class="user"><span>Flowers</span></div>
+  <div class="bot"><span>
+      1. Order flowers<br />
+      2. Check your status<br />
+      3. Contact us<br />
+      4. Exit
+  </span></div>
+  <div class="user"><span>6</span></div>
+  <div class="bot"><span>Sorry, there is no menu option 6</span></div>
+  <div class="user"><span>2</span></div>
+  <div class="bot"><span>You chose "Check your status"</span></div>
+  <div class="user"><span>4</span></div>
+  <div class="bot"><span>Thanks for shopping with us!</span></div>
+</div>
+
+<h2 id="save-answer">Save answer</h2>
+
+<p>Saving the users expected answer will store the information in the user session. This can then be used in any other intent the user calls.</p>
+
+<p>This can be useful to build up contextual information about the user. In the example we are handling loading in the previously entered answer direct from the user record. It can also be used for parameter slot filling.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">FootballQuestionIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="dl">'</span><span class="s1">do you like football?</span><span class="dl">'</span>
+    <span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="dl">'</span><span class="s1">football</span><span class="dl">'</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">user.football</span><span class="dl">'</span><span class="p">)</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">yes</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="dl">'</span><span class="s1">Yes I do and I know you love it too!</span><span class="dl">'</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="dl">'</span><span class="s1">Yes I do and I know you don</span><span class="se">\'</span><span class="s1">t enjoy it already</span><span class="dl">'</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span>
+      <span class="na">key</span><span class="p">:</span> <span class="dl">'</span><span class="s1">football</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">action</span><span class="p">:</span> <span class="dl">'</span><span class="s1">reply</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="dl">'</span><span class="s1">App.Basics.Entity.Confirm</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">keep</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="p">[</span>
+      <span class="dl">'</span><span class="s1">Yes, I love football, do you?</span><span class="dl">'</span>
+    <span class="p">];</span>
+  <span class="p">}</span>
+  
+  <span class="nx">reply</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="dl">'</span><span class="s1">football</span><span class="dl">'</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">value</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">yes</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="dl">'</span><span class="s1">We will go to a game together soon!</span><span class="dl">'</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Shame, not everyone enjoys it</span><span class="dl">'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="chat">
+  <div class="user"><span>Do you like football?</span></div>
+  <div class="bot"><span>Yes, I love football, do you?</span></div>
+  <div class="user"><span>Yup</span></div>
+  <div class="bot"><span>We will go to a game together soon!</span></div>
+  <div class="user"><span>Do you like football?</span></div>
+  <div class="bot"><span>Yes I do and I know you don't enjoy it already</span></div>
+</div>
+
+<h2 id="expiring-expects">Expiring expects</h2>
+
+<p>By default when setting an expects it will expire in 60 seconds, or what is in your <code class="highlighter-rouge">config.js</code> file.</p>
+
+<p>You can define the expiry seconds in the request.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Expired in 10 seconds</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span> <span class="na">expire</span><span class="p">:</span> <span class="mi">10</span> <span class="p">});</span>
+
+<span class="c1">//Expired in 1 hour</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span> <span class="na">expire</span><span class="p">:</span> <span class="mi">3600</span> <span class="p">});</span>
+</code></pre></div></div>
+
+<div class="chat">
+  <div class="user"><span>Short memory</span></div>
+  <div class="bot"><span>Do you like bananas?</span></div>
+  <div class="user"><span>Yes</span></div>
+  <div class="bot"><span>I like bananas</span></div>
+
+  <div class="empty"><span></span></div>
+
+  <div class="user"><span>Short memory</span></div>
+  <div class="bot"><span>Do you like bananas?</span></div>
+  <div class="info"><span>Wait 5 seconds to reply</span></div>
+  <div class="user"><span>Yes</span></div>
+  <div class="bot"><span>Not sure what you are saying yes to.</span></div>
+</div>
+
+<h2 id="cancelling-expects">Cancelling expects</h2>
+
+<p>If the user is trapped in a conversation using expects they can use <code class="highlighter-rouge">cancel</code> keywords.</p>
+
+<div class="chat">
+  <div class="user"><span>Take survey</span></div>
+  <div class="bot"><span>Do you watch sports TV?</span></div>
+  <div class="user"><span>Yes</span></div>
+  <div class="bot"><span>Which sports do you watch the most?</span></div>
+  <div class="user"><span>Stop</span></div>
+  <div class="bot"><span>No problems!</span></div>
+</div>
+
+:ET

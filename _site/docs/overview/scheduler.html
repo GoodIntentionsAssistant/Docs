@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/overview/scheduler.html">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="canonical" href="http://localhost:4000/docs/overview/scheduler.html">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="http://localhost:4000/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <link rel="icon"  type="image/png" href="/img/good-intentions-chatbot-logo.png">
@@ -136,13 +136,12 @@
 
 <h2 id="creating-a-schedule">Creating a schedule</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Scheduler</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'wakeup'</span><span class="p">,</span> <span class="p">{</span>
-  <span class="na">when</span><span class="p">:</span> <span class="nx">moment</span><span class="p">().</span><span class="nx">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'seconds'</span><span class="p">),</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Scheduler</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="dl">'</span><span class="s1">wakeup</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">when</span><span class="p">:</span> <span class="nx">moment</span><span class="p">().</span><span class="nx">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="dl">'</span><span class="s1">seconds</span><span class="dl">'</span><span class="p">),</span>
   <span class="na">request</span><span class="p">:</span> <span class="nx">request</span><span class="p">,</span>
-  <span class="na">text</span><span class="p">:</span> <span class="s1">'Wake up (5 seconds)'</span>
+  <span class="na">text</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Wake up (5 seconds)</span><span class="dl">'</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The first argument is the namespace for the emitting. In this example <code class="highlighter-rouge">scheduler.trigger.wakeup</code> will be the name space called. The name space will always start with <code class="highlighter-rouge">scheduler.trigger</code>.</p>
 
@@ -184,11 +183,11 @@
 
 <p>Listening to a schedule can be added in any file loaded at run time. This includes skills, entities and intents. It’s recommended to put your listeners into your intent at setup.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">WakeupIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">WakeupIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'scheduler.trigger.wakeup'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">scheduler.trigger.wakeup</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
       <span class="c1">//Do something</span>
       <span class="c1">//data.text = "Wake up (5 seconds)"</span>
     <span class="p">});</span>
@@ -196,8 +195,7 @@
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="example">Example</h2>
 
@@ -205,21 +203,21 @@
 
 <p>The app request includes arguments for <code class="highlighter-rouge">fast</code> so there is no typing simulation delays and <code class="highlighter-rouge">skip_queue</code> which sends the request immediately ignoring <code class="highlighter-rouge">max_consecutive</code> configuration option.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">moment</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'moment'</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">moment</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">moment</span><span class="dl">'</span><span class="p">);</span>
 
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">WakeupIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">WakeupIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'wake up'</span><span class="p">],</span> <span class="p">{</span>
-      <span class="na">collection</span><span class="p">:</span> <span class="s1">'strict'</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="dl">'</span><span class="s1">wake up</span><span class="dl">'</span><span class="p">],</span> <span class="p">{</span>
+      <span class="na">collection</span><span class="p">:</span> <span class="dl">'</span><span class="s1">strict</span><span class="dl">'</span>
     <span class="p">});</span>
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'scheduler.trigger.wakeup'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">scheduler.trigger.wakeup</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
         <span class="na">client_id</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">schedule</span><span class="p">.</span><span class="nx">client_id</span><span class="p">,</span>
         <span class="na">session_id</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">schedule</span><span class="p">.</span><span class="nx">session_id</span><span class="p">,</span>
-        <span class="na">intent</span><span class="p">:</span> <span class="s1">'App.Example.Intent.WakeUp'</span><span class="p">,</span>
-        <span class="na">action</span><span class="p">:</span> <span class="s1">'wakeup'</span><span class="p">,</span>
+        <span class="na">intent</span><span class="p">:</span> <span class="dl">'</span><span class="s1">App.Example.Intent.WakeUp</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">action</span><span class="p">:</span> <span class="dl">'</span><span class="s1">wakeup</span><span class="dl">'</span><span class="p">,</span>
         <span class="na">schedule_data</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">schedule</span><span class="p">,</span>
         <span class="na">skip_queue</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
         <span class="na">fast</span><span class="p">:</span> <span class="kc">true</span>
@@ -228,19 +226,19 @@
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Scheduler</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'wakeup'</span><span class="p">,</span> <span class="p">{</span>
-      <span class="na">when</span><span class="p">:</span> <span class="nx">moment</span><span class="p">().</span><span class="nx">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'seconds'</span><span class="p">),</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Scheduler</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="dl">'</span><span class="s1">wakeup</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">when</span><span class="p">:</span> <span class="nx">moment</span><span class="p">().</span><span class="nx">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="dl">'</span><span class="s1">seconds</span><span class="dl">'</span><span class="p">),</span>
       <span class="na">request</span><span class="p">:</span> <span class="nx">request</span><span class="p">,</span>
-      <span class="na">text</span><span class="p">:</span> <span class="s1">'Wake up (5 seconds)'</span>
+      <span class="na">text</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Wake up (5 seconds)</span><span class="dl">'</span>
     <span class="p">});</span>
 
-    <span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Scheduler</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'wakeup'</span><span class="p">,</span> <span class="p">{</span>
-      <span class="na">when</span><span class="p">:</span> <span class="nx">moment</span><span class="p">().</span><span class="nx">add</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">'seconds'</span><span class="p">),</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Scheduler</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="dl">'</span><span class="s1">wakeup</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">when</span><span class="p">:</span> <span class="nx">moment</span><span class="p">().</span><span class="nx">add</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="dl">'</span><span class="s1">seconds</span><span class="dl">'</span><span class="p">),</span>
       <span class="na">request</span><span class="p">:</span> <span class="nx">request</span><span class="p">,</span>
-      <span class="na">text</span><span class="p">:</span> <span class="s1">'Wake up (10 seconds)'</span>
+      <span class="na">text</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Wake up (10 seconds)</span><span class="dl">'</span>
     <span class="p">});</span>
 
-    <span class="k">return</span> <span class="s1">'In 5 and 10 seconds I\'ll remind you to wake up using the scheduler'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">In 5 and 10 seconds I</span><span class="se">\'</span><span class="s1">ll remind you to wake up using the scheduler</span><span class="dl">'</span><span class="p">;</span>
   <span class="p">}</span>
 
   <span class="nx">wakeup</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
@@ -248,8 +246,7 @@
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Wake up</span></div>

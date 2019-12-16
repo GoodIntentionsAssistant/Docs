@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/mermaid.css">
 
-  <link rel="canonical" href="https://goodintentionsassistant.github.io/docs/overview/training.html">
-  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="https://goodintentionsassistant.github.io/feed.xml">
+  <link rel="canonical" href="http://localhost:4000/docs/overview/training.html">
+  <link rel="alternate" type="application/rss+xml" title="Good Intentions Assistant Framework" href="http://localhost:4000/feed.xml">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons">
 
   <link rel="icon"  type="image/png" href="/img/good-intentions-chatbot-logo.png">
@@ -134,19 +134,18 @@
 
 <p>Using <code class="highlighter-rouge">this.train()</code> function you can train the bot to understand the intent.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">PingIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">PingIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'ping'</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="dl">'</span><span class="s1">ping</span><span class="dl">'</span><span class="p">);</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="s1">'Pong'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Pong</span><span class="dl">'</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Ping</span></div>
@@ -159,31 +158,29 @@
 
 <p>Triggers and symnomns train the default collection. To change the collection change it as an option when using the <code class="highlighter-rouge">train()</code> method.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//Default NLP collection</span>
-<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'kiss me'</span><span class="p">],</span> <span class="p">{</span> <span class="na">collection</span><span class="p">:</span> <span class="s1">'default'</span> <span class="p">});</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Default NLP collection</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="dl">'</span><span class="s1">kiss me</span><span class="dl">'</span><span class="p">],</span> <span class="p">{</span> <span class="na">collection</span><span class="p">:</span> <span class="dl">'</span><span class="s1">default</span><span class="dl">'</span> <span class="p">});</span>
 
 <span class="c1">//Use the strict collection</span>
-<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'kiss me'</span><span class="p">],</span> <span class="p">{</span> <span class="na">collection</span><span class="p">:</span> <span class="s1">'strict'</span> <span class="p">});</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="dl">'</span><span class="s1">kiss me</span><span class="dl">'</span><span class="p">],</span> <span class="p">{</span> <span class="na">collection</span><span class="p">:</span> <span class="dl">'</span><span class="s1">strict</span><span class="dl">'</span> <span class="p">});</span>
 
 <span class="c1">//If nothing is found in default or strict then try the fall back</span>
-<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'kiss me'</span><span class="p">],</span> <span class="p">{</span> <span class="na">collection</span><span class="p">:</span> <span class="s1">'fallback'</span> <span class="p">});</span>
-</code></pre>
-</div>
+<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="dl">'</span><span class="s1">kiss me</span><span class="dl">'</span><span class="p">],</span> <span class="p">{</span> <span class="na">collection</span><span class="p">:</span> <span class="dl">'</span><span class="s1">fallback</span><span class="dl">'</span> <span class="p">});</span>
+</code></pre></div></div>
 
 <h2 id="auto-classifiers">Auto Classifiers</h2>
 
 <p>When using <code class="highlighter-rouge">this.train()</code> the input is checked and if it matches certain patterns the collection will be automatically changed.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//Add to the default NLP collection</span>
-<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'kiss me'</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Add to the default NLP collection</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="dl">'</span><span class="s1">kiss me</span><span class="dl">'</span><span class="p">);</span>
 
 <span class="c1">//Surrounded by quotes so add to strict collection</span>
-<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'"kiss me"'</span><span class="p">);</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="dl">'</span><span class="s1">"kiss me"</span><span class="dl">'</span><span class="p">);</span>
 
 <span class="c1">//If the input contains the words "kiss me" together</span>
-<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'~kiss me'</span><span class="p">);</span>
-</code></pre>
-</div>
+<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="dl">'</span><span class="s1">~kiss me</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
 
 <p>In the example below certain conditions will and won’t match.</p>
 
@@ -204,24 +201,23 @@
   </tbody>
 </table>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="s1">'src/Intent/intent'</span><span class="p">);</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/Intent/intent</span><span class="dl">'</span><span class="p">);</span>
 
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">AutoClassifiersIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">AutoClassifiersIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="s1">'"ping ping"'</span><span class="p">,</span>    <span class="c1">//Strict</span>
-      <span class="s1">'~ping bling'</span>     <span class="c1">//Partial</span>
+      <span class="dl">'</span><span class="s1">"ping ping"</span><span class="dl">'</span><span class="p">,</span>    <span class="c1">//Strict</span>
+      <span class="dl">'</span><span class="s1">~ping bling</span><span class="dl">'</span>     <span class="c1">//Partial</span>
     <span class="p">]);</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="s1">'Autoclassifier ping!'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Autoclassifier ping!</span><span class="dl">'</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="strict-collection">Strict collection</h2>
 
@@ -233,22 +229,21 @@
 
 <p>Case is ignored.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">KissMeIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">KissMeIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'kiss me'</span><span class="p">],</span> <span class="p">{</span>
-      <span class="na">collection</span><span class="p">:</span> <span class="s1">'strict'</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="dl">'</span><span class="s1">kiss me</span><span class="dl">'</span><span class="p">],</span> <span class="p">{</span>
+      <span class="na">collection</span><span class="p">:</span> <span class="dl">'</span><span class="s1">strict</span><span class="dl">'</span>
     <span class="p">});</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="s1">'Muwah'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Muwah</span><span class="dl">'</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Kiss me</span></div>
@@ -265,13 +260,12 @@
 
 <p>It’s not really recommended to use regular expressions because an extact match is required but it can be useful for a calculator intent.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-  <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^.*</span><span class="se">[\d</span><span class="sr">+</span><span class="se">]</span><span class="sr"> x </span><span class="se">[\d</span><span class="sr">+</span><span class="se">]</span><span class="sr">.*$/</span><span class="p">,</span><span class="s1">'g'</span><span class="p">),</span>
-  <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^</span><span class="se">(</span><span class="sr">calc </span><span class="se">)?[\d\+\/\*</span><span class="sr">.</span><span class="se">\-</span><span class="sr">% </span><span class="se">\(\)</span><span class="sr">=</span><span class="se">]</span><span class="sr">*$/</span><span class="p">,</span><span class="s1">'g'</span><span class="p">),</span>
-  <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^</span><span class="se">[\d</span><span class="sr">+</span><span class="se">]</span><span class="sr">*%</span><span class="se">(</span><span class="sr"> of</span><span class="se">)?</span><span class="sr"> </span><span class="se">[\d\+\/\*</span><span class="sr">.</span><span class="se">\-</span><span class="sr"> </span><span class="se">\(\)</span><span class="sr">=</span><span class="se">]</span><span class="sr">*$/</span><span class="p">,</span><span class="s1">'g'</span><span class="p">)</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+  <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^.*</span><span class="se">[\d</span><span class="sr">+</span><span class="se">]</span><span class="sr"> x </span><span class="se">[\d</span><span class="sr">+</span><span class="se">]</span><span class="sr">.*$/</span><span class="p">,</span><span class="dl">'</span><span class="s1">g</span><span class="dl">'</span><span class="p">),</span>
+  <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^</span><span class="se">(</span><span class="sr">calc </span><span class="se">)?[\d\+\/\*</span><span class="sr">.</span><span class="se">\-</span><span class="sr">% </span><span class="se">\(\)</span><span class="sr">=</span><span class="se">]</span><span class="sr">*$/</span><span class="p">,</span><span class="dl">'</span><span class="s1">g</span><span class="dl">'</span><span class="p">),</span>
+  <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^</span><span class="se">[\d</span><span class="sr">+</span><span class="se">]</span><span class="sr">*%</span><span class="se">(</span><span class="sr"> of</span><span class="se">)?</span><span class="sr"> </span><span class="se">[\d\+\/\*</span><span class="sr">.</span><span class="se">\-</span><span class="sr"> </span><span class="se">\(\)</span><span class="sr">=</span><span class="se">]</span><span class="sr">*$/</span><span class="p">,</span><span class="dl">'</span><span class="s1">g</span><span class="dl">'</span><span class="p">)</span>
 <span class="p">]);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>1+2</span></div>
@@ -292,14 +286,13 @@
 
 <p>The classifier collection will be automatically set to <code class="highlighter-rouge">strict</code> when using the <code class="highlighter-rouge">RegExp</code> method in the <code class="highlighter-rouge">train()</code> method so it’s possible to mix NLP and strict collections.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-  <span class="s1">'roll'</span><span class="p">,</span>
-  <span class="s1">'rolling'</span><span class="p">,</span>
-  <span class="s1">'dice'</span><span class="p">,</span>
-  <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^</span><span class="se">(\d</span><span class="sr">+</span><span class="se">)?</span><span class="sr">d</span><span class="se">((\d</span><span class="sr">+</span><span class="se">)([</span><span class="sr">+-</span><span class="se">]\d</span><span class="sr">+</span><span class="se">)?)?</span><span class="sr">$/</span><span class="p">,</span><span class="s1">'g'</span><span class="p">)</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+  <span class="dl">'</span><span class="s1">roll</span><span class="dl">'</span><span class="p">,</span>
+  <span class="dl">'</span><span class="s1">rolling</span><span class="dl">'</span><span class="p">,</span>
+  <span class="dl">'</span><span class="s1">dice</span><span class="dl">'</span><span class="p">,</span>
+  <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="sr">/^</span><span class="se">(\d</span><span class="sr">+</span><span class="se">)?</span><span class="sr">d</span><span class="se">((\d</span><span class="sr">+</span><span class="se">)([</span><span class="sr">+-</span><span class="se">]\d</span><span class="sr">+</span><span class="se">)?)?</span><span class="sr">$/</span><span class="p">,</span><span class="dl">'</span><span class="s1">g</span><span class="dl">'</span><span class="p">)</span>
 <span class="p">]);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>roll a dice</span></div>
@@ -317,39 +310,37 @@
 
 <p>Using the <code class="highlighter-rouge">this.train()</code> method any value starting with the @ symbol will be recognised as an entity to be loaded.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">ColourIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">ColourIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="s1">'@App.Example.Entity.Colour'</span>
+      <span class="dl">'</span><span class="s1">@App.Example.Entity.Colour</span><span class="dl">'</span>
     <span class="p">]);</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="s1">'You mentioned a colour'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">You mentioned a colour</span><span class="dl">'</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The entity file is stored in <code class="highlighter-rouge">app/Skills/Example/Entity/colour_entity.js</code>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">ColourEntity</span> <span class="kr">extends</span> <span class="nx">Entity</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">ColourEntity</span> <span class="kd">extends</span> <span class="nx">Entity</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="s1">'red'</span><span class="p">:</span> <span class="p">{},</span>
-      <span class="s1">'blue'</span><span class="p">:</span> <span class="p">{},</span>
-      <span class="s1">'green'</span><span class="p">:</span> <span class="p">{},</span>
-      <span class="s1">'white'</span><span class="p">:</span> <span class="p">{},</span>
-      <span class="s1">'black'</span><span class="p">:</span> <span class="p">{}</span>
+      <span class="dl">'</span><span class="s1">red</span><span class="dl">'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="dl">'</span><span class="s1">blue</span><span class="dl">'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="dl">'</span><span class="s1">green</span><span class="dl">'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="dl">'</span><span class="s1">white</span><span class="dl">'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">:</span> <span class="p">{}</span>
     <span class="p">};</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>See the Entity documentation for more information on ways to store data.</p>
 
@@ -366,33 +357,32 @@
 
 <p>To manually tweak the finding engine you can use the methods <code class="highlighter-rouge">reject</code> and <code class="highlighter-rouge">must</code> in your intent along side <code class="highlighter-rouge">train</code>. This can be used similar to the <code class="highlighter-rouge">train</code> method and you can use regular expressions. Must and Reject currently does not support using entity data.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">UtilityIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">UtilityIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="s1">'utility'</span>
+      <span class="dl">'</span><span class="s1">utility</span><span class="dl">'</span>
     <span class="p">]);</span>
 
     <span class="k">this</span><span class="p">.</span><span class="nx">must</span><span class="p">([</span>
-      <span class="s1">'reading'</span><span class="p">,</span>
-      <span class="s1">'value'</span>
+      <span class="dl">'</span><span class="s1">reading</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">value</span><span class="dl">'</span>
     <span class="p">]);</span>
 
     <span class="k">this</span><span class="p">.</span><span class="nx">reject</span><span class="p">([</span>
-      <span class="s1">'add'</span><span class="p">,</span>
-      <span class="s1">'remove'</span><span class="p">,</span>
-      <span class="s1">'update'</span>
+      <span class="dl">'</span><span class="s1">add</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">remove</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">update</span><span class="dl">'</span>
     <span class="p">]);</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="s1">'Utility reading is 10'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Utility reading is 10</span><span class="dl">'</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>utility</span></div>
@@ -413,10 +403,9 @@
 
 <p>If you find existing intents are conflicting you can define must and reject training for other intents.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//If the keyword 'bmi' is found GI won't direct the intent to the Unit intent.</span>
-<span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Explicit</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'reject'</span><span class="p">,</span> <span class="s1">'App.Unit.Intent.Unit'</span><span class="p">,</span> <span class="s1">'bmi'</span><span class="p">);</span>
-</code></pre>
-</div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//If the keyword 'bmi' is found GI won't direct the intent to the Unit intent.</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Explicit</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="dl">'</span><span class="s1">reject</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">App.Unit.Intent.Unit</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">bmi</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
 
 <h2 id="labels-and-sentiment">Labels and Sentiment</h2>
 
@@ -428,20 +417,19 @@
 
 <p>In this example the intent will only get called if it has a <code class="highlighter-rouge">positive</code> label.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">MustBePositiveIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">MustBePositiveIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'must be'</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">must</span><span class="p">(</span><span class="s1">'#positive'</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="dl">'</span><span class="s1">must be</span><span class="dl">'</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">must</span><span class="p">(</span><span class="dl">'</span><span class="s1">#positive</span><span class="dl">'</span><span class="p">);</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="s1">'Positive all the time!'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Positive all the time!</span><span class="dl">'</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>must be happy</span></div>
@@ -455,20 +443,19 @@
 
 <p>How, who, what, which, where, why, are, question, positive, negative, neutral.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">DarrenIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">DarrenIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'darren'</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">must</span><span class="p">(</span><span class="s1">'#who'</span><span class="p">)</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="dl">'</span><span class="s1">darren</span><span class="dl">'</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">must</span><span class="p">(</span><span class="dl">'</span><span class="s1">#who</span><span class="dl">'</span><span class="p">)</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="s1">'The creator!'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">The creator!</span><span class="dl">'</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="chat">
   <div class="user"><span>Darren</span></div>

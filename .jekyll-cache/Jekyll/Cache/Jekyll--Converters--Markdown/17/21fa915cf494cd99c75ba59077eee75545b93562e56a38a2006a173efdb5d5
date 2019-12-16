@@ -1,0 +1,97 @@
+I" !<p>There are two call backs that can be used within intents.</p>
+
+<p>Both callbacks are synchronous, do not use Promises in these methods.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">GuessNumberIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">before_request</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">}</span>
+
+  <span class="nx">after_request</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="after-request-trap-example">After request trap example</h2>
+
+<p>This method can be useful to “trap” a user within an intent.</p>
+
+<p>You can exit the trap by using a cancel keyword like <code class="highlighter-rouge">stop</code>.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">class</span> <span class="nx">GuessNumberIntent</span> <span class="kd">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="dl">'</span><span class="s1">guess number game</span><span class="dl">'</span>
+    <span class="p">]);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">parameter</span><span class="p">(</span><span class="dl">'</span><span class="s1">guess</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Number</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="dl">"</span><span class="s2">App.Common.Entity.Number</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">required</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="na">action</span><span class="p">:</span> <span class="dl">'</span><span class="s1">guess</span><span class="dl">'</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">after_request</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//Dont set expecting if the number has been reset</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">request</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="dl">'</span><span class="s1">guess_number</span><span class="dl">'</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="dl">'</span><span class="s1">App.Common.Entity.Number</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">fail</span><span class="p">:</span> <span class="dl">'</span><span class="s1">invalid</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">force</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">number</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">guess_number</span><span class="dl">'</span><span class="p">,</span> <span class="nx">number</span><span class="p">);</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">Ok, I am thinking of a number between 1 and 100. Guess my number!</span><span class="dl">'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">invalid</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">You must type in a number between 1 and 100</span><span class="dl">'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">guess</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">number</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">guess_number</span><span class="dl">'</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">guess</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="dl">'</span><span class="s1">guess</span><span class="dl">'</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">guess</span> <span class="o">==</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">request</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="dl">'</span><span class="s1">guess_number</span><span class="dl">'</span><span class="p">);</span>
+      <span class="k">return</span> <span class="dl">'</span><span class="s1">Well done, my number was </span><span class="dl">'</span><span class="o">+</span><span class="nx">number</span><span class="o">+</span><span class="dl">'</span><span class="s1">!</span><span class="dl">'</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">guess</span> <span class="o">&lt;</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="dl">'</span><span class="s1">Higher!</span><span class="dl">'</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">guess</span> <span class="o">&gt;</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="dl">'</span><span class="s1">Lower!</span><span class="dl">'</span>
+    <span class="p">}</span>
+
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="chat">
+  <div class="user"><span>guess number game</span></div>
+  <div class="bot"><span>Ok, I am thinking of a number between 1 and 100. Guess my number!</span></div>
+
+  <div class="user"><span>banana</span></div>
+  <div class="bot"><span>You must type in a number between 1 and 100</span></div>
+
+  <div class="user"><span>10</span></div>
+  <div class="bot"><span>Higher!</span></div>
+
+  <div class="user"><span>32</span></div>
+  <div class="bot"><span>Lower!</span></div>
+
+  <div class="user"><span>28</span></div>
+  <div class="bot"><span>Well done, my number was 34!</span></div>
+</div>
+:ET
