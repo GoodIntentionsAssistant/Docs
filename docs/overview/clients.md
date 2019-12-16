@@ -5,14 +5,11 @@ title: Clients
 
 Clients act as middleware between the server and the service it will connect to.
 
-Clients could include interfaces to Facebook, Line, Hipchat, Slack, IRC and any other type of chat interface. These clients must be written by a developer to make GI useful. We hope to provide packaged clients with GI after the first stable release.
+Without a client GI won't be able to function.
 
+Clients could include interfaces to Facebook, Line, Hipchat, Slack, IRC and any other type of chat interface.
 
-## CLI Test Client
-
-GI provides a CLI test client found in `clients/cli.js`.
-
-Load the server and then load the client. The client will identify with the server with the client token (stored in your config.js file) and the server will generate a session_token for all requests. You can then type in any command to test the app.
+For testing and developing it's recommended to download and install the GI CLI Client. See the Installation page for instructions.
 
 
 
@@ -43,11 +40,14 @@ Session id | End users session id to make requests | User | GI
 Only clients that have been white listed can connect and send input to the framework. In your `app/Config/config.json` file are settings to define the name and the client token. If you create a new client you must add the key and secret to the configuration file first.
 
 ~~~javascript
-config.clients = {
-  'facebook': { 
-    'secret': 'this-is-my-secret'
+"clients": {
+  "test": {
+    "secret": "this-is-my-secret"
+  },
+  "web": {
+    "secret": "second-client-for-web"
   }
-};
+}
 ~~~
 
 
@@ -59,7 +59,7 @@ On connecting the client must identify itself using its client name and `secret`
 
 ~~~javascript
 socket.emit('identify',{
-  client: 'facebook',
+  client: 'test',
   secret: 'this-is-my-secret'
 });
 ~~~
@@ -104,47 +104,29 @@ user | yes | Unique name or identifer for the user interfacing with the app. For
 type | no | Default is set to 'message'. Other options are also 'event' and 'intent'
 text | no | Raw text input from the user, e.g. "Good Morning". This is required if the type is message
 data | no | Meta data to send to the request and turned into a parameter for the intent to read from
-fast | no | Response from the app has delays to simulate typing to make the bot experience more human-like. By default fast is false, changing it to true will stop the simulated delays. It's advisable to enable fast when debugging.
 
 
 
 
-### Speeding up the request
+#### Queue Speed and Consecutive Requests
 
-When the request is passed to GI it will have a delay to simulate the bot typing. There are three methods to remove this delay.
-
-#### Fast Parameter
+For changing the queue speed modify your `config.json` file.
+It is recommended to set this loop between 100 - 500ms
 
 ~~~javascript
-var input = {
-  client: 'facebook',
-  session_token: 'm626NfP8jFYPAKNw',
-  user: 'bob',
-  text: 'hello to my new app!',
-  fast: true
-};
-socket.emit('request',input);
+"app": {
+  "loop_speed": 500
+}
 ~~~
 
-#### Response Simulated Typing
+By default GI will handle one consecutive request at a time per each queue speed.
+When in development it is recommended to set `max_consecutive` to `1`.
 
-In the `config.js` file change the `response` settings to `0`;
-
-~~~javascript
-config.response = {
-  min_reply_time: 0,
-  letter_speed: 0,
-  max_response: 0
-};
-~~~
-
-#### Queue Speed
-
-In the `config.js` file change the loop speed. By default we recommend this value to be 500ms.
+If you are experiencing slow responses from GI reduce `loop_speed` and increase `max_consecutive`.
 
 ~~~javascript
-config.app = {
-  loop_speed: 10
+"queue": {
+  "max_consecutive": 1
 }
 ~~~
 
@@ -155,13 +137,15 @@ config.app = {
 
 The response from the app will return JSON formatted data. A response will come in multiple parts and have the same ident and an increasing sequence number.
 
-Multipart sending can be useful when the result could be delayed by latency when calling a remote API, such as flight searches. It's possible to send the first message telling the user to wait a moment.
+Multipart sending can be useful when the result could be delayed by latency when calling a remote API, such as flight searches. It's possible to send the first message telling the user to wait a moment while the intent is making a call to an external API.
 
 ~~~json
 {
-  "type": "message",
-  "messages": [ "Hi! I'm the Good Intentions bot!" ],
-  "attachments": {},
+  "attachments": {
+    "message": [
+      { "text": "Hi! I'm the Good Intentions bot!" }
+    ]
+  },
   "intent": "Fun/Greeting",
   "action": "response",
   "namespace": "response",
@@ -174,8 +158,7 @@ Multipart sending can be useful when the result could be delayed by latency when
 Key | Description
 --- | ---
 type | Currently supported types are "start", "end" and "message".
-messages | If the `type` is message an array of messages will be returned.
-attachments | Rich meta data including payload data for images, links, action buttons for the clients.
+attachments | Rich meta data including payload data for messages, images, links, action buttons for the clients.
 intent | The intent which was called.
 action | The indents action which was called.
 namespace | Return socket.io name space
@@ -188,11 +171,14 @@ microtime | Server microtime when the data was sent
 
 ~~~javascript
 socket.on('response', (data) => {
-  if(data.type == 'message') {
-    for(let ii=0; ii<data.messages.length; ii++) {
-      console.log('Message:', data.messages[ii]);
+
+  if(data.attachments.message) {
+    var message = data.attachments.message;
+    for(var ii=0; ii<message.length; ii++) {
+      console.log('Message: '+message[ii].text);
     }
   }
+
 });
 ~~~
 
@@ -203,14 +189,25 @@ socket.on('response', (data) => {
 
 
 
-## SDK
 
+## Example Client using GI SDK
 
-The client SDK is under development but is used for the "CLI" test client.
+In your GI server `config.json` file add the client key and secret then restart the server.
 
-The Node.js SDK will provide a quick route to building your own clients and will handle identification handshakes.
+~~~json
+{
+  "clients": {
+    "testdoc": {
+      "secret": "my-test-token"
+    }
+  }
+}
+~~~
 
-### Example Client
+Create a new directory outside of the server and run `npm install gi-sdk-nodejs`.
+
+Then create a new file in this directory called `app.js` and paste the example code below.
+
 
 ~~~javascript
 /**
@@ -219,12 +216,13 @@ The Node.js SDK will provide a quick route to building your own clients and will
  * This is a test client for Good Intentions using Node.js
  * It is not designed to be used in production.
  */
-const GiClient = require('./sdk/index.js');
+const GiClient = require('gi-sdk-nodejs');
 
 //Configuration
-let name  = 'test';                      
-let token = 'TrCgyKqVtY';                
-let host  = 'http://localhost:3000';    
+let name  = 'testdoc';
+let token = 'my-test-token';
+let host  = 'http://localhost:3000';
+let username = 'testing';
 
 //Start the SDK
 GiApp = new GiClient(name, token, host);
@@ -240,17 +238,19 @@ GiApp.on('disconnect', () => {
 
 GiApp.on('identified', () => {
   console.log('Identified');
-  GiApp.send('hello');
+  GiApp.send(username, 'message', 'hello');
 });
 
 GiApp.on('error', (data) => {
   console.log('Error: '+data.message);
-  prompt.resume();
 });
 
 GiApp.on('message', (data) => {
-  for(var ii=0; ii<data.messages.length; ii++) {
-    console.log(data.messages[ii]);
+  if(data.attachments.message) {
+    var message = data.attachments.message;
+    for(var ii=0; ii<message.length; ii++) {
+      console.log('Message: '+message[ii].text);
+    }
   }
   GiApp.disconnect();
 });
@@ -259,10 +259,10 @@ GiApp.on('message', (data) => {
 After running the script you will get a similar output to this.
 
 ~~~
-> /GI/App/clients $ node simple.js
+> $ node app.js
 Connected to server
 Identified
-Hi! I'm the Good Intentions bot!
-I'm all about productivity and getting things done!
+Message: Hi! I'm the Good Intentions bot!
+Message: I'm all about productivity and getting things done!
 Disconnected
 ~~~

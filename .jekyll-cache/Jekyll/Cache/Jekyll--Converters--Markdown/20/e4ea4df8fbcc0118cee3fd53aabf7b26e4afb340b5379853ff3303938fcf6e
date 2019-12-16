@@ -1,0 +1,322 @@
+I"wW<p>Clients act as middleware between the server and the service it will connect to.</p>
+
+<p>Without a client GI won’t be able to function.</p>
+
+<p>Clients could include interfaces to Facebook, Line, Hipchat, Slack, IRC and any other type of chat interface.</p>
+
+<h2 id="cli-test-client">CLI Test Client</h2>
+
+<p>For testing and developing it’s recommended to download and install the GI CLI Client. See the Installation page for instructions.</p>
+
+<h2 id="authorization-flow">Authorization flow</h2>
+
+<div class="mxgraph" style="max-width:800px;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;toolbar&quot;:&quot;zoom layers lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;url&quot;:&quot;https://drive.google.com/a/firecreek.co.uk/uc?id=1j1T3xepxoa42ivY008Xbg-ARCKhNKAPc&amp;export=download&quot;}"></div>
+<script type="text/javascript" src="https://www.draw.io/embed2.js?&amp;fetch=https%3A%2F%2Fdrive.google.com%2Fa%2Ffirecreek.co.uk%2Fuc%3Fid%3D1j1T3xepxoa42ivY008Xbg-ARCKhNKAPc%26export%3Ddownload"></script>
+
+<h2 id="authorization-glossary">Authorization Glossary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Set by</th>
+      <th>Used by</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Secret</td>
+      <td>Client secret enabling client to talk to GI</td>
+      <td>GI</td>
+      <td>Client</td>
+    </tr>
+    <tr>
+      <td>Auth token</td>
+      <td>Client uses the secret token after identifying with GI, the secret is no longer required</td>
+      <td>GI</td>
+      <td>Client</td>
+    </tr>
+    <tr>
+      <td>Token</td>
+      <td>End users unique identifier, e.g. their ip address</td>
+      <td>User</td>
+      <td>GI</td>
+    </tr>
+    <tr>
+      <td>Session id</td>
+      <td>End users session id to make requests</td>
+      <td>User</td>
+      <td>GI</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="white-listing-a-new-client">White listing a new client</h2>
+
+<p>Only clients that have been white listed can connect and send input to the framework. In your <code class="highlighter-rouge">app/Config/config.json</code> file are settings to define the name and the client token. If you create a new client you must add the key and secret to the configuration file first.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">clients</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="dl">'</span><span class="s1">facebook</span><span class="dl">'</span><span class="p">:</span> <span class="p">{</span> 
+    <span class="dl">'</span><span class="s1">secret</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">this-is-my-secret</span><span class="dl">'</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h2 id="client-authorizing-and-identifying">Client authorizing and identifying</h2>
+
+<p>On connecting the client must identify itself using its client name and <code class="highlighter-rouge">secret</code> found in your config.js file.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="dl">'</span><span class="s1">identify</span><span class="dl">'</span><span class="p">,{</span>
+  <span class="na">client</span><span class="p">:</span> <span class="dl">'</span><span class="s1">facebook</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">secret</span><span class="p">:</span> <span class="dl">'</span><span class="s1">this-is-my-secret</span><span class="dl">'</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>An event will be returned with the success and a <code class="highlighter-rouge">auth_token</code>.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Successfully identified"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"auth_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"m626NfP8jFYPAKNw"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ident"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZNWXHXYT"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"identify"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The auth token must be made on all future requests. The secret is no longer needed and will be rejected if sent for further requests.</p>
+
+<h2 id="making-a-request">Making a request</h2>
+
+<p>After the client has identified requests can be sent to the app. Certain fields must be passed along with the input.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">input</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">client</span><span class="p">:</span> <span class="dl">'</span><span class="s1">facebook</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">session_token</span><span class="p">:</span> <span class="dl">'</span><span class="s1">m626NfP8jFYPAKNw</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">user</span><span class="p">:</span> <span class="dl">'</span><span class="s1">bob</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">text</span><span class="p">:</span> <span class="dl">'</span><span class="s1">hello to my new app!</span><span class="dl">'</span>
+<span class="p">};</span>
+<span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="dl">'</span><span class="s1">request</span><span class="dl">'</span><span class="p">,</span><span class="nx">input</span><span class="p">);</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>client</td>
+      <td>yes</td>
+      <td>Whitelisted client name. Each client should have a unique name. This must be provided for every request.</td>
+    </tr>
+    <tr>
+      <td>session_token</td>
+      <td>yes</td>
+      <td>Session token key provided by the app that must be used on all requests. The session_token is provided when the client identifies with the server after connection.</td>
+    </tr>
+    <tr>
+      <td>user</td>
+      <td>yes</td>
+      <td>Unique name or identifer for the user interfacing with the app. For example this could be their facebook graph user id. For testing any value can be used.</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>no</td>
+      <td>Default is set to ‘message’. Other options are also ‘event’ and ‘intent’</td>
+    </tr>
+    <tr>
+      <td>text</td>
+      <td>no</td>
+      <td>Raw text input from the user, e.g. “Good Morning”. This is required if the type is message</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td>no</td>
+      <td>Meta data to send to the request and turned into a parameter for the intent to read from</td>
+    </tr>
+    <tr>
+      <td>fast</td>
+      <td>no</td>
+      <td>Response from the app has delays to simulate typing to make the bot experience more human-like. By default fast is false, changing it to true will stop the simulated delays. It’s advisable to enable fast when debugging.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="speeding-up-the-request">Speeding up the request</h3>
+
+<p>When the request is passed to GI it will have a delay to simulate the bot typing. There are three methods to remove this delay.</p>
+
+<h4 id="fast-parameter">Fast Parameter</h4>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">input</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">client</span><span class="p">:</span> <span class="dl">'</span><span class="s1">facebook</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">session_token</span><span class="p">:</span> <span class="dl">'</span><span class="s1">m626NfP8jFYPAKNw</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">user</span><span class="p">:</span> <span class="dl">'</span><span class="s1">bob</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">text</span><span class="p">:</span> <span class="dl">'</span><span class="s1">hello to my new app!</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">fast</span><span class="p">:</span> <span class="kc">true</span>
+<span class="p">};</span>
+<span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="dl">'</span><span class="s1">request</span><span class="dl">'</span><span class="p">,</span><span class="nx">input</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h4 id="response-simulated-typing">Response Simulated Typing</h4>
+
+<p>In the <code class="highlighter-rouge">config.js</code> file change the <code class="highlighter-rouge">response</code> settings to <code class="highlighter-rouge">0</code>;</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">response</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">min_reply_time</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="na">letter_speed</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="na">max_response</span><span class="p">:</span> <span class="mi">0</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h4 id="queue-speed">Queue Speed</h4>
+
+<p>In the <code class="highlighter-rouge">config.js</code> file change the loop speed. By default we recommend this value to be 500ms.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">config</span><span class="p">.</span><span class="nx">app</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">loop_speed</span><span class="p">:</span> <span class="mi">10</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="response">Response</h2>
+
+<p>The response from the app will return JSON formatted data. A response will come in multiple parts and have the same ident and an increasing sequence number.</p>
+
+<p>Multipart sending can be useful when the result could be delayed by latency when calling a remote API, such as flight searches. It’s possible to send the first message telling the user to wait a moment.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"message"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"messages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Hi! I'm the Good Intentions bot!"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"attachments"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+  </span><span class="nl">"intent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fun/Greeting"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"response"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"namespace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"response"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="mf">22.5646096341948</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"sequence"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"microtime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1503840844828</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td>Currently supported types are “start”, “end” and “message”.</td>
+    </tr>
+    <tr>
+      <td>messages</td>
+      <td>If the <code class="highlighter-rouge">type</code> is message an array of messages will be returned.</td>
+    </tr>
+    <tr>
+      <td>attachments</td>
+      <td>Rich meta data including payload data for images, links, action buttons for the clients.</td>
+    </tr>
+    <tr>
+      <td>intent</td>
+      <td>The intent which was called.</td>
+    </tr>
+    <tr>
+      <td>action</td>
+      <td>The indents action which was called.</td>
+    </tr>
+    <tr>
+      <td>namespace</td>
+      <td>Return socket.io name space</td>
+    </tr>
+    <tr>
+      <td>confidence</td>
+      <td>Intent classifiers confidence</td>
+    </tr>
+    <tr>
+      <td>sequence</td>
+      <td>Incrementing number since the server was started</td>
+    </tr>
+    <tr>
+      <td>microtime</td>
+      <td>Server microtime when the data was sent</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="example-of-catching-response">Example of catching response</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">response</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">type</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">message</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">ii</span><span class="o">&lt;</span><span class="nx">data</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">ii</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Message:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="nx">ii</span><span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="sdk">SDK</h2>
+
+<p>The client SDK is under development but is used for the “CLI” test client.</p>
+
+<p>The Node.js SDK will provide a quick route to building your own clients and will handle identification handshakes.</p>
+
+<h3 id="example-client">Example Client</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Very Simple GI Client Test
+ * 
+ * This is a test client for Good Intentions using Node.js
+ * It is not designed to be used in production.
+ */</span>
+<span class="kd">const</span> <span class="nx">GiClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./sdk/index.js</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">//Configuration</span>
+<span class="kd">let</span> <span class="nx">name</span>  <span class="o">=</span> <span class="dl">'</span><span class="s1">test</span><span class="dl">'</span><span class="p">;</span>                      
+<span class="kd">let</span> <span class="nx">token</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">TrCgyKqVtY</span><span class="dl">'</span><span class="p">;</span>                
+<span class="kd">let</span> <span class="nx">host</span>  <span class="o">=</span> <span class="dl">'</span><span class="s1">http://localhost:3000</span><span class="dl">'</span><span class="p">;</span>    
+
+<span class="c1">//Start the SDK</span>
+<span class="nx">GiApp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GiClient</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">token</span><span class="p">,</span> <span class="nx">host</span><span class="p">);</span>
+<span class="nx">GiApp</span><span class="p">.</span><span class="nx">connect</span><span class="p">();</span>
+
+<span class="nx">GiApp</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">connect</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Connected to server</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">GiApp</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">disconnect</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Disconnected</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">GiApp</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">identified</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Identified</span><span class="dl">'</span><span class="p">);</span>
+  <span class="nx">GiApp</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">hello</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">GiApp</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">error</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Error: </span><span class="dl">'</span><span class="o">+</span><span class="nx">data</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+  <span class="nx">prompt</span><span class="p">.</span><span class="nx">resume</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nx">GiApp</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">message</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">ii</span><span class="o">&lt;</span><span class="nx">data</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">ii</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="nx">ii</span><span class="p">]);</span>
+  <span class="p">}</span>
+  <span class="nx">GiApp</span><span class="p">.</span><span class="nx">disconnect</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>After running the script you will get a similar output to this.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; /GI/App/clients $ node simple.js
+Connected to server
+Identified
+Hi! I'm the Good Intentions bot!
+I'm all about productivity and getting things done!
+Disconnected
+</code></pre></div></div>
+:ET
