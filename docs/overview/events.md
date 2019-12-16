@@ -5,7 +5,8 @@ title: Events
 
 Good Intentions enables extendability with its event system using EventEmitter.
 
-These events can be listened from your skill file.
+Events allow you to invoke intents based on something that has happened, instead of something that the user has said.
+For example a user could visit a page on web site, the web site will trigger the event and a message can be sent back to the user.
 
 
 ## System events

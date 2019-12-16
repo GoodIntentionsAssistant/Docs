@@ -18,7 +18,7 @@ module.exports = class BoingIntent extends Intent {
   }
 
   response(request) {
-    return request.redirect('App.Example.Intent.Ping');
+    return request.redirect('App.Examples.Intent.Ping');
   }
 
 }

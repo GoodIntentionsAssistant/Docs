@@ -392,6 +392,15 @@ body.front header.site-header {
 body.front .bar-hero a.button {
   margin-right: 20px; }
 
+body.docs.documentation article.post,
+body.docs.packages article.post {
+  margin: 0 50px; }
+
+body.docs.install article.post,
+body.docs.integrations article.post {
+  flex-grow: 1;
+  margin: 0 50px 0 0; }
+
 /**
  * Syntax highlighting styles
  */
@@ -576,9 +585,6 @@ body.front .bar-hero a.button {
           margin-bottom: 0; }
         .contents-nav nav ul li:first-child a {
           font-weight: bold; }
-
-article.post {
-  margin: 0 50px; }
 
 .bar.bar-light {
   background: rgba(0, 0, 0, 0.06); }

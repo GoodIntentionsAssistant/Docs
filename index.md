@@ -8,6 +8,7 @@ title: Good Intentions Assistant Chatbot Framework
   <div class="wrapper">
   <h2>Good Intentions</h2>
   <h4>Open Source Assistant framework designed for developers to quickly build chatbots and assistants with structure, conventions and useful utilities.</h4>
+  <h4>Good Intentions is currently Alpha and experimental.</h4>
 
   <a href="javascript: Site.converse_send('hello', false);" class="button button-ghost">Say Hello!</a>
   <a href="/docs" onclick="Site.converse_send('go to docs', false); return false;" class="button button-primary">Read the Documentation</a>

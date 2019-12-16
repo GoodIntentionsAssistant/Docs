@@ -18,63 +18,6 @@ This documentation has live examples and it's preferable to browse this site on 
 
 
 
-## Installation
-
-GI uses NodeJS 8.x and the code has only been tested on Linux Mint. Install node.js from https://nodejs.org. It is also recommended to use nvm (node version manager) to manage your node.js versions.
-
-
-### Step one
-
-Create a directory on your computer and clone the git repository.
-
-~~~
-cd ~
-mkdir gi
-cd gi
-git clone git@github.com:GoodIntentionsAssistant/gi.git server
-cd server
-npm install
-cp app/Config/config.example.js app/Config/config.js
-node server.js
-~~~
-
-The server should now be running with default settings. It's recommended to change the access keys in the configuration file.
-
-
-### Step two
-
-Once the server is running open another terminal window go back to your gi directory created in step one.
-
-Make sure you are not in the server directory!
-
-~~~
-cd ~/gi
-git clone git@github.com:GoodIntentionsAssistant/gi-client-cli.git cli
-cd cli
-npm install
-cp config.example.js config.js
-~~~
-
-
-### Step three
-
-Say something in the cli you just ran!
-
-You should now be talking directly to the GI server.
-
-
-## Development Tips
-
-Using nodemon with both the server and test cli client.
-
-When any code is updated the server and / or client will be restarted.
-
-~~~
-nodemon server.js
-~~~
-
-
-
 ## Key Components
 
 ##### Skill

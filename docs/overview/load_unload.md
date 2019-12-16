@@ -7,10 +7,10 @@ It's possible to load and unload intents on-the-fly.
 
 ~~~javascript
 //Unload Ping intent
-this.app.IntentRegistry.unload('App.Example.Intent.Ping');
+this.app.IntentRegistry.unload('App.Examples.Intent.Ping');
 
 //Load Ping intent
-this.app.IntentRegistry.load('App.Example.Intent.Ping');
+this.app.IntentRegistry.load('App.Examples.Intent.Ping');
 ~~~
 
 
@@ -35,6 +35,8 @@ Entities and their data will be untouched.
 A call back called `shutdown` will be called before untraining and removing the intent from the registry.
 
 ~~~javascript
+const Intent = girequire('src/Intent/intent');
+
 module.exports = class PingIntent extends Intent {
 
   setup() {

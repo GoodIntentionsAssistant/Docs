@@ -24,7 +24,7 @@
 </head>
 
 
-  <body class="docs">
+  <body class="docs documentation">
 
     <header class="site-header">
 
@@ -39,8 +39,10 @@
 
     <nav class="main-nav">
       <ul>
+        <li><span><a href="/install">Installation</a></span></li>
         <li><span><a href="/docs">Documentation</a></span></li>
-        <li><span><a href="https://github.com/GoodIntentionsAssistant" target="_blank">Download</a></span></li>
+        <li><span><a href="/packages">Packages</a></span></li>
+        <li><span><a href="/integrations">Integrations</a></span></li>
       </ul>
     </li>
 
@@ -51,7 +53,7 @@
 
     <div class="sub-header bar bar-primary">
         <div class="wrapper sub">
-          <h2>Docs</h2>
+          <h2>Documentation</h2>
         </div>
     </div>
 
@@ -62,29 +64,24 @@
 <nav>
 
   <ul>
-    <li><a href="/docs/">Getting Started</a></li>
-
-    <li>Overview
-      <ul>
-        <li><a href="/docs/overview/skills">Skills</a></li>
-        <li><a href="/docs/overview/clients">Clients</a></li>
-        <li><a href="/docs/overview/intents">Intents</a></li>
-        <li><a href="/docs/overview/training">Training</a></li>
-        <li><a href="/docs/overview/parameters">Parameters</a></li>
-        <li><a href="/docs/overview/result">Returning result</a></li>
-        <li><a href="/docs/overview/entities">Entities</a></li>
-        <li><a href="/docs/overview/attachments">Attachments</a></li>
-        <li><a href="/docs/overview/expects">Expects</a></li>
-        <li><a href="/docs/overview/utterance">Utterance</a></li>
-        <li><a href="/docs/overview/auth">User &amp; Session</a></li>
-        <li><a href="/docs/overview/scheduler">Scheduler</a></li>
-        <li><a href="/docs/overview/redirect">Redirecting</a></li>
-        <li><a href="/docs/overview/fallback">Fallbacks</a></li>
-        <li><a href="/docs/overview/callback">Callbacks</a></li>
-        <li><a href="/docs/overview/events">Events</a></li>
-        <li><a href="/docs/overview/load_unload">Load &amp; Unload</a></li>
-      </ul>
-    </li>
+    <li><a href="/docs/">Introduction</a></li>
+    <li><a href="/docs/overview/skills">Skills</a></li>
+    <li><a href="/docs/overview/clients">Clients</a></li>
+    <li><a href="/docs/overview/intents">Intents</a></li>
+    <li><a href="/docs/overview/training">Training</a></li>
+    <li><a href="/docs/overview/parameters">Parameters</a></li>
+    <li><a href="/docs/overview/result">Returning result</a></li>
+    <li><a href="/docs/overview/entities">Entities</a></li>
+    <li><a href="/docs/overview/attachments">Attachments</a></li>
+    <li><a href="/docs/overview/expects">Expects</a></li>
+    <li><a href="/docs/overview/utterance">Utterance</a></li>
+    <li><a href="/docs/overview/auth">User &amp; Session</a></li>
+    <li><a href="/docs/overview/scheduler">Scheduler</a></li>
+    <li><a href="/docs/overview/redirect">Redirecting</a></li>
+    <li><a href="/docs/overview/fallback">Fallbacks</a></li>
+    <li><a href="/docs/overview/callback">Callbacks</a></li>
+    <li><a href="/docs/overview/events">Events</a></li>
+    <li><a href="/docs/overview/load_unload">Load &amp; Unload</a></li> 
 
 
     <!--<li><a href="/docs/clients/">Clients</a>
@@ -142,57 +139,6 @@
   <div class="bot"><span>Currently 26c, Mostly Cloudy in Asia, Bangkok</span></div>
   <div class="user"><span>Go to training</span></div>
   <div class="bot"><span>Taking you to Intent training</span></div>
-</div>
-
-<h2 id="installation">Installation</h2>
-
-<p>GI uses NodeJS 8.x and the code has only been tested on Linux Mint. Install node.js from https://nodejs.org. It is also recommended to use nvm (node version manager) to manage your node.js versions.</p>
-
-<h3 id="step-one">Step one</h3>
-
-<p>Create a directory on your computer and clone the git repository.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>cd ~
-mkdir gi
-cd gi
-git clone git@github.com:GoodIntentionsAssistant/gi.git server
-cd server
-npm install
-cp app/Config/config.example.js app/Config/config.js
-node server.js
-</code></pre>
-</div>
-
-<p>The server should now be running with default settings. It’s recommended to change the access keys in the configuration file.</p>
-
-<h3 id="step-two">Step two</h3>
-
-<p>Once the server is running open another terminal window go back to your gi directory created in step one.</p>
-
-<p>Make sure you are not in the server directory!</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>cd ~/gi
-git clone git@github.com:GoodIntentionsAssistant/gi-client-cli.git cli
-cd cli
-npm install
-cp config.example.js config.js
-</code></pre>
-</div>
-
-<h3 id="step-three">Step three</h3>
-
-<p>Say something in the cli you just ran!</p>
-
-<p>You should now be talking directly to the GI server.</p>
-
-<h2 id="development-tips">Development Tips</h2>
-
-<p>Using nodemon with both the server and test cli client.</p>
-
-<p>When any code is updated the server and / or client will be restarted.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>nodemon server.js
-</code></pre>
 </div>
 
 <h2 id="key-components">Key Components</h2>
@@ -296,12 +242,7 @@ I then copy this directory, rename the skill, filenames and can make my own skil
         <div class="contents-nav" style="display:none;">
           <nav>
             <ul>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href=""></a></li>
             </ul>
           </nav>
         </div>

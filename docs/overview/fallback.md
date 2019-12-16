@@ -5,17 +5,9 @@ title: Fallbacks
 
 Fallback intents are triggered when user input is not matched by any other intents already trained with GI.
 
-For a more genuine assistant and less annoying one fall backs can be used to give the user direction to using the assistant.
+For a more genuine assistant and less annoying one, fall back intents can be used to give the user direction to using the assistant.
 
-GI has some system fallbacks you can use, make sure they are enabled in your `config.js` file.
-
-~~~javascript
-config.skills = [
-  'App.Fallback'
-];
-~~~
-
-These system fallbacks can be turned off and you could enhance them with your own skill to return random replies.
+GI has some example fallbacks you can use, check the packages list.
 
 Example of the system `why` intent.
 

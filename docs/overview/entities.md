@@ -105,22 +105,24 @@ let value = request.parameters.value('unit');
 
 ## Get entity object
 
-The parting intent fetches the `App.Common.Entity.Parting` entity data and takes a random sample / record for a response.
+The parting intent fetches the `App.Basics.Entity.Parting` entity data and takes a random sample / record for a response.
 
 
 ~~~javascript
+const Intent = girequire('src/Intent/intent');
+
 module.exports = class PartingIntent extends Intent {
 
   setup() {
     this.train([
-      '@App.Common.Entity.Parting'
+      '@App.Basics.Entity.Parting'
     ], {
       classifier: 'strict'
     });
   }
 
   response(request) {
-    let entity = request.app.EntityRegistry.get('App.Common.Entity.Parting');
+    let entity = request.app.EntityRegistry.get('App.Basics.Entity.Parting');
     let data = entity.get_data();
 
     let output = _.sample(Object.keys(data));
@@ -133,7 +135,6 @@ module.exports = class PartingIntent extends Intent {
   }
 
 }
-
 ~~~
 
 <div class="chat" markdown="0">
@@ -159,6 +160,8 @@ Both callbacks are synchronous, do not use Promises in these methods.
 
 
 ~~~javascript
+const Entity = girequire('src/Entity/entity');
+
 module.exports = class CityEntity extends Entity {
 
   before_load() {
@@ -185,7 +188,7 @@ module.exports = class CityEntity extends Entity {
 
 Entity data can be stored in a `.json` file and loaded into the entity.
 
-In this example the file is created, `app/Skill/Example/Data/animals.json`.
+In this example the file is created, `app/Skill/Examples/Data/animals.json`.
 
 The file contents formatting should match exactly the same as if the data was defined within the exports.
 
@@ -202,11 +205,13 @@ The file contents formatting should match exactly the same as if the data was de
 The entity can load this and other json compatible files using `this.import` and defining `file` and `type`.
 
 ~~~javascript
+const Entity = girequire('src/Entity/entity');
+
 module.exports = class AnimalEntity extends Entity {
 
   setup() {
     this.import = {
-      file: "App.Example.Data.animals",
+      file: "App.Examples.Data.animals",
       type: "json"
     };
   }
@@ -255,11 +260,13 @@ If you was going to convert this data to a standard GI json file it would look l
 Using `this.import` and defining `file` and `type` the CSV file can be imports to the entity.
 
 ~~~javascript
+const Entity = girequire('src/Entity/entity');
+
 module.exports = class CurrencyEntity extends Entity {
 
   setup() {
     this.import = {
-      file: "Data.Common.currencies",
+      file: "Data.Currency.currencies",
       type: "csv"
     };
   }
@@ -280,6 +287,9 @@ Loading data into an entity using a custom method is useful for processing unfor
 The `Drink` Entity and Intent will load data from a .txt file into the entity data.
 
 ~~~javascript
+const Entity = girequire('src/Entity/entity');
+const Config = girequire('src/Config/config');
+
 module.exports = class DrinkEntity extends Entity {
 
   setup() {
@@ -291,7 +301,7 @@ module.exports = class DrinkEntity extends Entity {
 
   load_data(resolve, options) {
     let fs = require('fs');
-    let filename = this.app.Path.get('skills.app') + '/Example/Data/drinks.txt';
+    let filename = Config.path('skills.app') + '/Examples/Data/drinks.txt';
     let output = {};
 
     let promise = new Promise((resolve, reject) => {

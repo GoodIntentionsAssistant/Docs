@@ -48,17 +48,20 @@ module.exports = class RepeatIntent extends Intent {
 The return method can also return an array which will output to the user as multiple lines of chat.
 
 ~~~javascript
-module.exports = class HelloIntent extends Intent {
+const Intent = girequire('src/Intent/intent');
+
+module.exports = class BeerIntent extends Intent {
 
   setup() {
-    this.train(['hello']);
+    this.train('beer');
   }
 
-  response() {
+  response(request) {
     return [
-      'Hey!',
-      'Very nice to meet you',
-      'Let me know if you need any help'
+      "99 bottles of beer on the wall",
+      "98 bottles of beer on the wall",
+      "97 bottles of beer on the wall",
+      "..and so on!"
     ];
   }
 
@@ -66,10 +69,11 @@ module.exports = class HelloIntent extends Intent {
 ~~~
 
 <div class="chat" markdown="0">
-  <div class="user"><span>Hello</span></div>
-  <div class="bot"><span>Hey!</span></div>
-  <div class="bot"><span>Very nice to meet you</span></div>
-  <div class="bot"><span>Let me know if you need any help</span></div>
+  <div class="user"><span>Beer</span></div>
+  <div class="bot"><span>99 bottles of beer on the wall</span></div>
+  <div class="bot"><span>98 bottles of beer on the wall</span></div>
+  <div class="bot"><span>97 bottles of beer on the wall</span></div>
+  <div class="bot"><span>..and so on!</span></div>
 </div>
 
 
@@ -117,6 +121,234 @@ module.exports = class DoingIntent extends Intent {
 
 
 
+## Dialog and Locale
+
+Seperating your intent "business logic" and the response back to the user is handled by dialog. Using dialog also allows you to handle
+different languages.
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Talk romantic</span></div>
+  <div class="bot"><span>And in her smile I see something more beautiful than the stars</span></div>
+  <div class="user"><span>Talk romantic in French</span></div>
+  <div class="bot"><span>Parfois, je ne me vois pas quand je suis avec vous. Je peux seulement te voir.</span></div>
+  <div class="user"><span>Talk romantic in German</span></div>
+  <div class="info"><span>German not found, default en</span></div>
+  <div class="bot"><span>Sometimes I can’t see myself when I’m with you. I can only just see you.</span></div>
+</div>
+
+To use dialog in your intent create a `Dialog` directory and dialog json files in your skill directory.
+
+~~~
+Skill/
+  Examples/
+    Dialog/
+      en/
+        romantic_dialog.json
+      fr/
+        romantic_dialog.json
+~~~
+
+Each dialog json file should contain an array with at least one record.
+
+If more than one record is found a random response will be returned back to the user.
+
+
+~~~json
+{% raw %}[
+  "And in her smile I see something more beautiful than the stars",
+  "Sometimes I can’t see myself when I’m with you. I can only just see you."
+]{% endraw %}
+~~~
+
+The dialog file can also contain more than one key which can be accessed using dot-notation, `request.dialog('favorite_city.question');`. An example of this can be found under the templating documntation.
+
+~~~json
+{% raw %}{
+  "question": [
+    "What is your favorite city?"
+  ],
+  "answer": [
+    "My favorite city is {{favorite_city}} too!",
+    "I heard {{favorite_city}} is beautiful",
+    "I want to visit {{favorite_city}} soon",
+    "{{favorite_city}} is a great place to visit!"
+  ]
+}{% endraw %}
+~~~
+
+From your intent return using the dialog method the first parameter must match with the name of the json file.
+
+~~~javascript
+return request.dialog('romantic_dialog', {
+  lang: 'en'
+});
+~~~
+
+
+The romantic dialog example tries to fetch the language choice from a parameter.
+
+
+~~~javascript
+const Intent = girequire('src/Intent/intent');
+
+module.exports = class LanguageDialogIntent extends Intent {
+
+  setup() {
+    this.train(['romantic']);
+    
+    this.parameter('language', {
+      data: {
+        "en": {
+          "synonyms": ["english"]
+        },
+        "fr": {
+          "synonyms": ["french"]
+        },
+        "de": {
+          "synonyms": ["german"]
+        }
+      },
+      "default": "en"
+    });
+  }
+
+  response(request) {
+    let language = request.parameters.value('language');
+
+    return request.dialog('romantic_dialog', {
+      lang: language
+    });
+  }
+
+}
+~~~
+
+
+
+
+
+
+
+
+## Templating
+
+Templating with GI uses Handlebars.
+
+Parameters are automatically set for templating variables.
+
+To set custom templating variables use `request.set()`. This method can take key and value attributes or a key/value hash.
+
+
+
+
+~~~javascript
+const Intent = girequire('src/Intent/intent');
+
+module.exports = class HannahTemplateIntent extends Intent {
+
+  setup() {
+    this.train([
+      'hannah'
+    ]);
+    
+    this.parameter('emotion', {
+      entity: 'App.Basics.Entity.Emotion',
+      default: 'happy'
+    });
+  }
+
+  response(request) {
+    let d1 = new Date(2018, 5, 9);
+    let d2 = new Date();
+    let weeks = Math.round((d2 - d1) / (7 * 24 * 60 * 60 * 1000));
+
+    request.set('weeks', weeks);
+    request.set({
+      city: 'Bangkok',
+      country: 'Thailand'
+    });
+    {% raw %}return 'Hello {{emotion}} baby! You are {{weeks}} weeks old and you was born in {{city}} in {{country}}!';{% endraw %}
+  }
+
+}
+~~~
+
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Hannah Cheerful</span></div>
+  <div class="bot"><span>Hello cheerful baby! You are 30 weeks old and you was born in Bangkok in Thailand!</span></div>
+</div>
+
+
+
+You can also mix use templating and dialogs together.
+
+This example shows a dialog using a dot-notation to fetch a key from the dialog file.
+
+~~~javascript
+const Intent = girequire('src/Intent/intent');
+
+module.exports = class FavoriteCityIntent extends Intent {
+
+  setup() {
+    this.train('favorite');
+    this.must('city');
+
+    this.parameter('favorite_city', {
+      entity: "App.Basics.Entity.City",
+      slotfill: true,
+      action: 'answered'
+    });
+  }
+
+  response(request) {
+    return request.dialog('favorite_city.question');
+  }
+
+  answered(request) {
+    return request.dialog('favorite_city.answer');
+  }
+
+}
+~~~
+
+The dialog file contains handlebar templating variables and an array so a random response will be returned.
+
+~~~json
+{% raw %}{
+  "question": [
+    "What is your favorite city?"
+  ],
+  "answer": [
+    "My favorite city is {{favorite_city}} too!",
+    "I heard {{favorite_city}} is beautiful",
+    "I want to visit {{favorite_city}} soon",
+    "{{favorite_city}} is a great place to visit!"
+  ]
+}{% endraw %}
+~~~
+
+
+<div class="chat" markdown="0">
+  <div class="user"><span>favorite city</span></div>
+  <div class="bot"><span>What is your favorite city?</span></div>
+  <div class="user"><span>My favorite city is Bangkok</span></div>
+  <div class="bot"><span>I heard Asia/Bangkok is beautiful</span></div>
+  <div class="user"><span>My favorite city is Bangkok</span></div>
+  <div class="bot"><span>Asia/Bangkok is a great place to visit!</span></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Delaying a response
 
@@ -125,6 +357,8 @@ If you need to fetch data from a remote source and you could have a delay a Java
 You can also handle finishing the request manually using `request.end()` which is used in the CountSixSeconds example below.
 
 ~~~javascript
+const Intent = girequire('src/Intent/intent');
+
 module.exports = class FiveSecondsIntent extends Intent {
 
   setup() {
@@ -151,6 +385,8 @@ module.exports = class FiveSecondsIntent extends Intent {
 If you want to asynchronous read a file from the skill `Data` directory manually.
 
 ~~~javascript
+const Intent = girequire('src/Intent/intent');
+
 module.exports = class CatfactsIntent extends Intent {
 
   setup() {
@@ -162,7 +398,7 @@ module.exports = class CatfactsIntent extends Intent {
   }
 
   response(request) {
-    var filename = request.app.Path.get('skills.app')+'/CatFacts/Data/catfacts.txt';
+    let filename = Config.path('skills.app')+'/CatFacts/Data/catfacts.txt';
 
     return new Promise(function(resolve, reject) {
       var fs = require('fs');
@@ -197,6 +433,8 @@ If the request is not ended the queue timeout will be called.
 
 
 ~~~javascript
+const Intent = girequire('src/Intent/intent');
+
 module.exports = class CountSixSecondsIntent extends Intent {
 
   setup() {

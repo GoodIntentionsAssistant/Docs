@@ -27,58 +27,10 @@ module.exports = class PingIntent extends Intent {
 </div>
 
 
-## Loading from an entity
 
-Using entities rather than manually entering the training data into the intent seperates logic and means entities can be shared across different intents.
 
-An entity can store and load data a number of different ways. In the example we are just storing the data directly within the entity. To learn more about different ways to use entities see the Entity documentation section.
 
-Using the `this.train()` method any value starting with the @ symbol will be recognised as an entity to be loaded.
 
-~~~javascript
-module.exports = class ColourIntent extends Intent {
-
-  setup() {
-    this.train([
-      '@App.Example.Entity.Colour'
-    ]);
-  }
-
-  response() {
-    return 'You mentioned a colour';
-  }
-
-}
-~~~
-
-The entity file is stored in `app/Skills/Example/Entity/colour_entity.js`.
-
-~~~javascript
-module.exports = class ColourEntity extends Entity {
-
-  setup() {
-    this.data = {
-      'red': {},
-      'blue': {},
-      'green': {},
-      'white': {},
-      'black': {}
-    };
-  }
-
-}
-~~~
-
-See the Entity documentation for more information on ways to store data.
-
-<div class="chat" markdown="0">
-  <div class="user"><span>Red</span></div>
-  <div class="bot"><span>You mentioned a colour</span></div>
-  <div class="user"><span>I like green</span></div>
-  <div class="bot"><span>You mentioned a colour</span></div>
-  <div class="user"><span>Purple</span></div>
-  <div class="bot"><span>I don't understand</span></div>
-</div>
 
 
 
@@ -98,6 +50,49 @@ this.train(['kiss me'], { collection: 'strict' });
 
 //If nothing is found in default or strict then try the fall back
 this.train(['kiss me'], { collection: 'fallback' });
+~~~
+
+
+
+## Auto Classifiers
+
+When using `this.train()` the input is checked and if it matches certain patterns the collection will be automatically changed.
+
+~~~javascript
+//Add to the default NLP collection
+this.train('kiss me');
+
+//Surrounded by quotes so add to strict collection
+this.train('"kiss me"');
+
+//If the input contains the words "kiss me" together
+this.train('~kiss me');
+~~~
+
+
+In the example below certain conditions will and won't match.
+
+Match | No Match
+ping ping | hey ping ping
+hey ping bling | ping bling
+
+~~~javascript
+const Intent = girequire('src/Intent/intent');
+
+module.exports = class AutoClassifiersIntent extends Intent {
+
+  setup() {
+    this.train([
+      '"ping ping"',    //Strict
+      '~ping bling'     //Partial
+    ]);
+  }
+
+  response() {
+    return 'Autoclassifier ping!';
+  }
+
+}
 ~~~
 
 
@@ -191,6 +186,65 @@ this.train([
   <div class="user"><span>6d2</span></div>
   <div class="bot"><span>Rolled 8</span></div>
 </div>
+
+
+
+
+
+## Loading from an entity
+
+Using entities rather than manually entering the training data into the intent seperates logic and means entities can be shared across different intents.
+
+An entity can store and load data a number of different ways. In the example we are just storing the data directly within the entity. To learn more about different ways to use entities see the Entity documentation section.
+
+Using the `this.train()` method any value starting with the @ symbol will be recognised as an entity to be loaded.
+
+~~~javascript
+module.exports = class ColourIntent extends Intent {
+
+  setup() {
+    this.train([
+      '@App.Example.Entity.Colour'
+    ]);
+  }
+
+  response() {
+    return 'You mentioned a colour';
+  }
+
+}
+~~~
+
+The entity file is stored in `app/Skills/Example/Entity/colour_entity.js`.
+
+~~~javascript
+module.exports = class ColourEntity extends Entity {
+
+  setup() {
+    this.data = {
+      'red': {},
+      'blue': {},
+      'green': {},
+      'white': {},
+      'black': {}
+    };
+  }
+
+}
+~~~
+
+See the Entity documentation for more information on ways to store data.
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Red</span></div>
+  <div class="bot"><span>You mentioned a colour</span></div>
+  <div class="user"><span>I like green</span></div>
+  <div class="bot"><span>You mentioned a colour</span></div>
+  <div class="user"><span>Purple</span></div>
+  <div class="bot"><span>I don't understand</span></div>
+</div>
+
+
 
 
 
@@ -308,7 +362,7 @@ module.exports = class DarrenIntent extends Intent {
 
   setup() {
     this.train('darren');
-    this.must('who')
+    this.must('#who')
   }
 
   response(request) {

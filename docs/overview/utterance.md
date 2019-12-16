@@ -50,7 +50,7 @@ request.utterance.scrubbed('stopwords');
 
 
 
-## Tagging words
+## Labeled utterance
 
 The utterance is checked for various sentiments and intentions including if the users input is negative, positive a question and what type of question, such as "who" and "why".
 

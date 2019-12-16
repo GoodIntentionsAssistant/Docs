@@ -24,7 +24,7 @@
 </head>
 
 
-  <body class="docs">
+  <body class="docs documentation">
 
     <header class="site-header">
 
@@ -39,8 +39,10 @@
 
     <nav class="main-nav">
       <ul>
+        <li><span><a href="/install">Installation</a></span></li>
         <li><span><a href="/docs">Documentation</a></span></li>
-        <li><span><a href="https://github.com/GoodIntentionsAssistant" target="_blank">Download</a></span></li>
+        <li><span><a href="/packages">Packages</a></span></li>
+        <li><span><a href="/integrations">Integrations</a></span></li>
       </ul>
     </li>
 
@@ -51,7 +53,7 @@
 
     <div class="sub-header bar bar-primary">
         <div class="wrapper sub">
-          <h2>Docs</h2>
+          <h2>Documentation</h2>
         </div>
     </div>
 
@@ -62,29 +64,24 @@
 <nav>
 
   <ul>
-    <li><a href="/docs/">Getting Started</a></li>
-
-    <li>Overview
-      <ul>
-        <li><a href="/docs/overview/skills">Skills</a></li>
-        <li><a href="/docs/overview/clients">Clients</a></li>
-        <li><a href="/docs/overview/intents">Intents</a></li>
-        <li><a href="/docs/overview/training">Training</a></li>
-        <li><a href="/docs/overview/parameters">Parameters</a></li>
-        <li><a href="/docs/overview/result">Returning result</a></li>
-        <li><a href="/docs/overview/entities">Entities</a></li>
-        <li><a href="/docs/overview/attachments">Attachments</a></li>
-        <li><a href="/docs/overview/expects">Expects</a></li>
-        <li><a href="/docs/overview/utterance">Utterance</a></li>
-        <li><a href="/docs/overview/auth">User &amp; Session</a></li>
-        <li><a href="/docs/overview/scheduler">Scheduler</a></li>
-        <li><a href="/docs/overview/redirect">Redirecting</a></li>
-        <li><a href="/docs/overview/fallback">Fallbacks</a></li>
-        <li><a href="/docs/overview/callback">Callbacks</a></li>
-        <li><a href="/docs/overview/events">Events</a></li>
-        <li><a href="/docs/overview/load_unload">Load &amp; Unload</a></li>
-      </ul>
-    </li>
+    <li><a href="/docs/">Introduction</a></li>
+    <li><a href="/docs/overview/skills">Skills</a></li>
+    <li><a href="/docs/overview/clients">Clients</a></li>
+    <li><a href="/docs/overview/intents">Intents</a></li>
+    <li><a href="/docs/overview/training">Training</a></li>
+    <li><a href="/docs/overview/parameters">Parameters</a></li>
+    <li><a href="/docs/overview/result">Returning result</a></li>
+    <li><a href="/docs/overview/entities">Entities</a></li>
+    <li><a href="/docs/overview/attachments">Attachments</a></li>
+    <li><a href="/docs/overview/expects">Expects</a></li>
+    <li><a href="/docs/overview/utterance">Utterance</a></li>
+    <li><a href="/docs/overview/auth">User &amp; Session</a></li>
+    <li><a href="/docs/overview/scheduler">Scheduler</a></li>
+    <li><a href="/docs/overview/redirect">Redirecting</a></li>
+    <li><a href="/docs/overview/fallback">Fallbacks</a></li>
+    <li><a href="/docs/overview/callback">Callbacks</a></li>
+    <li><a href="/docs/overview/events">Events</a></li>
+    <li><a href="/docs/overview/load_unload">Load &amp; Unload</a></li> 
 
 
     <!--<li><a href="/docs/clients/">Clients</a>
@@ -156,59 +153,6 @@
   <div class="bot"><span>Pong</span></div>
 </div>
 
-<h2 id="loading-from-an-entity">Loading from an entity</h2>
-
-<p>Using entities rather than manually entering the training data into the intent seperates logic and means entities can be shared across different intents.</p>
-
-<p>An entity can store and load data a number of different ways. In the example we are just storing the data directly within the entity. To learn more about different ways to use entities see the Entity documentation section.</p>
-
-<p>Using the <code class="highlighter-rouge">this.train()</code> method any value starting with the @ symbol will be recognised as an entity to be loaded.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">ColourIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
-
-  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
-      <span class="s1">'@App.Example.Entity.Colour'</span>
-    <span class="p">]);</span>
-  <span class="p">}</span>
-
-  <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="s1">'You mentioned a colour'</span><span class="p">;</span>
-  <span class="p">}</span>
-
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>The entity file is stored in <code class="highlighter-rouge">app/Skills/Example/Entity/colour_entity.js</code>.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">ColourEntity</span> <span class="kr">extends</span> <span class="nx">Entity</span> <span class="p">{</span>
-
-  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="s1">'red'</span><span class="p">:</span> <span class="p">{},</span>
-      <span class="s1">'blue'</span><span class="p">:</span> <span class="p">{},</span>
-      <span class="s1">'green'</span><span class="p">:</span> <span class="p">{},</span>
-      <span class="s1">'white'</span><span class="p">:</span> <span class="p">{},</span>
-      <span class="s1">'black'</span><span class="p">:</span> <span class="p">{}</span>
-    <span class="p">};</span>
-  <span class="p">}</span>
-
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>See the Entity documentation for more information on ways to store data.</p>
-
-<div class="chat">
-  <div class="user"><span>Red</span></div>
-  <div class="bot"><span>You mentioned a colour</span></div>
-  <div class="user"><span>I like green</span></div>
-  <div class="bot"><span>You mentioned a colour</span></div>
-  <div class="user"><span>Purple</span></div>
-  <div class="bot"><span>I don't understand</span></div>
-</div>
-
 <h2 id="classifier-collections">Classifier collections</h2>
 
 <p>When training GI the <code class="highlighter-rouge">default</code> collection will use the NLP classifier to match the user input to an intent.</p>
@@ -223,6 +167,59 @@
 
 <span class="c1">//If nothing is found in default or strict then try the fall back</span>
 <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span><span class="s1">'kiss me'</span><span class="p">],</span> <span class="p">{</span> <span class="na">collection</span><span class="p">:</span> <span class="s1">'fallback'</span> <span class="p">});</span>
+</code></pre>
+</div>
+
+<h2 id="auto-classifiers">Auto Classifiers</h2>
+
+<p>When using <code class="highlighter-rouge">this.train()</code> the input is checked and if it matches certain patterns the collection will be automatically changed.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//Add to the default NLP collection</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'kiss me'</span><span class="p">);</span>
+
+<span class="c1">//Surrounded by quotes so add to strict collection</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'"kiss me"'</span><span class="p">);</span>
+
+<span class="c1">//If the input contains the words "kiss me" together</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'~kiss me'</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>In the example below certain conditions will and won’t match.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Match</td>
+      <td>No Match</td>
+    </tr>
+    <tr>
+      <td>ping ping</td>
+      <td>hey ping ping</td>
+    </tr>
+    <tr>
+      <td>hey ping bling</td>
+      <td>ping bling</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="s1">'src/Intent/intent'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">AutoClassifiersIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'"ping ping"'</span><span class="p">,</span>    <span class="c1">//Strict</span>
+      <span class="s1">'~ping bling'</span>     <span class="c1">//Partial</span>
+    <span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'Autoclassifier ping!'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
 </code></pre>
 </div>
 
@@ -310,6 +307,59 @@
 
   <div class="user"><span>6d2</span></div>
   <div class="bot"><span>Rolled 8</span></div>
+</div>
+
+<h2 id="loading-from-an-entity">Loading from an entity</h2>
+
+<p>Using entities rather than manually entering the training data into the intent seperates logic and means entities can be shared across different intents.</p>
+
+<p>An entity can store and load data a number of different ways. In the example we are just storing the data directly within the entity. To learn more about different ways to use entities see the Entity documentation section.</p>
+
+<p>Using the <code class="highlighter-rouge">this.train()</code> method any value starting with the @ symbol will be recognised as an entity to be loaded.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">ColourIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
+      <span class="s1">'@App.Example.Entity.Colour'</span>
+    <span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">response</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'You mentioned a colour'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>The entity file is stored in <code class="highlighter-rouge">app/Skills/Example/Entity/colour_entity.js</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">ColourEntity</span> <span class="kr">extends</span> <span class="nx">Entity</span> <span class="p">{</span>
+
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">'red'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="s1">'blue'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="s1">'green'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="s1">'white'</span><span class="p">:</span> <span class="p">{},</span>
+      <span class="s1">'black'</span><span class="p">:</span> <span class="p">{}</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>See the Entity documentation for more information on ways to store data.</p>
+
+<div class="chat">
+  <div class="user"><span>Red</span></div>
+  <div class="bot"><span>You mentioned a colour</span></div>
+  <div class="user"><span>I like green</span></div>
+  <div class="bot"><span>You mentioned a colour</span></div>
+  <div class="user"><span>Purple</span></div>
+  <div class="bot"><span>I don't understand</span></div>
 </div>
 
 <h2 id="must-and-reject">Must and Reject</h2>
@@ -409,7 +459,7 @@
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">(</span><span class="s1">'darren'</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">must</span><span class="p">(</span><span class="s1">'who'</span><span class="p">)</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">must</span><span class="p">(</span><span class="s1">'#who'</span><span class="p">)</span>
   <span class="p">}</span>
 
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
@@ -443,12 +493,7 @@
         <div class="contents-nav" style="display:none;">
           <nav>
             <ul>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href=""></a></li>
             </ul>
           </nav>
         </div>

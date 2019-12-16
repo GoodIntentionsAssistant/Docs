@@ -81,13 +81,13 @@ module.exports = class RandomNumberIntent extends Intent {
 
     this.parameter('number', {
       name: "Number",
-      entity: "App.Common.Entity.Number",
+      entity: "App.Basics.Entity.Number",
       required: false
     });
 
     this.parameter('number_to', {
       name: "Number To",
-      entity: "App.Common.Entity.Number",
+      entity: "App.Basics.Entity.Number",
       required: false
     });
   }
@@ -227,7 +227,7 @@ module.exports = class FlipCoinIntent extends Intent {
 
     this.parameter('flips', {
       name: "Flips",
-      entity: 'App.Common.Entity.Number',
+      entity: 'App.Basics.Entity.Number',
       required: false,
       default: 1
     });
@@ -300,7 +300,7 @@ A user may ask "What is the weather in Bangkok?". "Bangkok" will be stored in th
 ~~~javascript
 this.parameter('city', {
   name: "City",
-  entity: "App.Common.Entity.City",
+  entity: "App.Basics.Entity.City",
   slotfill: true
 });
 ~~~
@@ -312,7 +312,7 @@ It's also possible to check multiple session data. In the example below three ke
 ~~~javascript
 this.parameter('location',{
   name: 'Location',
-  entity: ['App.Common.Entity.Country','App.Common.Entity.City'],
+  entity: ['App.Basics.Entity.Country','App.Basics.Entity.City'],
   slotfill: ['city','country']
 });
 ~~~

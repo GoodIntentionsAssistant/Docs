@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+  <body class="docs packages">
+
+    {% include header.html %}
+
+    <div class="sub-header bar bar-primary">
+        <div class="wrapper sub">
+          <h2>Packages</h2>
+        </div>
+    </div>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="side-nav">
+          {% include packages/navigation.html %}
+        </div>
+        {{ content }}
+        <div class="contents-nav" style="display:none;">
+          <nav>
+            <ul>
+              <li><a href=""></a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    {% include footer.html %}
+
+  </body>
+
+{% include converse.html %}
+{% include scripts.html %}
+
+</html>

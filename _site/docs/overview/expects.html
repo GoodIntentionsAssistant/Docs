@@ -24,7 +24,7 @@
 </head>
 
 
-  <body class="docs">
+  <body class="docs documentation">
 
     <header class="site-header">
 
@@ -39,8 +39,10 @@
 
     <nav class="main-nav">
       <ul>
+        <li><span><a href="/install">Installation</a></span></li>
         <li><span><a href="/docs">Documentation</a></span></li>
-        <li><span><a href="https://github.com/GoodIntentionsAssistant" target="_blank">Download</a></span></li>
+        <li><span><a href="/packages">Packages</a></span></li>
+        <li><span><a href="/integrations">Integrations</a></span></li>
       </ul>
     </li>
 
@@ -51,7 +53,7 @@
 
     <div class="sub-header bar bar-primary">
         <div class="wrapper sub">
-          <h2>Docs</h2>
+          <h2>Documentation</h2>
         </div>
     </div>
 
@@ -62,29 +64,24 @@
 <nav>
 
   <ul>
-    <li><a href="/docs/">Getting Started</a></li>
-
-    <li>Overview
-      <ul>
-        <li><a href="/docs/overview/skills">Skills</a></li>
-        <li><a href="/docs/overview/clients">Clients</a></li>
-        <li><a href="/docs/overview/intents">Intents</a></li>
-        <li><a href="/docs/overview/training">Training</a></li>
-        <li><a href="/docs/overview/parameters">Parameters</a></li>
-        <li><a href="/docs/overview/result">Returning result</a></li>
-        <li><a href="/docs/overview/entities">Entities</a></li>
-        <li><a href="/docs/overview/attachments">Attachments</a></li>
-        <li><a href="/docs/overview/expects">Expects</a></li>
-        <li><a href="/docs/overview/utterance">Utterance</a></li>
-        <li><a href="/docs/overview/auth">User &amp; Session</a></li>
-        <li><a href="/docs/overview/scheduler">Scheduler</a></li>
-        <li><a href="/docs/overview/redirect">Redirecting</a></li>
-        <li><a href="/docs/overview/fallback">Fallbacks</a></li>
-        <li><a href="/docs/overview/callback">Callbacks</a></li>
-        <li><a href="/docs/overview/events">Events</a></li>
-        <li><a href="/docs/overview/load_unload">Load &amp; Unload</a></li>
-      </ul>
-    </li>
+    <li><a href="/docs/">Introduction</a></li>
+    <li><a href="/docs/overview/skills">Skills</a></li>
+    <li><a href="/docs/overview/clients">Clients</a></li>
+    <li><a href="/docs/overview/intents">Intents</a></li>
+    <li><a href="/docs/overview/training">Training</a></li>
+    <li><a href="/docs/overview/parameters">Parameters</a></li>
+    <li><a href="/docs/overview/result">Returning result</a></li>
+    <li><a href="/docs/overview/entities">Entities</a></li>
+    <li><a href="/docs/overview/attachments">Attachments</a></li>
+    <li><a href="/docs/overview/expects">Expects</a></li>
+    <li><a href="/docs/overview/utterance">Utterance</a></li>
+    <li><a href="/docs/overview/auth">User &amp; Session</a></li>
+    <li><a href="/docs/overview/scheduler">Scheduler</a></li>
+    <li><a href="/docs/overview/redirect">Redirecting</a></li>
+    <li><a href="/docs/overview/fallback">Fallbacks</a></li>
+    <li><a href="/docs/overview/callback">Callbacks</a></li>
+    <li><a href="/docs/overview/events">Events</a></li>
+    <li><a href="/docs/overview/load_unload">Load &amp; Unload</a></li> 
 
 
     <!--<li><a href="/docs/clients/">Clients</a>
@@ -219,7 +216,7 @@
       <td>If forced is true and the input is not matched the action is changed to the value of fail</td>
     </tr>
     <tr>
-      <td>save_answer</td>
+      <td>keep</td>
       <td>No</td>
       <td>false</td>
       <td>If set to true the users input will be stored to their user record and can be used for slotfilling</td>
@@ -251,7 +248,9 @@
 
 <p>In this example <code class="highlighter-rouge">key</code> has not been set so the default value of ‘expects’ will be used to get the users reply.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">FavoriteNumberIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">Intent</span> <span class="o">=</span> <span class="nx">girequire</span><span class="p">(</span><span class="s1">'src/Intent/intent'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">FavoriteNumberIntent</span> <span class="kr">extends</span> <span class="nx">Intent</span> <span class="p">{</span>
 
   <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">train</span><span class="p">([</span>
@@ -262,7 +261,7 @@
   <span class="nx">response</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span>
       <span class="na">action</span><span class="p">:</span> <span class="s1">'reply'</span><span class="p">,</span>
-      <span class="na">entity</span><span class="p">:</span> <span class="s1">'App.Common.Entity.Number'</span><span class="p">,</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="s1">'App.Common.Entity.Decimal'</span><span class="p">,</span>
       <span class="na">force</span><span class="p">:</span> <span class="kc">true</span>
     <span class="p">});</span>
     <span class="k">return</span> <span class="p">[</span>
@@ -272,10 +271,7 @@
 
   <span class="nx">reply</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="s1">'expects'</span><span class="p">);</span>
-    <span class="k">if</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="s1">'I think '</span><span class="o">+</span><span class="nx">value</span><span class="o">+</span><span class="s1">' is a lucky number too!'</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="s1">'That is not a number'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="err">`</span><span class="nx">I</span> <span class="nx">think</span> <span class="nx">$</span><span class="p">{</span><span class="nx">value</span><span class="p">}</span> <span class="nx">is</span> <span class="nx">a</span> <span class="nx">lucky</span> <span class="nx">number</span> <span class="nx">too</span><span class="o">!</span><span class="err">`</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">}</span>
@@ -293,7 +289,9 @@
   <div class="user"><span>What is your favorite number?</span></div>
   <div class="bot"><span>Not sure, what is your favorite number?</span></div>
   <div class="user"><span>Bananas</span></div>
-  <div class="bot"><span>That is not a number</span></div>
+  <div class="bot"><span>Not sure, what is your favorite number?</span></div>
+  <div class="user"><span>I love 3.14</span></div>
+  <div class="bot"><span>I think 3.14 is a lucky number too!</span></div>
 </div>
 
 <h2 id="force-with-fail-and-manual-data">Force with fail and manual data</h2>
@@ -406,8 +404,8 @@
     <span class="nx">request</span><span class="p">.</span><span class="nx">expect</span><span class="p">({</span>
       <span class="na">key</span><span class="p">:</span> <span class="s1">'football'</span><span class="p">,</span>
       <span class="na">action</span><span class="p">:</span> <span class="s1">'reply'</span><span class="p">,</span>
-      <span class="na">entity</span><span class="p">:</span> <span class="s1">'App.Common.Entity.Confirm'</span><span class="p">,</span>
-      <span class="na">save_answer</span><span class="p">:</span> <span class="kc">true</span>
+      <span class="na">entity</span><span class="p">:</span> <span class="s1">'App.Basics.Entity.Confirm'</span><span class="p">,</span>
+      <span class="na">keep</span><span class="p">:</span> <span class="kc">true</span>
     <span class="p">});</span>
     <span class="k">return</span> <span class="p">[</span>
       <span class="s1">'Yes, I love football, do you?'</span>
@@ -459,7 +457,7 @@
 
   <div class="user"><span>Short memory</span></div>
   <div class="bot"><span>Do you like bananas?</span></div>
-  <div class="info"><span>5 seconds later</span></div>
+  <div class="info"><span>Wait 5 seconds to reply</span></div>
   <div class="user"><span>Yes</span></div>
   <div class="bot"><span>Not sure what you are saying yes to.</span></div>
 </div>
@@ -485,12 +483,7 @@
         <div class="contents-nav" style="display:none;">
           <nav>
             <ul>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
-              <li><a href="">sdf sdfsdf e</a></li>
+              <li><a href=""></a></li>
             </ul>
           </nav>
         </div>
